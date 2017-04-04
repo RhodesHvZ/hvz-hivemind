@@ -10,10 +10,11 @@ import ReactDOM from 'react-dom'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
-// import { Provider } from 'react-redux'
+import HiveMind from './components/Hivemind.jsx'
+import { Provider } from 'react-redux'
 
-// import store from './store'
-// import router from './router.jsx'
+import store from './store'
+import router from './router.jsx'
 
 /**
  * Tap Event
@@ -44,33 +45,33 @@ class MainLayout extends React.Component {
 
     return (
       <div style={appContainer}>
-        Hello World!
+        {router}
       </div>
     )
   }
 
 }
 
-// /**
-//  * DOM
-//  * @ignore
-//  */
-// ReactDOM.render(
-//   <MuiThemeProvider>
-//     <Provider store={store}>
-//       <MainLayout />
-//     </Provider>
-//   </MuiThemeProvider>,
-//   document.getElementById('app')
-// )
+ /**
+  * DOM
+  * @ignore
+  */
+ ReactDOM.render(
+   <MuiThemeProvider>
+     <Provider store={store}>
+       <MainLayout />
+     </Provider>
+   </MuiThemeProvider>,
+   document.getElementById('app')
+ )
 
-/**
- * DOM
- * @ignore
- */
-ReactDOM.render(
-  <MuiThemeProvider>
-    <MainLayout />
-  </MuiThemeProvider>,
-  document.getElementById('app')
-)
+///**
+// * DOM
+// * @ignore
+// */
+//ReactDOM.render(
+//  <MuiThemeProvider>
+//    <MainLayout />
+//  </MuiThemeProvider>,
+//  document.getElementById('app')
+//)
