@@ -31,7 +31,7 @@ class EventEmitter extends Emitter {
         configurable: false
       })
 
-      this.on(key, event => this.writeEvent(event))
+      this.on(key, event => this.writeEvent(key, event))
     })
 
     this.on('error', (err) => this.handleError(err))
@@ -45,13 +45,9 @@ class EventEmitter extends Emitter {
     console.error(err)
   }
 
-  writeEvent (event) {
+  writeEvent (type, event) {
     // TODO
-    console.log('EVENT', JSON.stringify(event, null, 2))
-  }
-
-  subscribe (event, listener) {
-    this.on(event, listener)
+    console.log(type, JSON.stringify(event, null, 2))
   }
 
 }
