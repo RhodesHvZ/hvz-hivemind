@@ -5,12 +5,17 @@
  * @ignore
  */
 import React from 'react'
+import { connect } from 'react-redux'
+
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
 import { List, ListItem } from 'material-ui/List'
 import Divider from 'material-ui/Divider';
-import { connect } from 'react-redux'
 
+/**
+ * Styles
+ * @ignore
+ */
 const styles = {
   containerStyle: open =>  {
     return {
@@ -28,19 +33,27 @@ const styles = {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {}
-}
-
-
+/**
+ * mapStateToProps
+ * @ignore
+ */
 const mapStateToProps = (state, ownProps) => {
     return { open: state.sidebarOpen }
+}
+
+/**
+ * mapDispatchToProps
+ * @ignore
+ */
+const mapDispatchToProps = (dispatch) => {
+  return {}
 }
 
 /**
  * Sidebar
  */
 class Sidebar extends React.Component {
+
   constructor(props){
     super(props)
   }
