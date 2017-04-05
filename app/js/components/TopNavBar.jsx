@@ -64,7 +64,7 @@ class TopNavBar extends React.Component {
       <Toolbar>
         <ToolbarGroup style={userToolbarStyle}>
           <FlatButton label="Hamburger" onTouchTap={() => this.props.toggleOpen()} />
-          <FlatButton label="Home" onTouchTap={() => window.location='./#/Home'} />
+          <FlatButton label="Home" onTouchTap={() => window.location='./#/'} />
           <FlatButton label="Rules" onTouchTap={() => window.location='./#/Rules'} />
           <FlatButton label="Admin Details" onTouchTap={() => window.location='./#/AdminContact'} />
           <ToolbarGroup style={endToolbarItemStyle}>
