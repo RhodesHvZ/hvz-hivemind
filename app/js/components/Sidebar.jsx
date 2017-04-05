@@ -12,14 +12,17 @@ import Divider from 'material-ui/Divider';
 import { connect } from 'react-redux'
 
 const styles = {
-  sideBarStyle: {
+  containerStyle: {
     position: 'relative',
     display: 'flex',
     justifyContent: 'space-between',
-    flexDirection: 'column',
+    flexDirection: 'row',
     alignItems: 'flex-start',
     backgroundColor: '#ccccd1',
     flex: 10,
+  },
+  listStyle: {
+    width: '100%'
   }
 }
 
@@ -32,10 +35,10 @@ class Sidebar extends React.Component {
   }
 
   render() {
-    let { sideBarStyle } = styles
+    let { containerStyle, listStyle } = styles
     return (
-      <div style={sideBarStyle}>
-        <List style={sideBarStyle}>
+      <div style={containerStyle}>
+        <List style={listStyle}>
           <ListItem primaryText="Map"/>
           <ListItem primaryText="Byte Tag"/>
           <ListItem primaryText="Item"/>
