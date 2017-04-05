@@ -34,6 +34,7 @@ const style = {
     flexDirection: 'column',
     flex: '100',
     position: 'relative',
+    height: '100%'
   },
   appStyle: {
     position: 'relative',
@@ -42,6 +43,7 @@ const style = {
     justifyContent: 'flex-start',
     alignItems: 'strech',
     flex: 75,
+    height: '100%'
   },
   parentContentStyle: {
     position: 'relative',
@@ -49,6 +51,7 @@ const style = {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'strech',
+    height: '100%',
     flex: 100,
   },
    topBarStyle: {
