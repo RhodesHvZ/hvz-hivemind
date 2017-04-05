@@ -10,6 +10,10 @@ import FlatButton from 'material-ui/FlatButton'
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
 import { connect } from 'react-redux'
 
+/**
+ * styles
+ * @ignore
+ */
 const styles = {
   userToolbarStyle: {
     position: 'relative',
@@ -28,16 +32,19 @@ const styles = {
     flex: 100,
   }
 }
-
+/**
+ * mapDispatchToProps
+ */
 const mapDispatchToProps = (dispatch) => {
   return {
     toggleOpen: () => {
-      console.log("toggled")
       dispatch({type: 'TOGGLE_SIDEBAR'})
     }
   }
 }
-
+/**
+ * mapStateToProps
+ */
 const mapStateToProps = (state, ownProps) => {
   return { }
 }
@@ -51,12 +58,6 @@ class TopNavBar extends React.Component {
 
   constructor(props){
     super(props)
-    this.state = {}
-    if(props.drawer){
-      this.state.drawer = props.drawer
-    } else {
-      this.state.drawer = {}
-    }
   }
 
   render() {
