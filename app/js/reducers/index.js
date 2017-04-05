@@ -1,7 +1,7 @@
 'use strict'
 
-import ToggleDrawerReducer from './ToggleDrawerReducer'
+import ToggleSidebarReducer from './ToggleSidebarReducer'
 
 export default {
-    drawerOpen: ToggleDrawerReducer
+  sidebarOpen: ToggleSidebarReducer
 }

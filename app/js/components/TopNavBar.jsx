@@ -33,11 +33,10 @@ const mapDispatchToProps = (dispatch) => {
   return {
     toggleOpen: () => {
       console.log("toggled")
-      dispatch({type: 'TOGGLE_DRAWER'})
+      dispatch({type: 'TOGGLE_SIDEBAR'})
     }
   }
 }
-
 
 const mapStateToProps = (state, ownProps) => {
   return { }
@@ -49,6 +48,7 @@ const mapStateToProps = (state, ownProps) => {
  * Session managament, user preferences
  */
 class TopNavBar extends React.Component {
+
   constructor(props){
     super(props)
     this.state = {}
@@ -58,8 +58,10 @@ class TopNavBar extends React.Component {
       this.state.drawer = {}
     }
   }
+
   render() {
     let { userToolbarStyle, endToolbarItemStyle } = styles
+
     return (
       <Toolbar>
         <ToolbarGroup style={userToolbarStyle}>

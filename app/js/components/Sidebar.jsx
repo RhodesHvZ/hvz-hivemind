@@ -12,18 +12,29 @@ import Divider from 'material-ui/Divider';
 import { connect } from 'react-redux'
 
 const styles = {
-  containerStyle: {
-    position: 'relative',
-    display: 'flex',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    backgroundColor: '#ccccd1',
-    flex: 10,
+  containerStyle: open =>  {
+    return {
+      position: 'relative',
+      display: open ? 'flex' : 'none',
+      justifyContent: 'space-between',
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      backgroundColor: '#ccccd1',
+      flex: 10,
+    }
   },
   listStyle: {
     width: '100%'
   }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {}
+}
+
+
+const mapStateToProps = (state, ownProps) => {
+    return { open: state.sidebarOpen }
 }
 
 /**
@@ -37,16 +48,15 @@ class Sidebar extends React.Component {
   render() {
     let { containerStyle, listStyle } = styles
     return (
-      <div style={containerStyle}>
+      <div style={containerStyle(this.props.open)}>
         <List style={listStyle}>
-          <ListItem primaryText="Map"/>
-          <ListItem primaryText="Byte Tag"/>
-          <ListItem primaryText="Item"/>
+          <ListItem primaryText="Map" />
+          <ListItem primaryText="Byte Tag" />
+          <ListItem primaryText="Item" />
         </List >
-
       </div>
     )
   }
 }
 
-export default Sidebar
+export default connect(mapStateToProps)(Sidebar)
