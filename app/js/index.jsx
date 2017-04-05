@@ -9,9 +9,10 @@ import ReactDOM from 'react-dom'
 
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
+import { List, ListItem } from 'material-ui/List'
 
 import TopNavBar from './components/TopNavBar.jsx'
-import NavDrawer from './components/NavDrawer.jsx'
+import Sidebar from './components/Sidebar.jsx'
 import { Provider } from 'react-redux'
 
 import store from './store'
@@ -34,7 +35,7 @@ const style = {
     flex: '100',
     position: 'relative',
   },
-  parentContentStyle: {
+  appStyle: {
     position: 'relative',
     display: 'flex',
     flexDirection: 'column',
@@ -42,13 +43,30 @@ const style = {
     alignItems: 'strech',
     flex: 75,
   },
-   contentStyle: {
+  parentContentStyle: {
     position: 'relative',
     display: 'flex',
-    justifyContent: 'space-between',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'strech',
+    flex: 100,
+  },
+   topBarStyle: {
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'flex-start',
     flexDirection: 'row',
     alignItems: 'flex-start',
     flex: 100,
+  },
+  contentStyle: {
+    position: 'relative',
+    display: 'flex',
+    justifyContent: 'flex-start',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    backgroundColor: '#eaeaf2',
+    flex: 50,
   }
 }
 
@@ -58,20 +76,24 @@ const style = {
 class MainLayout extends React.Component {
 
   render() {
-    let { appContainer, parentContentStyle, contentStyle } = style
+    let { appContainer, appStyle, parentContentStyle, topBarStyle, contentStyle } = style
 
     return (
       <div style={appContainer}>
-        <div style={parentContentStyle}>
+        <div style={appStyle}>
           <div>
-            <TopNavBar style={contentStyle}/>
+            <TopNavBar style={topBarStyle} />
           </div>
-          {router}
+          <div style={parentContentStyle}>
+            <Sidebar />
+            <div style={contentStyle}>
+              {router}
+            </div>
+          </div>
         </div>
       </div>
     )
   }
-
 }
 
  /**
