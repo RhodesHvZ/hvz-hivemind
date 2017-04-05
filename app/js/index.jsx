@@ -6,17 +6,15 @@
  */
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
 
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { List, ListItem } from 'material-ui/List'
 
-import TopNavBar from './components/TopNavBar.jsx'
-import Sidebar from './components/Sidebar.jsx'
-import { Provider } from 'react-redux'
-
 import store from './store'
 import router from './router.jsx'
+import TopNavBar from './components/TopNavBar.jsx'
 
 /**
  * Tap Event
@@ -45,15 +43,6 @@ const style = {
     flex: 75,
     height: '100%'
   },
-  parentContentStyle: {
-    position: 'relative',
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems: 'strech',
-    height: '100%',
-    flex: 100,
-  },
    topBarStyle: {
     position: 'relative',
     display: 'flex',
@@ -61,15 +50,6 @@ const style = {
     flexDirection: 'row',
     alignItems: 'flex-start',
     flex: 100,
-  },
-  contentStyle: {
-    position: 'relative',
-    display: 'flex',
-    justifyContent: 'flex-start',
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    backgroundColor: '#eaeaf2',
-    flex: 50,
   }
 }
 
@@ -79,7 +59,7 @@ const style = {
 class MainLayout extends React.Component {
 
   render() {
-    let { appContainer, appStyle, parentContentStyle, topBarStyle, contentStyle } = style
+    let { appContainer, appStyle, topBarStyle } = style
 
     return (
       <div style={appContainer}>
@@ -87,12 +67,7 @@ class MainLayout extends React.Component {
           <div>
             <TopNavBar style={topBarStyle} />
           </div>
-          <div style={parentContentStyle}>
-            <Sidebar />
-            <div style={contentStyle}>
-              {router}
-            </div>
-          </div>
+          {router}
         </div>
       </div>
     )

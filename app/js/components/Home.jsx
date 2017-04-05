@@ -5,48 +5,50 @@
  * @ignore
  */
 import React from 'react'
-import { connect } from 'react-redux'
 import TopNavBar from './TopNavBar.jsx'
-import NavDrawer from './NavDrawer.jsx'
+import Sidebar from './Sidebar.jsx'
 
-
-const mapDispatchToProps = (dispatch) => {
-  return {}
-}
-
+/**
+ * Styles
+ * @ignore
+ */
 const styles = {
-  navDrawerStyle: {
+  parentContentStyle: {
     position: 'relative',
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row',
     justifyContent: 'flex-start',
-    alignItems: 'center',
-    flex: 25,
+    alignItems: 'strech',
+    height: '100%',
+    flex: 100,
   },
   contentStyle: {
     position: 'relative',
     display: 'flex',
+    justifyContent: 'flex-start',
+    flexDirection: 'row',
     alignItems: 'flex-start',
-    flex: 100,
+    backgroundColor: '#eaeaf2',
+    flex: 50,
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
-  return {}
-}
 /**
- * Hivemind
+ * Home
  */
 class Home extends React.Component {
   render() {
-    let { navDrawerStyle, contentStyle } = styles
+    let { parentContentStyle, contentStyle } = styles
+    
     return (
-      <div style={navDrawerStyle}>
-        <h1>Home</h1>
+      <div style={parentContentStyle}>
+        <Sidebar />
+        <div style={contentStyle}>
+          <h1>Home</h1>
+        </div>
       </div>
-
     )
   }
 }
 
-export default connect(mapDispatchToProps, mapStateToProps)(Home)
+export default Home
