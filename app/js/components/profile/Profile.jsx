@@ -62,7 +62,7 @@ class Profile extends React.Component {
       <div style={parentContentStyle}>
         <div style={contentStyle}>
           <div style={topStyle}>
-            <h1>test1212</h1>
+            <h1>ProfilePicture</h1>
           </div>
           <div style={bottomStyle}>
             <h1>Profile sub categories here</h1>

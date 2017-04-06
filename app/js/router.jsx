@@ -9,6 +9,7 @@ import { HashRouter as Router, Route, IndexRoute, Redirect } from 'react-router-
 import createBrowserHistory from 'history/createBrowserHistory'
 import Game from './components/game/Game.jsx'
 import ProfileRoot from './components/profile/ProfileRoot.jsx'
+import Rules from './components/Rules.jsx'
 
 const history = createBrowserHistory()
 
@@ -36,8 +37,8 @@ export default (
     <div style={styles.parentContentStyle}>
       <Route exact={true} path="/" component={() => <Redirect to='/game'/>} />
       <Route path="/game" component={Game} exact={false} />
-      <Route path="/Rules" component={() => <h1>Rules</h1>} />
-      <Route path="/AdminContact" component={() => <h1>Admin contact</h1>} />
+      <Route path="/rules" component={Rules} />
+      <Route path="/admincontact" component={() => <h1>Admin contact</h1>} />
       <Route path="/profile" component={ProfileRoot} />
     </div>
   </Router>

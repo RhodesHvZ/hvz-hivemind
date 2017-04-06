@@ -46,8 +46,8 @@ class UserMenu extends React.Component {
   render() {
 
     return (
-      <div>
         <Popover
+          minWidth={'5%'}
           open={this.props.open}
           anchorEl={this.props.anchor}
           anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
@@ -60,7 +60,6 @@ class UserMenu extends React.Component {
             <Menuitem primaryText="Logout" />
           </Menu>
         </Popover>
-      </div>
     )
   }
 }
