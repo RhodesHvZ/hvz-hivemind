@@ -5,7 +5,6 @@
  * @ignore
  */
 import React from 'react'
-import fs from 'fs'
 
 /**
  * Styles
@@ -38,13 +37,6 @@ const styles = {
 class Rules extends React.Component {
   constructor(props){
     super(props)
-  }
-
-  componentWillMount(){
-    fs.readFile("./../../static/rules.txt",'utf8', function(err, data){
-        if (err) throw err
-        this.rulesTxt = data
-    })
   }
 
   render() {
