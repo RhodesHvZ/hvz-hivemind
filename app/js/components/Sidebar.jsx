@@ -63,8 +63,8 @@ class Sidebar extends React.Component {
     return (
       <div style={containerStyle(this.props.open)}>
         <List style={listStyle}>
-          <ListItem primaryText="Map" />
-          <ListItem primaryText="Byte Tag" />
+          <ListItem primaryText="Map" onTouchTap={() => document.location.hash='/game/map'}/>
+          <ListItem primaryText="Byte Tag" onTouchTap={() => document.location.hash='/game/byte'} />
           <ListItem primaryText="Item" />
         </List >
       </div>

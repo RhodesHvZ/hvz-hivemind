@@ -5,8 +5,10 @@
  * @ignore
  */
 import React from 'react'
+import { Route } from 'react-router-dom'
 import TopNavBar from './TopNavBar.jsx'
 import Sidebar from './Sidebar.jsx'
+import HvZMap from './HvZMap.jsx'
 
 /**
  * Styles
@@ -34,21 +36,24 @@ const styles = {
 }
 
 /**
- * Home
+ * Game
  */
-class Home extends React.Component {
+class Game extends React.Component {
   render() {
     let { parentContentStyle, contentStyle } = styles
-    
+
     return (
       <div style={parentContentStyle}>
         <Sidebar />
         <div style={contentStyle}>
-          <h1>Home</h1>
+          <Route path="/" component={() => <h1>Actual Home</h1>} exact={true} />
+          <Route path="/game/" component={() => <h1>Actual Home</h1>} exact={true} />
+          <Route path="/game/map" component={HvZMap} />
+          <Route path="/game/byte" component={() => <h1>Byte</h1> } />
         </div>
       </div>
     )
   }
 }
 
-export default Home
+export default Game

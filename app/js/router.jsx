@@ -5,9 +5,11 @@
  * @ignore
  */
 import React from 'react'
-import { HashRouter as Router, Route } from 'react-router-dom'
+import { HashRouter as Router, Route, IndexRoute } from 'react-router-dom'
 import createBrowserHistory from 'history/createBrowserHistory'
-import Home from './components/Home.jsx'
+import Game from './components/Game.jsx'
+import SideBar from './components/Sidebar.jsx'
+import HvZMap from './components/HvZMap.jsx'
 
 const history = createBrowserHistory()
 
@@ -33,7 +35,8 @@ const styles = {
 export default (
   <Router history={history}>
     <div style={styles.parentContentStyle}>
-      <Route exact={true} path="/" component={Home} />
+      <Route exact={true} path="/" component={Game} />
+      <Route path="/game" component={Game} exact={false} />
       <Route path="/Rules" component={() => <h1>Rules</h1>} />
       <Route path="/AdminContact" component={() => <h1>Admin contact</h1>} />
     </div>
