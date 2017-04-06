@@ -4,6 +4,7 @@ import React from 'react'
 import Menuitem from 'material-ui/MenuItem'
 import Popover from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
+import Divider from 'material-ui/Divider';
 import { connect } from 'react-redux'
 
 /**
@@ -57,6 +58,7 @@ class UserMenu extends React.Component {
             <Menuitem primaryText="Profile " onTouchTap={() => document.location.hash='/profile'} />
             <Menuitem primaryText="Admin" onTouchTap={() => document.location.hash='/profile/admin'}/>
             <Menuitem primaryText="Ticket" onTouchTap={() => document.location.hash='/profile/ticket'}/>
+            <Divider />
             <Menuitem primaryText="Logout" />
           </Menu>
         </Popover>

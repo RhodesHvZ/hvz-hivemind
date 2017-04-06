@@ -7,6 +7,7 @@
 import React from 'react'
 import Stats from './Stats.jsx'
 import Achievements from './Achievements.jsx'
+import Settings from './Settings.jsx'
 
 /**
  * Styles

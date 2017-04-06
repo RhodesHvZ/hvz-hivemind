@@ -10,7 +10,6 @@ import FlatButton from 'material-ui/FlatButton'
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
 import { connect } from 'react-redux'
 import UserMenu from './UserMenu.jsx'
-import Rules from './Rules.jsx'
 
 /**
  * styles
