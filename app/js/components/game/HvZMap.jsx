@@ -5,6 +5,7 @@
  * @ignore
  */
 import React from 'react'
+import MapImg from './../../../static/images/map.png'
 
 /**
  * Styles
@@ -24,7 +25,7 @@ const styles = {
     position: 'relative',
     display: 'flex',
     justifyContent: 'flex-start',
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'flex-start',
     backgroundColor: '#eaeaf2',
     flex: 50,
@@ -42,6 +43,7 @@ class HvZMap extends React.Component {
       <div style={parentContentStyle}>
         <div style={contentStyle}>
           <h1>THIS IS A MAP</h1>
+          <img src={MapImg} width="800" height="400" />
         </div>
       </div>
     )
