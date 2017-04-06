@@ -10,6 +10,7 @@ import FlatButton from 'material-ui/FlatButton'
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
 import { connect } from 'react-redux'
 import UserMenu from './UserMenu.jsx'
+import Rules from './Rules.jsx'
 
 /**
  * styles
@@ -78,8 +79,8 @@ class TopNavBar extends React.Component {
           <UserMenu />          
           <FlatButton label="Hamburger" onTouchTap={() => this.props.toggleOpen()} />
           <FlatButton label="Game" onTouchTap={() => window.location.hash='/'} />
-          <FlatButton label="Rules" onTouchTap={() => window.location.hash='Rules'} />
-          <FlatButton label="Admin Details" onTouchTap={() => window.location.hash='AdminContact'} />
+          <FlatButton label="Rules" onTouchTap={() => window.location.hash='rules'} />
+          <FlatButton label="Admin Details" onTouchTap={() => window.location.hash='admincontact'} />
           <ToolbarGroup style={endToolbarItemStyle}>
             <FlatButton label="User" onTouchTap={(event) => this.props.openPopover(event)} />
           </ToolbarGroup>
