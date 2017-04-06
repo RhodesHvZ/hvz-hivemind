@@ -1,7 +1,9 @@
 'use strict'
 
 import ToggleSidebarReducer from './ToggleSidebarReducer'
+import ToggleUserPopdownReducer from './ToggleUserPopdownReducer'
 
 export default {
-  sidebarOpen: ToggleSidebarReducer
+  sidebarOpen: ToggleSidebarReducer,
+  userPopoverData: ToggleUserPopdownReducer
 }

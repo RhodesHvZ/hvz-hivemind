@@ -9,6 +9,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
 import { connect } from 'react-redux'
+import UserMenu from './UserMenu.jsx'
 
 /**
  * styles
@@ -32,6 +33,7 @@ const styles = {
     flex: 100,
   }
 }
+
 /**
  * mapDispatchToProps
  */
@@ -39,9 +41,16 @@ const mapDispatchToProps = (dispatch) => {
   return {
     toggleOpen: () => {
       dispatch({type: 'TOGGLE_SIDEBAR'})
+    },
+    openPopover: (event) => {
+      dispatch({
+        type: 'OPEN_USERPOPDOWN',
+        data: event.currentTarget
+      })
     }
   }
 }
+
 /**
  * mapStateToProps
  */
@@ -66,12 +75,13 @@ class TopNavBar extends React.Component {
     return (
       <Toolbar>
         <ToolbarGroup style={userToolbarStyle}>
+          <UserMenu />          
           <FlatButton label="Hamburger" onTouchTap={() => this.props.toggleOpen()} />
           <FlatButton label="Home" onTouchTap={() => window.location.hash='/'} />
           <FlatButton label="Rules" onTouchTap={() => window.location.hash='Rules'} />
           <FlatButton label="Admin Details" onTouchTap={() => window.location.hash='AdminContact'} />
           <ToolbarGroup style={endToolbarItemStyle}>
-            <FlatButton label="User" onTouchTap={() => this.props.toggleOpen()} />
+            <FlatButton label="User" onTouchTap={(event) => this.props.openPopover(event)} />
           </ToolbarGroup>
         </ToolbarGroup>
       </Toolbar>

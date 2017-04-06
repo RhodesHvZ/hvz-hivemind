@@ -7,7 +7,11 @@ import reducers from './reducers'
 const store = createStore(
   combineReducers(reducers),
   {
-    sidebarOpen: true
+    sidebarOpen: true,
+    userPopoverData:  {
+      open: false,
+      anchor: {}
+    }
   }
 )
 
