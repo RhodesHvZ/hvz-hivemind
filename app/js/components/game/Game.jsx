@@ -7,7 +7,7 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
 import HvZMap from './HvZMap.jsx'
-import Sidebar from './Sidebar.jsx'
+import Sidebar from './../Sidebar.jsx'
 import Missions from './Missions.jsx'
 
 /**
@@ -55,10 +55,17 @@ const fillerText = (<div>
 class Game extends React.Component {
   render() {
     let { parentContentStyle, contentStyle } = styles
+
+    let sidebarItems = [
+      {text: 'Map', path: '/game/map'},
+      {text: 'Byte Code', path: '/game/byte'},
+      {text: 'Missions', path: '/game/missions'}
+    ]
+
     let filler = fillerText
     return (
       <div style={parentContentStyle}>
-        <Sidebar />
+        <Sidebar items={sidebarItems}/>
         <div style={contentStyle}>
           <Route path="/game/" component={() =>  filler } exact={true} />
           <Route path="/game/map" component={HvZMap} />

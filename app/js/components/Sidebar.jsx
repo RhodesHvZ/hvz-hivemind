@@ -51,6 +51,12 @@ const mapDispatchToProps = (dispatch) => {
 
 /**
  * Sidebar
+ * Sidebar accepts a property called `items`
+ * `items` should be an array of objects for the Sidebar list
+ * eg:
+ * let sidebarItems = [
+ *  {text: 'Item name', path: '/path/to/game', icon: SomeFontIcon}
+ * ]
  */
 class Sidebar extends React.Component {
 
@@ -63,9 +69,19 @@ class Sidebar extends React.Component {
     return (
       <div style={containerStyle(this.props.open)}>
         <List style={listStyle}>
-          <ListItem primaryText="Map" onTouchTap={() => document.location.hash='/game/map'}/>
-          <ListItem primaryText="Byte Tag" onTouchTap={() => document.location.hash='/game/byte'} />
-          <ListItem primaryText="Missions" onTouchTap={() => document.location.hash='/game/missions'} />
+          {
+            this.props.items.map((item) => {
+              let { text, path, icon } = item
+                return (
+                <ListItem
+                  key={text ? text : ''}
+                  primaryText={ text ? text : '' }
+                  onTouchTap={ () => path ? window.location.hash=path : () => '' }
+                  icon={icon ? icon : ''}
+                />
+                )
+             })
+          }
         </List >
       </div>
     )
