@@ -5,7 +5,7 @@
  * @ignore
  */
 import React from 'react'
-import { HashRouter as Router, Route, IndexRoute, Redirect } from 'react-router-dom'
+import { HashRouter as Router, Route, IndexRoute, Redirect, Switch } from 'react-router-dom'
 import createBrowserHistory from 'history/createBrowserHistory'
 import Game from './components/game/Game.jsx'
 import ProfileRoot from './components/profile/ProfileRoot.jsx'
@@ -35,11 +35,13 @@ const styles = {
 export default (
   <Router history={history}>
     <div style={styles.parentContentStyle}>
-      <Redirect from='/' to='/game'/>}
-      <Route path="/game" component={Game} exact={false} />
-      <Route path="/rules" component={Rules} />
-      <Route path="/admincontact" component={() => <h1>Admin contact</h1>} />
-      <Route path="/profile" component={ProfileRoot} />
+      <Switch>
+        <Redirect exact from='/' to='/game'/>
+        <Route path="/game" component={Game} exact={false} />
+        <Route path="/rules" component={Rules} />
+        <Route path="/admincontact" component={() => <h1>Admin contact</h1>} />
+        <Route path="/profile" component={ProfileRoot} />
+      </Switch>
     </div>
   </Router>
 )
