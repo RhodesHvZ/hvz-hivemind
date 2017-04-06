@@ -35,7 +35,7 @@ const styles = {
 export default (
   <Router history={history}>
     <div style={styles.parentContentStyle}>
-      <Route exact={true} path="/" component={() => <Redirect to='/game'/>} />
+      <Redirect from='/' to='/game'/>}
       <Route path="/game" component={Game} exact={false} />
       <Route path="/rules" component={Rules} />
       <Route path="/admincontact" component={() => <h1>Admin contact</h1>} />
