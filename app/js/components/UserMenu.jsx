@@ -54,8 +54,9 @@ class UserMenu extends React.Component {
           targetOrigin={{ horizontal: 'left', vertical: 'top' }}
           onRequestClose={() => this.props.handleRequestClose()}>
           <Menu>
-            <Menuitem primaryText="Settings" />
-            <Menuitem primaryText="Admin" />
+            <Menuitem primaryText="Profile " onTouchTap={() => document.location.hash='/profile'} />
+            <Menuitem primaryText="Admin" onTouchTap={() => document.location.hash='/profile/admin'}/>
+            <Menuitem primaryText="Ticket" onTouchTap={() => document.location.hash='/profile/ticket'}/>
             <Menuitem primaryText="Logout" />
           </Menu>
         </Popover>
