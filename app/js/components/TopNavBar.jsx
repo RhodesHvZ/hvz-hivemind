@@ -40,7 +40,7 @@ const styles = {
 const mapDispatchToProps = (dispatch) => {
   return {
     toggleOpen: () => {
-      dispatch({type: 'TOGGLE_SIDEBAR'})
+      dispatch({ type: 'TOGGLE_SIDEBAR' })
     },
     openPopover: (event) => {
       dispatch({
@@ -55,7 +55,7 @@ const mapDispatchToProps = (dispatch) => {
  * mapStateToProps
  */
 const mapStateToProps = (state, ownProps) => {
-  return { }
+  return {}
 }
 
 /**
@@ -65,7 +65,7 @@ const mapStateToProps = (state, ownProps) => {
  */
 class TopNavBar extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props)
   }
 
@@ -75,11 +75,11 @@ class TopNavBar extends React.Component {
     return (
       <Toolbar>
         <ToolbarGroup style={userToolbarStyle}>
-          <UserMenu />          
+          <UserMenu />
           <FlatButton label="Hamburger" onTouchTap={() => this.props.toggleOpen()} />
-          <FlatButton label="Game" onTouchTap={() => window.location.hash='/'} />
-          <FlatButton label="Rules" onTouchTap={() => window.location.hash='rules'} />
-          <FlatButton label="Admin Details" onTouchTap={() => window.location.hash='admincontact'} />
+          <FlatButton label="Game" onTouchTap={() => window.location.hash = '/'} />
+          <FlatButton label="Rules" onTouchTap={() => window.location.hash = 'rules'} />
+          <FlatButton label="Admin Details" onTouchTap={() => window.location.hash = 'admincontact'} />
           <ToolbarGroup style={endToolbarItemStyle}>
             <FlatButton label="User" onTouchTap={(event) => this.props.openPopover(event)} />
           </ToolbarGroup>

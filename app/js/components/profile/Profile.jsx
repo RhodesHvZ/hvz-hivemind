@@ -35,7 +35,7 @@ const styles = {
   topStyle: {
     osition: 'relative',
     display: 'flex',
-    justifyContent: 'flex-start', 
+    justifyContent: 'flex-start',
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#eaeaf2',

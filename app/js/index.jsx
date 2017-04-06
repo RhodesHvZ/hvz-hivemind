@@ -43,7 +43,7 @@ const style = {
     flex: 75,
     height: '100%'
   },
-   topBarStyle: {
+  topBarStyle: {
     position: 'relative',
     display: 'flex',
     justifyContent: 'flex-start',
@@ -74,15 +74,15 @@ class MainLayout extends React.Component {
   }
 }
 
- /**
-  * DOM
-  * @ignore
-  */
- ReactDOM.render(
-   <MuiThemeProvider>
-     <Provider store={store}>
-       <MainLayout />
-     </Provider>
-   </MuiThemeProvider>,
-   document.getElementById('app')
- )
+/**
+ * DOM
+ * @ignore
+ */
+ReactDOM.render(
+  <MuiThemeProvider>
+    <Provider store={store}>
+      <MainLayout />
+    </Provider>
+  </MuiThemeProvider>,
+  document.getElementById('app')
+)

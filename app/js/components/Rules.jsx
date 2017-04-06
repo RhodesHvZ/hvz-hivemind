@@ -35,7 +35,7 @@ const styles = {
  * Rules
  */
 class Rules extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props)
   }
 

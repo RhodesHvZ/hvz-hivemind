@@ -43,10 +43,10 @@ const styles = {
 }
 
 const sidebarItems = [
-  {text: 'Home', path: '/profile'},
-  {text: 'Settings', path: '/profile/settings'},
-  {text: 'Achievement', path: '/profile/achievements'},
-  {text: 'Stats', path: '/profile/stats'}
+  { text: 'Home', path: '/profile' },
+  { text: 'Settings', path: '/profile/settings' },
+  { text: 'Achievement', path: '/profile/achievements' },
+  { text: 'Stats', path: '/profile/stats' }
 ]
 
 /**
@@ -58,10 +58,10 @@ class ProfileRoot extends React.Component {
 
     return (
       <div style={parentContentStyle}>
-        <Sidebar items={sidebarItems}/>
-        <div style={contentStyle}>        
-          <Route path="/profile/" component={ Profile } exact={true} />
-          <Route path="/profile/ticket" component={ Ticket} />
+        <Sidebar items={sidebarItems} />
+        <div style={contentStyle}>
+          <Route path="/profile/" component={Profile} exact={true} />
+          <Route path="/profile/ticket" component={Ticket} />
           <Route path="/profile/settings" component={Settings} />
           <Route path="/profile/achievements" component={Achievements} />
           <Route path="/profile/stats" component={Stats} />

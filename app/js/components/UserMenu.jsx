@@ -47,21 +47,21 @@ class UserMenu extends React.Component {
   render() {
 
     return (
-        <Popover
-          minWidth={'5%'}
-          open={this.props.open}
-          anchorEl={this.props.anchor}
-          anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-          targetOrigin={{ horizontal: 'left', vertical: 'top' }}
-          onRequestClose={() => this.props.handleRequestClose()}>
-          <Menu>
-            <Menuitem primaryText="Profile " onTouchTap={() => document.location.hash='/profile'} />
-            <Menuitem primaryText="Admin" onTouchTap={() => document.location.hash='/profile/admin'}/>
-            <Menuitem primaryText="Ticket" onTouchTap={() => document.location.hash='/profile/ticket'}/>
-            <Divider />
-            <Menuitem primaryText="Logout" />
-          </Menu>
-        </Popover>
+      <Popover
+        minWidth={'5%'}
+        open={this.props.open}
+        anchorEl={this.props.anchor}
+        anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+        targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+        onRequestClose={() => this.props.handleRequestClose()}>
+        <Menu>
+          <Menuitem primaryText="Profile " onTouchTap={() => document.location.hash = '/profile'} />
+          <Menuitem primaryText="Admin" onTouchTap={() => document.location.hash = '/profile/admin'} />
+          <Menuitem primaryText="Ticket" onTouchTap={() => document.location.hash = '/profile/ticket'} />
+          <Divider />
+          <Menuitem primaryText="Logout" />
+        </Menu>
+      </Popover>
     )
   }
 }
