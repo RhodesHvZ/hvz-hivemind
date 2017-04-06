@@ -6,9 +6,9 @@
  */
 import React from 'react'
 import { Route } from 'react-router-dom'
-import TopNavBar from './TopNavBar.jsx'
-import Sidebar from './Sidebar.jsx'
 import HvZMap from './HvZMap.jsx'
+import Sidebar from './Sidebar.jsx'
+
 
 /**
  * Styles

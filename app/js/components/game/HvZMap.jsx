@@ -5,8 +5,6 @@
  * @ignore
  */
 import React from 'react'
-import TopNavBar from './TopNavBar.jsx'
-import Sidebar from './Sidebar.jsx'
 
 /**
  * Styles
@@ -34,7 +32,7 @@ const styles = {
 }
 
 /**
- * Home
+ * HvZMap
  */
 class HvZMap extends React.Component {
   render() {

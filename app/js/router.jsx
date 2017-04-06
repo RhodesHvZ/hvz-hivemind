@@ -7,9 +7,7 @@
 import React from 'react'
 import { HashRouter as Router, Route, IndexRoute } from 'react-router-dom'
 import createBrowserHistory from 'history/createBrowserHistory'
-import Game from './components/Game.jsx'
-import SideBar from './components/Sidebar.jsx'
-import HvZMap from './components/HvZMap.jsx'
+import Game from './components/game/Game.jsx'
 
 const history = createBrowserHistory()
 
