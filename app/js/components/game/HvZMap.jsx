@@ -17,7 +17,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    alignItems: 'strech',
+    alignItems: 'stretch',
     height: '100%',
     flex: 100,
   },

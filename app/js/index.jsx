@@ -39,7 +39,7 @@ const style = {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'flex-start',
-    alignItems: 'strech',
+    alignItems: 'stretch',
     flex: 75,
     height: '100%'
   },
