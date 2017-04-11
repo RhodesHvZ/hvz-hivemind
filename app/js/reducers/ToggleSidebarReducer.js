@@ -1,9 +1,12 @@
 'use strict'
 
-export default function ToggleDrawerReducer(previous = false, action) {
+export default function ToggleSidebarReducer(previous = {}, action) {
 
+  // Toggle the sidebar
   if (action.type === 'TOGGLE_SIDEBAR') {
-    return !previous
+    return Object.assign({}, previous, {
+      status: !previous.status
+    })
   }
 
   return previous

@@ -17,7 +17,7 @@ import Divider from 'material-ui/Divider';
  * @ignore
  */
 const styles = {
-  containerStyle: open =>  {
+  containerStyle: open => {
     return {
       position: 'relative',
       display: open ? 'flex' : 'none',
@@ -38,7 +38,8 @@ const styles = {
  * @ignore
  */
 const mapStateToProps = (state, ownProps) => {
-    return { open: state.sidebarOpen }
+  let { status } = state.sidebarOpen
+  return { open: status }
 }
 
 /**
@@ -60,7 +61,7 @@ const mapDispatchToProps = (dispatch) => {
  */
 class Sidebar extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props)
   }
 
@@ -72,15 +73,15 @@ class Sidebar extends React.Component {
           {
             this.props.items.map((item) => {
               let { text, path, icon } = item
-                return (
+              return (
                 <ListItem
                   key={text ? text : ''}
-                  primaryText={ text ? text : '' }
-                  onTouchTap={ () => path ? window.location.hash=path : () => '' }
+                  primaryText={text ? text : ''}
+                  onTouchTap={() => path ? window.location.hash = path : () => ''}
                   icon={icon ? icon : ''}
                 />
-                )
-             })
+              )
+            })
           }
         </List >
       </div>
