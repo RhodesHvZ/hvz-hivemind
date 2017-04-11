@@ -42,3 +42,9 @@ config.json
 
 # Webpack
 dist*
+
+# VSCode ESLint plugins
+.eslintrc.json
+
+# VSCode
+.vscode*
