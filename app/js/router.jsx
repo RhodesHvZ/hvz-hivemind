@@ -15,6 +15,7 @@ const history = createBrowserHistory()
 
 /**
  * Styles
+ * @ignore
  */
 const styles = {
   parentContentStyle: {

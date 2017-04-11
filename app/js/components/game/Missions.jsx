@@ -33,6 +33,7 @@ const styles = {
 
 /**
  * Missions
+ * @class
  */
 class Missions extends React.Component {
   render() {

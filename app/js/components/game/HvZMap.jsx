@@ -34,6 +34,7 @@ const styles = {
 
 /**
  * HvZMap
+ * @class
  */
 class HvZMap extends React.Component {
   render() {

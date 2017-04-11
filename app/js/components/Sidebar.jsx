@@ -52,6 +52,9 @@ const mapDispatchToProps = (dispatch) => {
 
 /**
  * Sidebar
+ * @class
+ * 
+ * @description
  * Sidebar accepts a property called `items`
  * `items` should be an array of objects for the Sidebar list
  * eg:

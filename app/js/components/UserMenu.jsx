@@ -1,14 +1,16 @@
 'use strict'
 
 import React from 'react'
+import { connect } from 'react-redux'
+
 import Menuitem from 'material-ui/MenuItem'
 import Popover from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
 import Divider from 'material-ui/Divider';
-import { connect } from 'react-redux'
 
 /**
- * mapDispatchToProps 
+ * mapDispatchToProps
+ * @ignore
  */
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -21,7 +23,8 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 /**
- * mapStateToProps 
+ * mapStateToProps
+ * @ignore
  */
 const mapStateToProps = (state, ownProps) => {
   let { open, anchor } = state.userPopdownData
@@ -32,7 +35,8 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 /**
- * UserMenu 
+ * UserMenu
+ * @class
  */
 class UserMenu extends React.Component {
 

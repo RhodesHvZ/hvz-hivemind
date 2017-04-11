@@ -33,6 +33,7 @@ const styles = {
 
 /**
  * Rules
+ * @class
  */
 class Rules extends React.Component {
   constructor(props) {

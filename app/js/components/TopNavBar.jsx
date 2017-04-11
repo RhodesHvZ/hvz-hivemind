@@ -5,10 +5,12 @@
  * @ignore
  */
 import React from 'react'
+import { connect } from 'react-redux'
+
 import RaisedButton from 'material-ui/RaisedButton'
 import FlatButton from 'material-ui/FlatButton'
 import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-ui/Toolbar'
-import { connect } from 'react-redux'
+
 import UserMenu from './UserMenu.jsx'
 
 /**
@@ -36,10 +38,11 @@ const styles = {
 
 /**
  * mapDispatchToProps
+ * @ignore
  */
 const mapDispatchToProps = (dispatch) => {
   return {
-    
+
     // Toggle the state of the left sidebar
     toggleOpen: () => {
       dispatch({ type: 'TOGGLE_SIDEBAR' })
@@ -57,6 +60,9 @@ const mapDispatchToProps = (dispatch) => {
 
 /**
  * UserToolbar
+ * @class
+ * 
+ * @description
  * A Toolbar component at the top of the web app to handle any user interactions:
  * Session managament, user preferences
  */

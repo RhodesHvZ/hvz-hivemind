@@ -55,6 +55,7 @@ const style = {
 
 /**
  * MainLayout
+ * @class
  */
 class MainLayout extends React.Component {
 
