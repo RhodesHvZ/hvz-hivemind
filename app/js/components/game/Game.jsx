@@ -77,4 +77,8 @@ class Game extends React.Component {
   }
 }
 
+/**
+ * Export
+ * @ignore
+ */
 export default Game

@@ -65,4 +65,9 @@ class UserMenu extends React.Component {
     )
   }
 }
+
+/**
+ * Export
+ * @ignore
+ */
 export default connect(mapStateToProps, mapDispatchToProps)(UserMenu)

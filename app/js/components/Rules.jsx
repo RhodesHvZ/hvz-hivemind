@@ -53,4 +53,8 @@ class Rules extends React.Component {
   }
 }
 
+/**
+ * Export
+ * @ignore
+ */
 export default Rules

@@ -82,4 +82,8 @@ class TopNavBar extends React.Component {
   }
 }
 
+/**
+ * Export
+ * @ignore
+ */
 export default connect(null, mapDispatchToProps)(TopNavBar)

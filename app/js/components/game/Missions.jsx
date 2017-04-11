@@ -48,4 +48,8 @@ class Missions extends React.Component {
   }
 }
 
+/**
+ * Export
+ * @ignore
+ */
 export default Missions

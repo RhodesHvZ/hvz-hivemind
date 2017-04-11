@@ -93,4 +93,8 @@ class Sidebar extends React.Component {
   }
 }
 
+/**
+ * Export
+ * @ignore
+ */
 export default connect(mapStateToProps)(Sidebar)

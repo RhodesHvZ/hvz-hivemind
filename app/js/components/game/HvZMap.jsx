@@ -50,4 +50,8 @@ class HvZMap extends React.Component {
   }
 }
 
+/**
+ * Export
+ * @ignore
+ */
 export default HvZMap
