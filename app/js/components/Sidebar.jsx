@@ -65,23 +65,27 @@ class Sidebar extends React.Component {
     super(props)
   }
 
+  renderSidebarItems(items) {
+    return items.map((item) => {
+      let { text, path, icon } = item
+      return (
+        <ListItem
+          key={text ? text : ''}
+          primaryText={text ? text : ''}
+          onTouchTap={() => path ? window.location.hash = path : () => ''}
+          icon={icon ? icon : ''}
+        />
+      )
+    })
+  }
+
   render() {
     let { containerStyle, listStyle } = styles
     return (
       <div style={containerStyle(this.props.open)}>
         <List style={listStyle}>
           {
-            this.props.items.map((item) => {
-              let { text, path, icon } = item
-              return (
-                <ListItem
-                  key={text ? text : ''}
-                  primaryText={text ? text : ''}
-                  onTouchTap={() => path ? window.location.hash = path : () => ''}
-                  icon={icon ? icon : ''}
-                />
-              )
-            })
+            this.renderSidebarItems(this.props.items)
           }
         </List >
       </div>
