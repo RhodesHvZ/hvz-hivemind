@@ -42,7 +42,7 @@ const mapDispatchToProps = (dispatch) => {
     toggleOpen: () => {
       dispatch({ type: 'TOGGLE_SIDEBAR' })
     },
-    openPopover: (event) => {
+    openPopdown: (event) => {
       dispatch({
         type: 'OPEN_USERPOPDOWN',
         data: event.currentTarget
@@ -81,7 +81,7 @@ class TopNavBar extends React.Component {
           <FlatButton label="Rules" onTouchTap={() => window.location.hash = 'rules'} />
           <FlatButton label="Admin Details" onTouchTap={() => window.location.hash = 'admincontact'} />
           <ToolbarGroup style={endToolbarItemStyle}>
-            <FlatButton label="User" onTouchTap={(event) => this.props.openPopover(event)} />
+            <FlatButton label="User" onTouchTap={(event) => this.props.openPopdown(event)} />
           </ToolbarGroup>
         </ToolbarGroup>
       </Toolbar>

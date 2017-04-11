@@ -24,7 +24,7 @@ const mapDispatchToProps = (dispatch) => {
  * mapStateToProps 
  */
 const mapStateToProps = (state, ownProps) => {
-  let { open, anchor } = state.userPopoverData
+  let { open, anchor } = state.userPopdownData
   return {
     open: open,
     anchor: anchor

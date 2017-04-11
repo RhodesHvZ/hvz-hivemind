@@ -5,5 +5,5 @@ import ToggleUserPopdownReducer from './ToggleUserPopdownReducer'
 
 export default {
   sidebarOpen: ToggleSidebarReducer,
-  userPopoverData: ToggleUserPopdownReducer
+  userPopdownData: ToggleUserPopdownReducer
 }
