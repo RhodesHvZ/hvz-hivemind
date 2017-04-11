@@ -39,9 +39,13 @@ const styles = {
  */
 const mapDispatchToProps = (dispatch) => {
   return {
+    
+    // Toggle the state of the left sidebar
     toggleOpen: () => {
       dispatch({ type: 'TOGGLE_SIDEBAR' })
     },
+
+    // Open the user popdown on the top right corner of the page
     openPopdown: (event) => {
       dispatch({
         type: 'OPEN_USERPOPDOWN',
@@ -52,22 +56,11 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 /**
- * mapStateToProps
- */
-const mapStateToProps = (state, ownProps) => {
-  return {}
-}
-
-/**
  * UserToolbar
  * A Toolbar component at the top of the web app to handle any user interactions:
  * Session managament, user preferences
  */
 class TopNavBar extends React.Component {
-
-  constructor(props) {
-    super(props)
-  }
 
   render() {
     let { userToolbarStyle, endToolbarItemStyle } = styles
@@ -89,4 +82,4 @@ class TopNavBar extends React.Component {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TopNavBar)
+export default connect(null, mapDispatchToProps)(TopNavBar)
