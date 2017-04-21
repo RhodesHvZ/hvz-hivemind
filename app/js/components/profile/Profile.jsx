@@ -5,9 +5,15 @@
  * @ignore
  */
 import React from 'react'
+
 import Stats from './Stats.jsx'
 import Achievements from './Achievements.jsx'
 import Settings from './Settings.jsx'
+
+import Paper from 'material-ui/Paper'
+import { Tabs, Tab } from 'material-ui/Tabs'
+
+import ZombieImg from './../../../static/zombieprofile.png'
 
 /**
  * Styles
@@ -33,7 +39,7 @@ const styles = {
     flex: 30
   },
   topStyle: {
-    osition: 'relative',
+    position: 'relative',
     display: 'flex',
     justifyContent: 'flex-start',
     flexDirection: 'row',
@@ -42,13 +48,30 @@ const styles = {
     flex: 30
   },
   bottomStyle: {
-    osition: 'relative',
+    position: 'relative',
     display: 'flex',
     justifyContent: 'flex-start',
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
     backgroundColor: '#eaeaf2',
-    flex: 70
+    flex: 100,
+    width: screen.width
+  },
+  paperStyle: {
+    height: 100,
+    width: 100,
+    margin: 20,
+    textAlign: 'center',
+    display: 'inline-block',
+    overflow: 'hidden'
+  },
+  tabStyle: {
+    fontSize: 24,
+    paddingTop: 16,
+    paddingLeft: 0,
+    marginBottom: 12,
+    fontWeight: 400,
+    width: '100%'
   }
 }
 
@@ -57,17 +80,33 @@ const styles = {
  * @class
  */
 class Profile extends React.Component {
+
   render() {
-    let { parentContentStyle, contentStyle, topStyle, bottomStyle } = styles
+    let { parentContentStyle, contentStyle, topStyle, bottomStyle, paperStyle, tabStyle } = styles
 
     return (
       <div style={parentContentStyle}>
         <div style={contentStyle}>
           <div style={topStyle}>
-            <h1>ProfilePicture</h1>
+            <Paper style={paperStyle} zDepth={2} circle={true}>
+              <img src={ZombieImg} style={{ width: 'auto', height: '120%' }} />
+            </Paper>
           </div>
-          <div style={bottomStyle}>
-            <h1>Profile sub categories here</h1>
+          <div name="Buttom Half" style={bottomStyle}>
+            <Tabs style={tabStyle}>
+              <Tab label="Home" >
+                <div>
+                </div>
+              </Tab>
+              <Tab label="Teams">
+                <div>
+                </div>
+              </Tab>
+              <Tab label="Stats">
+                <div>
+                </div>
+              </Tab>
+            </Tabs>
           </div>
         </div>
       </div>
