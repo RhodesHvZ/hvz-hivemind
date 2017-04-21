@@ -5,7 +5,7 @@
  * @ignore
  */
 import React from 'react'
-import MapImg from './../../../images/map.png'
+import MapImg from './../../../static/map.png'
 
 /**
  * Styles
