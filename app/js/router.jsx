@@ -6,10 +6,12 @@
  */
 import React from 'react'
 import { HashRouter as Router, Route, IndexRoute, Redirect, Switch } from 'react-router-dom'
+
 import createBrowserHistory from 'history/createBrowserHistory'
 import Game from './components/game/Game.jsx'
 import ProfileRoot from './components/profile/ProfileRoot.jsx'
 import Rules from './components/Rules.jsx'
+import Ticket from './components/Ticket.jsx'
 
 const history = createBrowserHistory()
 
@@ -42,6 +44,7 @@ export default (
         <Route path="/rules" component={Rules} />
         <Route path="/admincontact" component={() => <h1>Admin contact</h1>} />
         <Route path="/profile" component={ProfileRoot} />
+        <Route path="/ticket" component={Ticket} />
       </Switch>
     </div>
   </Router>

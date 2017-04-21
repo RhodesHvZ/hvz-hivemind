@@ -6,7 +6,7 @@
  */
 import React from 'react'
 import { Route } from 'react-router-dom'
-import Ticket from './Ticket.jsx'
+
 import Profile from './Profile.jsx'
 import Admin from './Admin.jsx'
 import Settings from './Settings.jsx'
@@ -61,7 +61,6 @@ class ProfileRoot extends React.Component {
         <Sidebar items={sidebarItems} />
         <div style={contentStyle}>
           <Route path="/profile/" component={Profile} exact={true} />
-          <Route path="/profile/ticket" component={Ticket} />
           <Route path="/profile/settings" component={Settings} />
           <Route path="/profile/achievements" component={Achievements} />
           <Route path="/profile/stats" component={Stats} />
