@@ -33,6 +33,7 @@ const styles = {
 
 /**
  * Admin Page
+ * @class
  */
 class Admin extends React.Component {
   render() {
@@ -48,4 +49,8 @@ class Admin extends React.Component {
   }
 }
 
+/**
+ * Export
+ * @ignore
+ */
 export default Admin

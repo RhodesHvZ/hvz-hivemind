@@ -54,6 +54,7 @@ const styles = {
 
 /**
  * User Profile
+ * @class
  */
 class Profile extends React.Component {
   render() {
@@ -74,4 +75,8 @@ class Profile extends React.Component {
   }
 }
 
+/**
+ * Export
+ * @ignore
+ */
 export default Profile

@@ -33,6 +33,7 @@ const styles = {
 
 /**
  * User Achievements
+ * @class
  */
 class Achievements extends React.Component {
   render() {
@@ -48,4 +49,8 @@ class Achievements extends React.Component {
   }
 }
 
+/**
+ * Export
+ * @ignore
+ */
 export default Achievements

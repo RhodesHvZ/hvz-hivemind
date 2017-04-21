@@ -11,6 +11,7 @@ import Menuitem from 'material-ui/MenuItem'
 import Popover from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
 import Divider from 'material-ui/Divider';
+import Paper from 'material-ui/Paper'
 
 /**
  * mapDispatchToProps
@@ -45,29 +46,33 @@ const mapStateToProps = (state, ownProps) => {
  * @class
  * 
  * @description
- * A Usermenu component at the top right of the web app to user interections:
- * Access user preferences
+ * A Usermenu component at the top right of the web app to allow user interections:
+ * Access user preferences and home page
+ * Access admin page
+ * Access ticket page
+ * Logout
  */
 class UserMenu extends React.Component {
-
   render() {
-    
+
     return (
-      <Popover
-        open={this.props.open}
-        style={{ backgroundColor:'#76FF03' }}
-        anchorEl={this.props.anchor}
-        anchorOrigin={{ horizontal:'left', vertical:'bottom' }}
-        targetOrigin={{ horizontal:'left', vertical:'top' }}
-        onRequestClose={() => this.props.handleRequestClose()}>
-        <Menu width="100">
-          <Menuitem primaryText="Profile " onTouchTap={() => document.location.hash = '/profile'} />
-          <Menuitem primaryText="Admin" onTouchTap={() => document.location.hash = '/profile/admin'} />
-          <Menuitem primaryText="Ticket" onTouchTap={() => document.location.hash = '/ticket'} />
-          <Divider style={{backgroundColor: 'black'}}/>
-          <Menuitem primaryText="Logout" />
-        </Menu>
-      </Popover>
+      <div>
+        <Popover
+          open={this.props.open}
+          style={{ backgroundColor: '#76FF03' }}
+          anchorEl={this.props.anchor}
+          anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+          targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+          onRequestClose={() => this.props.handleRequestClose()}>
+          <Menu width="130" autoWidth={false}>
+            <Menuitem primaryText="Profile " onTouchTap={() => document.location.hash = '/profile'} />
+            <Menuitem primaryText="Admin" onTouchTap={() => document.location.hash = '/profile/admin'} />
+            <Menuitem primaryText="Ticket" onTouchTap={() => document.location.hash = '/ticket'} />
+            <Divider style={{ backgroundColor: 'black' }} />
+            <Menuitem primaryText="Logout" />
+          </Menu>
+        </Popover>
+      </div>
     )
   }
 }

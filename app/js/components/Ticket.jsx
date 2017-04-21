@@ -33,6 +33,7 @@ const styles = {
 
 /**
  * Ticket Submissions
+ * @class
  */
 class Ticket extends React.Component {
   render() {
@@ -48,4 +49,8 @@ class Ticket extends React.Component {
   }
 }
 
+/**
+ * Export
+ * @ignore
+ */
 export default Ticket

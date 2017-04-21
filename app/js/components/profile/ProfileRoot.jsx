@@ -14,7 +14,6 @@ import Stats from './Stats.jsx'
 import Achievements from './Achievements.jsx'
 import Sidebar from './../Sidebar.jsx'
 
-
 /**
  * Styles
  * @ignore
@@ -50,7 +49,8 @@ const sidebarItems = [
 ]
 
 /**
- * Root Profile 
+ * Root Profile
+ * @class
  */
 class ProfileRoot extends React.Component {
   render() {
@@ -70,4 +70,9 @@ class ProfileRoot extends React.Component {
     )
   }
 }
+
+/**
+ * Export
+ * @ignore
+ */
 export default ProfileRoot

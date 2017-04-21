@@ -33,6 +33,7 @@ const styles = {
 
 /**
  * User Settings
+ * @class
  */
 class Settings extends React.Component {
   render() {
@@ -48,4 +49,8 @@ class Settings extends React.Component {
   }
 }
 
+/**
+ * Export
+ * @ignore
+ */
 export default Settings
