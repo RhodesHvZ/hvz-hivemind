@@ -1,5 +1,9 @@
 'use strict'
 
+/**
+ * Dependencies
+ * @ignore
+ */
 import React from 'react'
 import { connect } from 'react-redux'
 
@@ -14,6 +18,8 @@ import Divider from 'material-ui/Divider';
  */
 const mapDispatchToProps = (dispatch) => {
   return {
+
+    // Close the usermenu on the top right corner of the page
     handleRequestClose: () => {
       dispatch({
         type: 'CLOSE_USERPOPDOWN'
@@ -37,32 +43,28 @@ const mapStateToProps = (state, ownProps) => {
 /**
  * UserMenu
  * @class
+ * 
+ * @description
+ * A Usermenu component at the top right of the web app to user interections:
+ * Access user preferences
  */
 class UserMenu extends React.Component {
 
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      open: false
-    }
-  }
-
   render() {
-
+    
     return (
       <Popover
-        minWidth={'5%'}
         open={this.props.open}
+        style={{ backgroundColor:'#76FF03' }}
         anchorEl={this.props.anchor}
-        anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-        targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+        anchorOrigin={{ horizontal:'left', vertical:'bottom' }}
+        targetOrigin={{ horizontal:'left', vertical:'top' }}
         onRequestClose={() => this.props.handleRequestClose()}>
-        <Menu>
+        <Menu width="100">
           <Menuitem primaryText="Profile " onTouchTap={() => document.location.hash = '/profile'} />
           <Menuitem primaryText="Admin" onTouchTap={() => document.location.hash = '/profile/admin'} />
-          <Menuitem primaryText="Ticket" onTouchTap={() => document.location.hash = '/profile/ticket'} />
-          <Divider />
+          <Menuitem primaryText="Ticket" onTouchTap={() => document.location.hash = '/ticket'} />
+          <Divider style={{backgroundColor: 'black'}}/>
           <Menuitem primaryText="Logout" />
         </Menu>
       </Popover>
