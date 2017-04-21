@@ -36,6 +36,7 @@ const styles = {
  * @class
  */
 class Settings extends React.Component {
+  
   render() {
     let { parentContentStyle, contentStyle } = styles
 

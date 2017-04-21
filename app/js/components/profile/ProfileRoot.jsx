@@ -41,6 +41,10 @@ const styles = {
   }
 }
 
+/**
+ * SidebarItems
+ * @ignore
+ */
 const sidebarItems = [
   { text: 'Home', path: '/profile' },
   { text: 'Settings', path: '/profile/settings' },
@@ -53,6 +57,7 @@ const sidebarItems = [
  * @class
  */
 class ProfileRoot extends React.Component {
+
   render() {
     let { parentContentStyle, contentStyle } = styles
 

@@ -36,6 +36,7 @@ const styles = {
  * @class
  */
 class Achievements extends React.Component {
+  
   render() {
     let { parentContentStyle, contentStyle } = styles
 

@@ -10,7 +10,7 @@ import { connect } from 'react-redux'
 import Menuitem from 'material-ui/MenuItem'
 import Popover from 'material-ui/Popover'
 import Menu from 'material-ui/Menu'
-import Divider from 'material-ui/Divider';
+import Divider from 'material-ui/Divider'
 import Paper from 'material-ui/Paper'
 
 /**
