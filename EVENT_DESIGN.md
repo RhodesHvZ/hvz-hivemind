@@ -31,3 +31,17 @@ Each manager is independent and manages a particular aspect of the system. i.e. 
 The state of the system must be readable by all managers. Writing to the state _must_ be done through the relevant manager.
 
 Gettings instances of game objects must be done through the manager.
+
+Managers will store local state (within scope) and be hierarchical. i.e. System contains multiple games which each contain multiple players.
+
+## Hierarchy
+
+1. System
+    + Game
+        * Player
+        * Squad
+        * Mission
+    + User
+        * Ticket
+        * Achievement
+
