@@ -42,3 +42,5 @@ config.json
 
 # Webpack
 dist*
+
+\.vscode/
