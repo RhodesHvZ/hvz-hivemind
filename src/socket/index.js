@@ -28,16 +28,21 @@ class SocketManager {
 
     this.io.on('connection', function (socket) {
       console.log('client connected')
+      console.log(`Session: ${JSON.stringify(socket.request.session)}`)
 
       socket.on('message', function (data) {
         console.log(data)
       })
 
-      socket.on('PLAYER_TAG', data => {
-        Events.PLAYER_TAG(data)
+      socket.on('PLAYER_ACTIVATE', data => {
+        // fireEvent(Events.PLAYER_TAG, socket, data)
+        data.senderId = socket.id;
+        Events.PLAYER_ACTIVATE(data)
+        console.log('Socketio got PLAYER_ACTIVATE')
       })
     })
   }
+
 }
 
 /**

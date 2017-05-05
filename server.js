@@ -23,6 +23,7 @@ const UserManager = require('./src/user')
 const app = express()
 const server = http.Server(app)
 const SocketManager = require('./src/socket')(server)
+const session = require("express-session");
 
 /**
  * Application
@@ -32,41 +33,31 @@ class Application {
 
   constructor (data) {
     // Prepare data for startup
-    let { config, somedata } = data
+    //let { config, somedata } = data
 
-    this.config = config
-    this.somedata = data
+    //this.config = config
   }
 
   static setup (data) {
     let instance = new Application(data)
 
-    Promise.resolve(instance)
-      .then(instance.something)
-      .then(instance.somethingElse)
-      .then(instance.other)
+    return Promise.resolve(instance)
+      .then(instance.setupSocketManager)
       .then(instance.expressConfig)
       .then(instance.listen)
   }
 
-  something (instance) {
+  setupSocketManager (instance) {
     // Note: use "instance" instead of "this" in these asynchronous startup methods
-    // Do something
+    var sessionMiddleware = session({
+      secret: "keyboard cat",
+    });
 
-    const myWorkFunctions = [() => Promise.resolve('foo'), () => Promise.resolve('scum')]
+    SocketManager.io.use(function(socket, next) {
+        sessionMiddleware(socket.request, socket.request.res, next);
+    });
 
-    let promises = myWorkFunctions.map(func => func())
-
-    return Promise.all(promises).then(() => instance)
-
-    // return instance
-  }
-
-  somethingElse (instance) {
-    let { config } = instance
-
-    // Do something with "config"
-
+    app.use(sessionMiddleware);
     return instance
   }
 
@@ -76,9 +67,9 @@ class Application {
     //app.use(bodyParser.urlencoded({ extended: false }))
     //app.use(bodyParser.json())
     //app.use(cors({
-    //  origin: '*',
-    //  methods: ['GET', 'POST', 'DELETE'],
-    //  preflightContinue: false
+      //origin: '*',
+      //methods: ['GET', 'POST', 'DELETE'],
+      //preflightContinue: false
     //}))
 
     return instance
@@ -95,6 +86,6 @@ class Application {
  * Start
  * @ignore
  */
-Application.setup(some_data)
+Application.setup({})
   .then(() => console.log('Server started successfully'))
-  .catch(err => console.error('Something fucked up'))
+  .catch(err => console.error(`Error starting server:\n${err}`))
