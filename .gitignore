@@ -44,3 +44,7 @@ config.json
 dist*
 
 \.vscode/
+
+# VIM
+*.swp
+.tern-project
