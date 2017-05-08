@@ -42,6 +42,5 @@ Managers will store local state (within scope) and be hierarchical. i.e. System 
         * Squad
         * Mission
     + User
-        * Ticket
-        * Achievement
-
+    + Ticket
+    + Achievement

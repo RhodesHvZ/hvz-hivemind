@@ -25,7 +25,7 @@ class EventEmitter extends Emitter {
     // Define action functions for each event in the EventsEnum file
     Object.keys(EventsEnum).forEach(key => {
       Object.defineProperty(this, key, {
-        value: (...event) => this.emit(key, Object.assign(...event)),
+        value: (...event) => this.emit(key, Object.assign({}, ...event)),
         enumerable: false,
         writable: false,
         configurable: false
