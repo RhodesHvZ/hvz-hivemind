@@ -14,7 +14,6 @@ const http = require('http')
  */
 const pkg = require('./package.json')
 const Events = require('./src/events')
-const UserManager = require('./src/user')
 const SystemManager = require('./src/system')
 
 /**
@@ -24,7 +23,7 @@ const SystemManager = require('./src/system')
 const app = express()
 const server = http.Server(app)
 const SocketManager = require('./src/socket')(server)
-const session = require("express-session");
+const session = require("express-session")
 
 /**
  * Application
@@ -50,7 +49,7 @@ class Application {
   }
 
   setupSocketManager (instance) {
-    // Note: use "instance" instead of "this" in these asynchronous startup methods
+    // Set up middleware
     var sessionMiddleware = session({
       secret: "keyboard cat",
     });
@@ -59,7 +58,9 @@ class Application {
         sessionMiddleware(socket.request, socket.request.res, next);
     });
 
-    app.use(sessionMiddleware);
+    app.use(sessionMiddleware)
+    // Set SystemManager for SocketManager
+    SocketManager.systemManager = instance.systemManager
     return instance
   }
 

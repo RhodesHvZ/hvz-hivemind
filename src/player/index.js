@@ -21,8 +21,8 @@ const PlayerReducer = require('./PlayerReducer')
 class PlayerManager extends Store {
 
   constructor (gameManager) {
-    // let initialState = { ... }
-    // super(initialState)
+     let initialState = {}
+    super(initialState)
     this.gameManager = gameManager
     Events.on(Events.PLAYER_ACTIVATE, event => this.handlePlayerActivate(event))
   }

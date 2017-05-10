@@ -27,4 +27,4 @@ class MissionManager {
  * Export
  * @ignore
  */
-module.exports = new MissionManager()
+module.exports = MissionManager

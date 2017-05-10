@@ -12,30 +12,23 @@
 const Reducer = require('../common/Reducer')
 
 /**
- * PlayerReducer
+ * UserReducer
  *
  * @class
- * Reduce new player state
+ * Reduce new User state
  *
  * @todo
  */
-class PlayerReducer extends Reducer {
+class UserReducer extends Reducer {
 
   static get mapping () {
     return {
-      'PLAYER_ACTIVATE': this.activate
     }
   }
-
-  static activate (oldState, action) {
-    // TODO
-    console.log('Player activated')
-  }
-
 }
 
 /**
  * Export
  * @ignore
  */
-module.exports = PlayerReducer
+module.exports = UserReducer

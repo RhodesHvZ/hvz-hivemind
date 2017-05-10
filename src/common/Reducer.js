@@ -17,6 +17,11 @@ class Reducer {
     let { type } = action
     let changes
 
+     // Redux init reducer fix
+    if (type === '@@redux/INIT') {
+      return oldState
+    }
+
     if (mapping[type]) {
       changes = mapping[type](oldState, action)
     } else {

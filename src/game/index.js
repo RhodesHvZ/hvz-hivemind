@@ -14,6 +14,8 @@ const Events = require('../events')
 const SocketManager = require('../socket')
 const GameReducer = require('./GameReducer')
 const PlayerManager = require('../player')
+const SquadManager = require('../squad')
+const MissionManager = require('../mission')
 
 /**
  * Game Manager
@@ -24,7 +26,8 @@ class GameManager extends Store {
   /**
    * constructor
    */
-  constructor (systemManager) {
+  constructor(systemManager) {
+    super()
     this.systemManager = systemManager
     this.playerManager = new PlayerManager(this)
     this.squadManager = new SquadManager(this)

@@ -27,4 +27,4 @@ class SquadManager {
  * Export
  * @ignore
  */
-module.exports = new SquadManager()
+module.exports = SquadManager
