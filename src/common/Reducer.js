@@ -20,7 +20,7 @@ class Reducer {
     if (mapping[type]) {
       changes = mapping[type](oldState, action)
     } else {
-      throw new Error(`Action type ${type} does exist for ${this.name}`)
+      throw new Error(`Action type ${type} doesn't exist for ${this.name}`)
     }
 
     if (changes && typeof changes === 'object') {

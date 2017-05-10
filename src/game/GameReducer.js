@@ -1,4 +1,4 @@
-'use strict'
+use strict'
 
 /**
  * Dependencies
@@ -29,9 +29,7 @@ class PlayerReducer extends Reducer {
 
   static activate (oldState, action) {
     // TODO
-    if(action.type == 'PLAYER_ACTIVATE'){
-      console.log(`Player activated: ${JSON.stringify(action)}`)
-    }
+    console.log('Player activated')
   }
 
 }
