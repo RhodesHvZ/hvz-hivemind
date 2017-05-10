@@ -41,19 +41,19 @@ const socket = io()
  * MainLayout
  */
 class MainLayout extends React.Component {
-  
   fireEvent() {
-    socket.send({ foo : ' bar' })
+    socket.emit('PLAYER_ACTIVATE', { player : 'thecallsign' })
   }
 
   render() {
-    
     let { appContainer } = style
     socket.on('connect', function(){
       console.log(socket.id); // 'G5p5...'
     });
+    // return the dom element
     return (
       <div style={appContainer}>
+        <input id="txtInput"></input>
         <button onClick={this.fireEvent} > Fire the event!! </button>
       </div>
     )

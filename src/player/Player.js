@@ -26,8 +26,7 @@ class Player {
   kill (victimId) {
     this.playerManager.dispatch({
       type: 'PLAYER_KILL',
-      victim: victimId,
-      ...
+      victim: victimId
     })
   }
 }

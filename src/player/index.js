@@ -24,8 +24,17 @@ class PlayerManager extends Store {
     // let initialState = { ... }
     // super(initialState)
     this.gameManager = gameManager
+    Events.on(Events.PLAYER_ACTIVATE, event => this.handlePlayerActivate(event))
   }
-
+  /**
+   * Event handlers
+   *
+   */
+  handlePlayerActivate (event) {
+    // Dispatch the event to trigger the reducer and update the game state
+    console.log('handlePlayerActivate')
+    this.dispatch(event)
+  }
   /**
    * reducers
    */

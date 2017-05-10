@@ -15,6 +15,7 @@ const http = require('http')
 const pkg = require('./package.json')
 const Events = require('./src/events')
 const UserManager = require('./src/user')
+const SystemManager = require('./src/system')
 
 /**
  * App
@@ -34,7 +35,7 @@ class Application {
   constructor (data) {
     // Prepare data for startup
     //let { config, somedata } = data
-
+    this.systemManager = new SystemManager()
     //this.config = config
   }
 
@@ -43,6 +44,7 @@ class Application {
 
     return Promise.resolve(instance)
       .then(instance.setupSocketManager)
+      .then(instance.setupSystemManager)
       .then(instance.expressConfig)
       .then(instance.listen)
   }
@@ -58,6 +60,12 @@ class Application {
     });
 
     app.use(sessionMiddleware);
+    return instance
+  }
+
+  // Init the system manager
+  setupSystemManager (instance) {
+    //instance.systemManager = new SystemManager()
     return instance
   }
 
