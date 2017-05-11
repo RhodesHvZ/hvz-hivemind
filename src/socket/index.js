@@ -29,12 +29,14 @@ class SocketManager {
     this.sockets = {}
     //this.systemManager = null
 
+      }
+  setupHandlers(systemManager) {
     let { Status, User, Type } = SocketEventEnum
-
+    this.systemManager = systemManager
     // On connection
     this.io.on('connection', function (socket) {
-      console.log(JSON.stringify(this.systemManager))
-      if (!this.systemManager) {
+      if (!systemManager) {
+        console.log(`Internal Server Error: systemManager is not defined in SocketManager: ${systemManager}`)
         socket.emit(Status.InternalError)
       } else {
         socket.emit(Status.Success)
@@ -52,7 +54,7 @@ class SocketManager {
         Events.PLAYER_ACTIVATE(data)
         console.log('Socketio got PLAYER_ACTIVATE')
       })
-
+      // GET data example
       socket.on(Type.GET, (request) => {
         console.log(JSON.stringify(request))
         if (request === User.Data) {
@@ -62,9 +64,9 @@ class SocketManager {
           socket.emit(Status.Success, { data: 'giddy', type: User.Lastname } )
         }
       })
-
+      // Send data example
       socket.on(Type.REGISTER_USER, (request) => {
-          SystemManager.userManager.registerUser(request, socket.id)
+          this.systemManager.userManager.registerUser(request, socket.id)
       })
     })
   }

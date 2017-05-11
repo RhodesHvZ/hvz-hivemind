@@ -55,8 +55,7 @@ class MainLayout extends React.Component {
   }
 
   componentWillMount() {
-    let { Status } = SocketEventEnum
-    socket.on(Status.InternalError, () => document.write('500: Internal Server Error'))
+
   }
 
   setupSocketHandlers(mapping) {
@@ -73,7 +72,8 @@ class MainLayout extends React.Component {
 
   render() {
     let { appContainer } = style
-    let { User } = SocketEventEnum
+    let { User, Status } = SocketEventEnum
+    socket.on(Status.InternalError, () => document.write('500: Internal Server Error'))
     let mapping = {
       [User.Firstname]: (payload) => document.getElementById("txtFirst").value = payload.data,
       [User.Lastname]: (payload) => document.getElementById("txtLast").value = payload.data,

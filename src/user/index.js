@@ -30,7 +30,7 @@ class UserManager extends Store {
     super()
     this.systemManager = systemManager
     //Events.on(Events.eventList.USER_AUTH, event => this.handleUserAuth(event))
-    //Events.on(Events.eventList.USER_REGISTERED, event => this.handleUserReg(event))
+    Events.on(Events.eventList.USER_REGISTERED, event => this.dispatch())
   }
 
   /**
@@ -53,6 +53,18 @@ class UserManager extends Store {
     if (this.state[data.username]) {
       SocketManager.sockets.to(socketid).emit(Status.Fail, 'Username already exists')
       return
+    } else {
+      Events.USER_REGISTERED(Object.assign({}, {
+        data: {
+          firstname: data[firstname],
+          lastname: data[lastname],
+          email: data[email],
+          userSettings: {},
+          players: {},
+          achievements: {}
+        },
+        type: 'USER_REGISTERED'
+      }))
     }
     // TODO: fire event and reduce
   }

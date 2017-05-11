@@ -60,7 +60,7 @@ class Application {
 
     app.use(sessionMiddleware)
     // Set SystemManager for SocketManager
-    SocketManager.systemManager = instance.systemManager
+    SocketManager.setupHandlers(instance.systemManager)
     return instance
   }
 
