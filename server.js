@@ -22,7 +22,6 @@ const SystemManager = require('./src/system')
  */
 const app = express()
 const server = http.Server(app)
-const SocketManager = require('./src/socket')(server)
 const session = require("express-session")
 
 /**
@@ -34,7 +33,7 @@ class Application {
   constructor (data) {
     // Prepare data for startup
     //let { config, somedata } = data
-    this.systemManager = new SystemManager()
+    this.systemManager = new SystemManager(server)
     //this.config = config
   }
 
@@ -42,32 +41,8 @@ class Application {
     let instance = new Application(data)
 
     return Promise.resolve(instance)
-      .then(instance.setupSocketManager)
-      .then(instance.setupSystemManager)
       .then(instance.expressConfig)
       .then(instance.listen)
-  }
-
-  setupSocketManager (instance) {
-    // Set up middleware
-    var sessionMiddleware = session({
-      secret: "keyboard cat",
-    });
-
-    SocketManager.io.use(function(socket, next) {
-        sessionMiddleware(socket.request, socket.request.res, next);
-    });
-
-    app.use(sessionMiddleware)
-    // Set SystemManager for SocketManager
-    SocketManager.setupHandlers(instance.systemManager)
-    return instance
-  }
-
-  // Init the system manager
-  setupSystemManager (instance) {
-    //instance.systemManager = new SystemManager()
-    return instance
   }
 
   expressConfig (instance) {
@@ -80,6 +55,18 @@ class Application {
       //methods: ['GET', 'POST', 'DELETE'],
       //preflightContinue: false
     //}))
+
+    let sessionMiddleware = session({
+      secret: "keyboard cat",
+    })
+
+    let { socketManager: { socket: socketNamespace } } = instance.systemManager
+
+    socketNamespace.use((socket, next) => {
+      sessionMiddleware(socket.request, socket.request.res, next)
+    })
+
+    app.use(sessionMiddleware)
 
     return instance
   }
@@ -97,4 +84,4 @@ class Application {
  */
 Application.setup({})
   .then(() => console.log('Server started successfully'))
-  .catch(err => console.error(`Error starting server:\n${err}`))
+  .catch(err => console.error(`Error starting server`, err))
