@@ -1,37 +1,13 @@
 'use strict'
 
 /**
- * Dependencies
- * @ignore
- */
-
-/**
  * Module Dependencies
  * @ignore
  */
-const Events = require('../events')
-const SocketManager = require('../socket')
-
-/**
- * Ticket Manager
- * @class
- */
-class TicketManager {
-
-  constructor() {
-    Events.on('TICKET_CREATE', event => this.handleTicketCreate(event))
-  }
-
-  handleTicketCreate(event) {
-    //TODO
-    if (true) {
-      SocketManager.Instance.to(event.socket.id).emit('SYSTEM', 'Ticket created successfully')
-    }
-  }
-}
+const TicketManager = require('./TicketManager')
 
 /**
  * Export
  * @ignore
  */
-module.exports = new TicketManager()
+module.exports = TicketManager
