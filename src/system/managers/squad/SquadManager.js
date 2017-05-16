@@ -9,7 +9,7 @@
  * Module Dependencies
  * @ignore
  */
-const Events = require('../events')
+const Events = require('../../events')
 
 /**
  * Squad Manager

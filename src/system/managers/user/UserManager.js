@@ -9,9 +9,9 @@
  * Module Dependencies
  * @ignore
  */
-const Events = require('../events')
-const SocketEventEnum = require('../../common/SocketEventEnum')
-const Store = require('../common/Store')
+const Events = require('../../events')
+const SocketEventEnum = require('../../../../common/SocketEventEnum')
+const Store = require('../../common/Store')
 const UserReducer = require('./UserReducer')
 
 /**

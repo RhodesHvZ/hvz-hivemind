@@ -9,7 +9,7 @@
  * Module Dependencies
  * @ignore
  */
-const GetUserRequest = require('./user/GetUserRequest')
+const GetUserRequest = require('./handlers/user/GetUserRequest')
 
 /**
  * MessageDispatcher

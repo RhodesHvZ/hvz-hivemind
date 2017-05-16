@@ -7,13 +7,14 @@
 const path = require('path')
 const express = require('express')
 const http = require('http')
+const session = require("express-session")
+const elasticSession = require('express-elasticsearch-session')(session)
 
 /**
  * Module Dependencies
  * @ignore
  */
 const pkg = require('./package.json')
-const Events = require('./src/events')
 const SystemManager = require('./src/system')
 
 /**
@@ -22,7 +23,6 @@ const SystemManager = require('./src/system')
  */
 const app = express()
 const server = http.Server(app)
-const session = require("express-session")
 
 /**
  * Application

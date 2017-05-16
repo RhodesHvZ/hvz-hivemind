@@ -9,7 +9,7 @@
  * Module Dependencies
  * @ignore
  */
-const Reducer = require('../common/Reducer')
+const Reducer = require('../../common/Reducer')
 
 /**
  * PlayerReducer
@@ -29,9 +29,7 @@ class PlayerReducer extends Reducer {
 
   static activate (oldState, action) {
     // TODO
-    if(action.type == 'PLAYER_ACTIVATE'){
-      console.log(`Player activated: ${JSON.stringify(action)}`)
-    }
+    console.log('Player activated')
   }
 
 }

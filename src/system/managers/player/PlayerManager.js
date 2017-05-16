@@ -9,8 +9,8 @@
  * Module Dependencies
  * @ignore
  */
-const Store = require('../common/Store')
-const Events = require('../events')
+const Store = require('../../common/Store')
+const Events = require('../../events')
 const PlayerReducer = require('./PlayerReducer')
 
 /**

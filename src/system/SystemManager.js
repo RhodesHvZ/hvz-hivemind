@@ -9,7 +9,7 @@
  * Module Dependencies
  * @ignore
  */
-const Store = require('../common/Store')
+const Store = require('./common/Store')
 const SystemReducer = require('./SystemReducer')
 
 /**
@@ -17,10 +17,10 @@ const SystemReducer = require('./SystemReducer')
  * @ignore
  */
 const SocketManager = require('./SocketManager')
-const GameManager = require('../game')
-const UserManager = require('../user')
-const TicketManager = require('../ticket')
-const AchievementManager = require('../achievement')
+const GameManager = require('./managers/game')
+const UserManager = require('./managers/user')
+const TicketManager = require('./managers/ticket')
+const AchievementManager = require('./managers/achievement')
 
 /**
  * Game Manager

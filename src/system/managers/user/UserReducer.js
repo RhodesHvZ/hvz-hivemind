@@ -9,7 +9,7 @@
  * Module Dependencies
  * @ignore
  */
-const Reducer = require('../common/Reducer')
+const Reducer = require('../../common/Reducer')
 
 /**
  * UserReducer
