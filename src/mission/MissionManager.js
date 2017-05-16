@@ -10,7 +10,6 @@
  * @ignore
  */
 const Events = require('../events')
-const SocketManager = require('../socket')
 
 /**
  * Mission Manager

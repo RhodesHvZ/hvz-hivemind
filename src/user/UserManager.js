@@ -10,7 +10,6 @@
  * @ignore
  */
 const Events = require('../events')
-const SocketManager = require('../socket')
 const SocketEventEnum = require('../../common/SocketEventEnum')
 const Store = require('../common/Store')
 const UserReducer = require('./UserReducer')
@@ -26,9 +25,9 @@ class UserManager extends Store {
   /**
    * constructor
    */
-  constructor(systemManager) {
+  constructor (system) {
     super()
-    this.systemManager = systemManager
+    this.system = system
     //Events.on(Events.eventList.USER_AUTH, event => this.handleUserAuth(event))
     Events.on(Events.eventList.USER_REGISTERED, event => this.dispatch())
   }
@@ -49,9 +48,12 @@ class UserManager extends Store {
   }
 
   registerUser(data, socketid) {
+    let { socketManager } = this.system
     let { Status } = SocketEventEnum
+    let socket = socketManager.getSocket(socketid)
+
     if (this.state[data.username]) {
-      SocketManager.sockets.to(socketid).emit(Status.Fail, 'Username already exists')
+      socket.emit(Status.Fail, 'Username already exists')
       return
     } else {
       Events.USER_REGISTERED(Object.assign({}, {
