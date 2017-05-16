@@ -42,13 +42,16 @@ class SocketManager {
     let { request: { session } } = socket
     let uid // = session.sub // TODO
 
+    socket.request.session.count = session.count + 1 || 1 // DEBUG
+    console.log(`Socket #${socket.id} session: ${JSON.stringify(session, null, 2)}`) // DEBUG
+
     if (uid) {
       this.users[uid] = socket.id
     }
 
     socket.on('disconnect', reason => this.onSocketDisconnect(socket, reason))
     socket.on('message', data => this.onSocketMessage(socket, data))
-    socket.on('GET', data => this.onSocketMessage(socket, data))
+    socket.on('GET', data => this.onSocketMessage(socket, data)) // DEBUG
     socket.on('error', error => this.onSocketError(socket, error))
   }
 
@@ -94,41 +97,33 @@ class SocketManager {
   }
 
   /**
-   * send
+   * getSocket
    *
    * @description
-   * Send data to a socket indexed by Socket ID
+   * Retrieve a socket indexed by Socket ID
    *
    * @param {String} id
-   * @param {Object} data
-   * @return {Boolean} success
+   * @return {Socket}
    */
-  send (id, data) {
+  getSocket (id) {
     let socket = this.socket.connected[id]
-
-    if (socket) {
-      socket.emit('message', data)
-      return true
-    }
-
-    return false
+    return socket ? socket : null
   }
 
   /**
-   * sendUser
+   * getUserSocket
    *
    * @description
-   * Send data to a socket indexed by User ID
+   * Retrieve a socket indexed by User ID
    *
    * @param {String} uid
-   * @param {Object} data
-   * @return {Boolean} success
+   * @return {Socket}
    */
-  sendUser (uid, data) {
+  getUserSocket (uid) {
     let id = this.users[uid]
 
     return id
-      ? this.send(id, data)
+      ? this.getSocket(id)
       : false
   }
 }
