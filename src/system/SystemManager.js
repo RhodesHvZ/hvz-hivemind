@@ -19,6 +19,8 @@ const SystemReducer = require('./SystemReducer')
 const SocketManager = require('./SocketManager')
 const GameManager = require('../game')
 const UserManager = require('../user')
+const TicketManager = require('../ticket')
+const AchievementManager = require('../achievement')
 
 /**
  * Game Manager
@@ -35,6 +37,8 @@ class SystemManager extends Store {
     this.socketManager = new SocketManager(this)
     this.gameManager = new GameManager(this)
     this.userManager = new UserManager(this)
+    this.ticketManager = new TicketManager(this)
+    this.achievementManager = new AchievementManager(this)
   }
 
   /**
