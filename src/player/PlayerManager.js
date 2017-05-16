@@ -11,7 +11,6 @@
  */
 const Store = require('../common/Store')
 const Events = require('../events')
-const SocketManager = require('../socket')
 const PlayerReducer = require('./PlayerReducer')
 
 /**

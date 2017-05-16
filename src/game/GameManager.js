@@ -11,11 +11,10 @@
  */
 const Store = require('../common/Store')
 const Events = require('../events')
-const SocketManager = require('../socket')
-const GameReducer = require('./GameReducer')
 const PlayerManager = require('../player')
 const SquadManager = require('../squad')
 const MissionManager = require('../mission')
+const GameReducer = require('./GameReducer')
 
 /**
  * Game Manager

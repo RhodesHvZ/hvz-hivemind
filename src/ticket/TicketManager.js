@@ -10,7 +10,6 @@
  * @ignore
  */
 const Events = require('../events')
-const SocketManager = require('../socket')
 
 /**
  * Ticket Manager
@@ -18,15 +17,14 @@ const SocketManager = require('../socket')
  */
 class TicketManager {
 
-  constructor() {
+  constructor (system) {
+    this.system = system
     Events.on('TICKET_CREATE', event => this.handleTicketCreate(event))
   }
 
   handleTicketCreate(event) {
-    //TODO
-    if (true) {
-      SocketManager.Instance.to(event.socket.id).emit('SYSTEM', 'Ticket created successfully')
-    }
+    let { socketManager } = this.system
+    socketManager.getSocket(event.socket.id).emit('SYSTEM', 'Ticket created successfully')
   }
 }
 
@@ -34,4 +32,4 @@ class TicketManager {
  * Export
  * @ignore
  */
-module.exports = new TicketManager()
+module.exports = TicketManager
