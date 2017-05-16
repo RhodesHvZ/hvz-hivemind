@@ -4,18 +4,23 @@
  * Dependencies
  * @ignore
  */
-const path = require('path')
 const express = require('express')
 const http = require('http')
-const session = require("express-session")
-const elasticSession = require('express-elasticsearch-session')(session)
+const session = require('express-session')
+const sharedSession = require('express-socket.io-session')
+const compression = require('compression')
+const bodyParser = require('body-parser')
+const cors = require('cors')
 
 /**
  * Module Dependencies
  * @ignore
  */
 const pkg = require('./package.json')
+const Config = require('./src/config')
+const Store = require('./src/db/Session')
 const SystemManager = require('./src/system')
+const DatabaseConnector = require('./src/db')
 
 /**
  * App
@@ -25,16 +30,19 @@ const app = express()
 const server = http.Server(app)
 
 /**
+ * Logger
+ * @ignore
+ */
+const log = require('./src/logger').bootLogger
+
+/**
  * Application
  * @class
  */
 class Application {
 
   constructor (data) {
-    // Prepare data for startup
-    //let { config, somedata } = data
     this.systemManager = new SystemManager(server)
-    //this.config = config
   }
 
   static setup (data) {
@@ -46,34 +54,51 @@ class Application {
   }
 
   expressConfig (instance) {
-    app.use(express.static('dist'))
-    //app.use(compression())
-    //app.use(bodyParser.urlencoded({ extended: false }))
-    //app.use(bodyParser.json())
+    app.use(compression())
+    app.use(bodyParser.urlencoded({ extended: false }))
+    app.use(bodyParser.json())
     //app.use(cors({
       //origin: '*',
       //methods: ['GET', 'POST', 'DELETE'],
       //preflightContinue: false
     //}))
 
+    app.set('json spaces', 2)
+
+    let { secrets: { session: sessionSecret } } = Config
+
     let sessionMiddleware = session({
-      secret: "keyboard cat",
-    })
-
-    let { socketManager: { socket: socketNamespace } } = instance.systemManager
-
-    socketNamespace.use((socket, next) => {
-      sessionMiddleware(socket.request, socket.request.res, next)
+      secret: sessionSecret,
+      cookie: {
+        httpOnly: true,
+        maxAge: process.env.NODE_ENV === 'production' ? 60 * 60 * 1000 : 5 * 60 * 1000
+      },
+      store: Store,
+      resave: true,
+      saveUninitialized: true
     })
 
     app.use(sessionMiddleware)
+    app.use(DatabaseConnector.connect)
+
+    let { socketManager: { io } } = instance.systemManager
+
+    io.use(sharedSession(sessionMiddleware, {
+      autoSave: true
+    }))
+
+    // io.use((socket, next) => {
+    //   DatabaseConnector.connect(socket.request, socket.request.res, next)
+    // })
+
+    app.use(express.static('dist'))
 
     return instance
   }
 
   listen (instance) {
     server.listen(process.env.PORT || 3000, () => {
-      console.log(`Listening on port ${process.env.PORT || 3000}`)
+      log.info(`Listening on port ${process.env.PORT || 3000}`)
     })
   }
 }
@@ -83,5 +108,5 @@ class Application {
  * @ignore
  */
 Application.setup({})
-  .then(() => console.log('Server started successfully'))
-  .catch(err => console.error(`Error starting server`, err))
+  .then(() => log.info('Server started successfully'))
+  .catch(err => log.fatal(`Error starting server`, err))
