@@ -71,7 +71,7 @@ class Application {
       secret: sessionSecret,
       cookie: {
         httpOnly: true,
-        maxAge: process.env.NODE_ENV === 'production' ? 60 * 60 * 1000 : 5 * 60 * 1000
+        maxAge: 60 * 60 * 1000
       },
       store: Store,
       resave: true,
