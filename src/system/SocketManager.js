@@ -11,6 +11,13 @@ const socketio = require('socket.io')
  * @ignore
  */
 const MessageDispatcher = require('./MessageDispatcher')
+const Logger = require('../logger')
+
+/**
+ * Logger
+ * @ignore
+ */
+const log = Logger.bootLogger
 
 /**
  * Socket Manager
@@ -38,12 +45,11 @@ class SocketManager {
    * @param {Socket} socket
    */
   onServerConnection (socket) {
-    console.log(`Socket #${socket.id} connected`)
-    let { request: { session } } = socket
+    log.trace({ id: socket.id }, `Socket connected`)
+    let { handshake: { session } } = socket
     let uid // = session.sub // TODO
 
-    socket.request.session.count = session.count + 1 || 1 // DEBUG
-    console.log(`Socket #${socket.id} session: ${JSON.stringify(session, null, 2)}`) // DEBUG
+    log.debug({ session, id: socket.id }, `Socket session`)
 
     if (uid) {
       this.users[uid] = socket.id
@@ -64,7 +70,7 @@ class SocketManager {
    * @param {Socket} socket
    */
   onSocketDisconnect (socket, reason) {
-    console.log(`Socket #${socket.id} disconnect: ${reason}`)
+    log.warn({ id: socket.id, reason }, `Socket disconnect`)
   }
 
 
@@ -78,8 +84,8 @@ class SocketManager {
    * @param {Object} data
    */
   onSocketMessage (socket, data) {
-    console.log(`Socket #${socket.id} new message: ${JSON.stringify(data, null, 2)}`)
-    MessageDispatcher.handle(data, socket, this.system).then(() => console.log('done'))
+    log.debug({ id: socket.id, data }, `Socket new message`)
+    MessageDispatcher.handle(data, socket, this.system).then(() => log.trace({ id: socket.id }, 'message handling complete'))
   }
 
   /**
@@ -92,7 +98,7 @@ class SocketManager {
    * @param {Error} error
    */
   onSocketError (socket, error) {
-    console.error(`Socket #${socket.id} error: ${error}`)
+    log.warn({ id: socket.id, error }, `Socket error`)
     socket.disconnect(true)
   }
 
