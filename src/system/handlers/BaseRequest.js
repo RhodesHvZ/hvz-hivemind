@@ -55,14 +55,24 @@ class BaseRequest {
   }
 
   heartbeat (progress) {
-    let { socket, system } = this
-    socket.emit('message', { type: 'HEARTBEAT', timestamp: moment(), progress })
+    let { request, socket } = this
+    let { type: request_type } = request
+    socket.emit('message', { type: 'HEARTBEAT', request_type, timestamp: moment(), progress })
   }
 
   success (response) {
-    let { socket } = this
+    let { request, socket } = this
+    let { type: request_type } = request
+
     log.debug({ response }, `Request end: success`)
-    socket.emit('message', response)
+
+    socket.emit('message', {
+      timestamp: moment(),
+      progress: 100,
+      type: 'SUCCESS',
+      request_type,
+      response
+    })
   }
 }
 
