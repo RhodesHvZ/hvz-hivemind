@@ -68,6 +68,7 @@ class Application {
         }
 
         if (exists) {
+          log.info('HvZ ElasticSearch Index Found')
           return resolve()
         }
 
