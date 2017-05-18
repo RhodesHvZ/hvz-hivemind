@@ -21,6 +21,7 @@ const Config = require('./src/config')
 const Store = require('./src/db/Session')
 const SystemManager = require('./src/system')
 const DatabaseConnector = require('./src/db')
+const HvZIndexSchema = require('./elasticsearch/HvZIndexSchema.json')
 
 /**
  * App
@@ -49,8 +50,44 @@ class Application {
     let instance = new Application(data)
 
     return Promise.resolve(instance)
+      .then(instance.dbConfig)
       .then(instance.expressConfig)
       .then(instance.listen)
+  }
+
+  dbConfig (instance) {
+    let { elasticsearch: { index: indexName } } = Config
+    let client = DatabaseConnector.connection()
+
+    log.debug({ schema: HvZIndexSchema }, 'ElasticSearch Index Schema for HvZ')
+
+    return new Promise((resolve, reject) => {
+      client.indices.exists({ index: indexName }, (err, exists) => {
+        if (err) {
+          return reject(err)
+        }
+
+        if (exists) {
+          return resolve()
+        }
+
+        client.indices.create({ index: indexName, body: HvZIndexSchema }, (err, response) => {
+          if (err) {
+            return reject(err)
+          }
+
+          let { statusCode } = response
+
+          if (statusCode >= 400) {
+            log.fatal({ response }, 'Failed to Create Index')
+            return reject('Failed to Create Index')
+          }
+
+          log.debug({ response }, 'HvZ Index Created')
+          return resolve(response)
+        })
+      })
+    }).then(() => instance)
   }
 
   expressConfig (instance) {
@@ -109,4 +146,4 @@ class Application {
  */
 Application.setup({})
   .then(() => log.info('Server started successfully'))
-  .catch(err => log.fatal(`Error starting server`, err))
+  .catch(error => log.fatal({ error }, `Error starting server`))
