@@ -21,6 +21,12 @@ const { elasticsearch: dbhost } = Config
 const { host, port } = dbhost
 
 /**
+ * Singleton Connection
+ * @ignore
+ */
+let connection
+
+/**
  * Logger
  * @ignore
  */
@@ -57,7 +63,10 @@ class DatabaseConnector {
   }
 
   static connection () {
-    return new elastic.Client({ hosts: [`http://${host}:${port}`], log: BunyanESLogger })
+    if (!connection) {
+      connection = new elastic.Client({ hosts: [`http://${host}:${port}`], log: BunyanESLogger })
+    }
+    return connection
   }
 
 }
