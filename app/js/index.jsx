@@ -64,6 +64,12 @@ class MainLayout extends React.Component {
     socket.emit('message', data)
   }
 
+  sendTrigger (event) {
+    if (event.key === 'Enter' && event.shiftKey) {
+      this.fireEvent()
+    }
+  }
+
   setupSocketHandlers () {
     socket.on('message', payload => {
       console.log(payload)
@@ -81,7 +87,7 @@ class MainLayout extends React.Component {
     return (
       <div style={appContainer}>
         <p>Put complete stringified JSON event data in this text box.</p>
-        <textarea style={textareaStyle} rows="30" id="request"></textarea>
+        <textarea onKeyPress={event => this.sendTrigger(event)} style={textareaStyle} rows="30" id="request"></textarea>
         <button style={buttonStyle} onClick={this.fireEvent}>Fire the event!!</button>
         <p>Last response:</p>
         <pre id="response">None yet</pre>
