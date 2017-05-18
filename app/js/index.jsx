@@ -34,6 +34,7 @@ const style = {
     flexDirection: 'column',
     flex: '100',
     position: 'relative',
+    marginRight: '30px'
   },
   textareaStyle: {
     resize: 'none',
