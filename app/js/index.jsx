@@ -34,6 +34,14 @@ const style = {
     flexDirection: 'column',
     flex: '100',
     position: 'relative',
+  },
+  textareaStyle: {
+    resize: 'none',
+    overflowY: 'scroll'
+  },
+  buttonStyle: {
+    height: '100px',
+    marginTop: '20px'
   }
 }
 
@@ -67,13 +75,13 @@ class MainLayout extends React.Component {
   }
 
   render () {
-    let { appContainer } = style
+    let { appContainer, textareaStyle, buttonStyle } = style
 
     return (
       <div style={appContainer}>
         <p>Put complete stringified JSON event data in this text box.</p>
-        <input id="request"></input>
-        <button onClick={this.fireEvent}>Fire the event!!</button>
+        <textarea style={textareaStyle} rows="30" id="request"></textarea>
+        <button style={buttonStyle} onClick={this.fireEvent}>Fire the event!!</button>
         <p>Last response:</p>
         <pre id="response">None yet</pre>
       </div>
