@@ -11,6 +11,13 @@ const Emitter = require('events')
  * @ignore
  */
 const EventsEnum = require('./EventsEnum')
+const Logger = require('../../logger')
+
+/**
+ * Log
+ * @ignore
+ */
+const log = Logger.bootLogger
 
 /**
  * EventEmitter
@@ -42,12 +49,12 @@ class EventEmitter extends Emitter {
   }
 
   handleError (err) {
-    console.error(err)
+    log.error(err, 'System Event Emitter Error')
   }
 
   writeEvent (type, event) {
     // TODO
-    console.log(type, JSON.stringify(event, null, 2))
+    log.info({ type, event }, 'System Event')
   }
 
 }
