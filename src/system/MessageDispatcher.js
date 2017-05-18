@@ -9,7 +9,20 @@
  * Module Dependencies
  * @ignore
  */
-const GetUserRequest = require('./handlers/user/GetUserRequest')
+const InvalidRequest = require('./handlers/InvalidRequest')
+const HeartbeatRequest = require('./handlers/HeartbeatRequest')
+
+/**
+ * Handler Type Mapping
+ * @ignore
+ */
+const mapping = {
+  // DEBUG / SYSTEM HEALTH
+  HEARTBEAT: require('./handlers/HeartbeatRequest'),
+
+  // USER
+  USER_GET: require('./handlers/user/GetUserRequest')
+}
 
 /**
  * MessageDispatcher
@@ -18,9 +31,23 @@ const GetUserRequest = require('./handlers/user/GetUserRequest')
 class MessageDispatcher {
 
   static handle (request, socket, system) {
-    // DEBUG
-    return GetUserRequest.handle(request, socket, system)
-    // Actually dispatch between requests here.
+    if (!request) {
+      return InvalidRequest.handle(request, socket, system, 'Request not present')
+    }
+
+    let { type } = request
+
+    if (!type) {
+      return InvalidRequest.handle(request, socket, system, 'Request requires a type')
+    }
+
+    let handler = mapping[type]
+
+    if (!handler) {
+      return InvalidRequest.handle(request, socket, system, `${type} does not exist`)
+    }
+
+    return handler.handle(request, socket, system)
   }
 
 }
