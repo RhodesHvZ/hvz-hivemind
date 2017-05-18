@@ -49,9 +49,9 @@ class BaseRequest {
     return this
   }
 
-  invalidRequest () {
+  invalidRequest (err) {
     let { request, error, socket } = this
-    socket.emit('message', { request, error: error || 'Invalid Request' })
+    socket.emit('message', { request, error: error || err || 'Invalid Request' })
   }
 
   heartbeat (progress) {
@@ -71,7 +71,7 @@ class BaseRequest {
       progress: 100,
       type: 'SUCCESS',
       request_type,
-      response
+      data: response
     })
   }
 }

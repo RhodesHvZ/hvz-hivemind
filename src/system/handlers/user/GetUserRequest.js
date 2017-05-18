@@ -28,7 +28,7 @@ class GetUserRequest extends BaseRequest {
 
   lookup (instance) {
     let { request } = instance
-    instance.response = { data: 'scumscumscum' }
+    instance.response = 'scumscumscum'
     instance.heartbeat(25)
     instance.heartbeat(50)
     instance.heartbeat(75)
