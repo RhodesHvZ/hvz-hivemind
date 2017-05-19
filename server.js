@@ -50,9 +50,27 @@ class Application {
     let instance = new Application(data)
 
     return Promise.resolve(instance)
+      .then(instance.testDbConnection)
       .then(instance.dbConfig)
       .then(instance.expressConfig)
       .then(instance.listen)
+  }
+
+  testDbConnection (instance) {
+    let client = DatabaseConnector.connection()
+
+    return new Promise((resolve, reject) => {
+      client.ping(null, (err, response) => {
+        if (err) {
+          log.error('ElasticSearch Connection Error')
+          return reject(err)
+        }
+
+        log.info('ElasticSearch Connected')
+
+        return resolve(response)
+      })
+    }).then(() => instance)
   }
 
   dbConfig (instance) {
@@ -147,4 +165,7 @@ class Application {
  */
 Application.setup({})
   .then(() => log.info('Server started successfully'))
-  .catch(error => log.fatal({ error }, `Error starting server`))
+  .catch(error => {
+    log.fatal({ error }, `Error starting server`)
+    process.exit(1)
+  })
