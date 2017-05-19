@@ -22,6 +22,7 @@ const Store = require('./src/db/Session')
 const SystemManager = require('./src/system')
 const DatabaseConnector = require('./src/db')
 const OIDC = require('./src/oidc')
+const Logger = require('./src/logger')
 const HvZIndexSchema = require('./elasticsearch/HvZIndexSchema.json')
 
 /**
@@ -35,7 +36,7 @@ const server = http.Server(app)
  * Logger
  * @ignore
  */
-const log = require('./src/logger').bootLogger
+const log = Logger.bootLogger
 
 /**
  * PARAMS
@@ -126,6 +127,8 @@ class Application {
       //methods: ['GET', 'POST', 'DELETE'],
       //preflightContinue: false
     //}))
+
+    // app.use(Logger.expressLogger)
 
     app.set('json spaces', 2)
 
