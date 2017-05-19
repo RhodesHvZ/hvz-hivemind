@@ -7,6 +7,13 @@
 const { createStore } = require('redux')
 
 /**
+ * Module Dependencies
+ * @ignore
+ */
+const DatabaseConnector = require('../../db')
+const Config = require('../../config')
+
+/**
  * Store
  * @class
  */
@@ -31,9 +38,31 @@ class Store {
   /**
    * reducer
    *
+   * @description
+   * Abstract method to get the reducer class associated with the manager.
+   *
    * @throws {Error} This must be overriden in child class
    */
   static get reducer () {
+    throw new Error('This must be overriden in child class')
+  }
+
+  /**
+   * databaseConfig
+   *
+   * @description
+   * Abstract method to get the database metadata for the manager
+   *
+   * @throws {Error} This must be overriden in the child class
+   *
+   * @example
+   * static get databaseConfig () {
+   *   return {
+   *     type: 'typeName'
+   *   }
+   * }
+   */
+  static get databaseConfig () {
     throw new Error('This must be overriden in child class')
   }
 
