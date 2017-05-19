@@ -249,9 +249,7 @@
 
         "end_date": { "type": "date", "format": "epoch_millis" },
 
-        "pos_lat": { "type": "text" },
-
-        "pos_lng": { "type": "text" },
+        "pos": { "type": "geo_point" },
 
         "visible": { "type": "text" },
 
@@ -266,8 +264,7 @@
             "visible_date": { "type": "date", "format": "epoch_millis" },
             "start_date": { "type": "date", "format": "epoch_millis" },
             "end_date": { "type": "date", "format": "epoch_millis" },
-            "pos_lat": { "type": "text" },
-            "pos_lng": { "type": "text" },
+            "pos": { "type": "geo_point" },
             "visible": { "type": "text" },
             "goal": { "type": "integer" }
           }
@@ -287,9 +284,7 @@
 
         "end_date": { "type": "date", "format": "epoch_millis" },
 
-        "pos_lat": { "type": "text" },
-
-        "pos_lng": { "type": "text" },
+        "pos": { "type": "geo_point" },
 
         "owner": { "type": "text" },
 
