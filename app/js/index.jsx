@@ -86,7 +86,7 @@ class MainLayout extends React.Component {
 
     return (
       <div style={appContainer}>
-        <p>Put complete stringified JSON event data in this text box.</p>
+        <p><a href="/login">Login.</a> Put complete stringified JSON event data in this text box.</p>
         <textarea onKeyPress={event => this.sendTrigger(event)} style={textareaStyle} rows="30" id="request"></textarea>
         <button style={buttonStyle} onClick={this.fireEvent}>Fire the event!!</button>
         <p>Last response:</p>
