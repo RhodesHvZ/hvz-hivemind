@@ -23,6 +23,7 @@ const SystemManager = require('./src/system')
 const DatabaseConnector = require('./src/db')
 const OIDC = require('./src/oidc')
 const Logger = require('./src/logger')
+const Events = require('./src/system/events')
 const HvZIndexSchema = require('./elasticsearch/HvZIndexSchema.json')
 
 /**
@@ -60,6 +61,7 @@ class Application {
     return Promise.resolve(instance)
       .then(instance.testDbConnection)
       .then(instance.dbConfig)
+      .then(instance.debugClearSessions)
       .then(instance.expressConfig)
       .then(instance.oidc)
       .then(instance.listen)
@@ -68,18 +70,13 @@ class Application {
   testDbConnection (instance) {
     let client = DatabaseConnector.connection()
 
-    return new Promise((resolve, reject) => {
-      client.ping(null, (err, response) => {
-        if (err) {
-          log.error('ElasticSearch Connection Error')
-          return reject(err)
-        }
-
-        log.info('ElasticSearch Connected')
-
-        return resolve(response)
+    return client.ping()
+      .then(() => log.info('ElasticSearch Connected'))
+      .catch(error => {
+        log.error('ElasticSearch Connection Error')
+        return Promise.reject(error)
       })
-    }).then(() => instance)
+      .then(() => instance)
   }
 
   dbConfig (instance) {
@@ -88,34 +85,42 @@ class Application {
 
     log.debug({ schema: HvZIndexSchema }, 'ElasticSearch Index Schema for HvZ')
 
-    return new Promise((resolve, reject) => {
-      client.indices.exists({ index: indexName }, (err, exists) => {
-        if (err) {
-          return reject(err)
-        }
-
-        if (exists) {
+    return client.indices.exists({ index: indexName })
+      .then(exists => {
+        if (!exists) {
+          return client.indices.create({ index: indexName, body: HvZIndexSchema })
+            .then(response => log.debug({ response }, 'HvZ Index Created'))
+        } else {
           log.info('HvZ ElasticSearch Index Found')
-          return resolve()
         }
-
-        client.indices.create({ index: indexName, body: HvZIndexSchema }, (err, response) => {
-          if (err) {
-            return reject(err)
-          }
-
-          let { statusCode } = response
-
-          if (statusCode >= 400) {
-            log.fatal({ response }, 'Failed to Create Index')
-            return reject('Failed to Create Index')
-          }
-
-          log.debug({ response }, 'HvZ Index Created')
-          return resolve(response)
-        })
       })
-    }).then(() => instance)
+      .catch(error => {
+        log.fatal({ response }, 'Failed to Create Index')
+        return Promise.reject('Failed to Create Index')
+      })
+      .then(() => instance)
+  }
+
+  debugClearSessions (instance) {
+    let { elasticsearch: { index: indexName } } = Config
+    let client = DatabaseConnector.connection()
+
+    if (false && process.env.NODE_ENV !== 'production') {
+      return client.deleteByQuery({
+        index: indexName,
+        type: 'session',
+        body: {
+          query: {
+            match_all: {}
+          }
+        }
+      }).then(response => {
+        log.debug({ response }, 'Cleared Session Cache')
+        return instance
+      }).catch(error => Promise.reject(error))
+    }
+
+    return instance
   }
 
   expressConfig (instance) {
@@ -165,6 +170,7 @@ class Application {
 
   oidc (instance) {
     let anvil = new OIDC()
+    let client = DatabaseConnector.connection()
     app.use(anvil.init())
 
     function loginCallbackMiddleware (req, res) {
@@ -178,8 +184,9 @@ class Application {
             return anvil.userInfo({ token: tokens.access_token })
           })
           .then(userinfo => {
-            req.userinfo = userinfo
-            req.session.userinfo = userinfo
+            let { sub, name, picture, email } = userinfo
+            Object.assign(req.session, { sub, name, picture, email })
+            Events.USER_AUTH({ tokens: req.tokens, userinfo })
             res.redirect('/')
           })
       } else {

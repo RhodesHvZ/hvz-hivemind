@@ -136,7 +136,7 @@ let schema = {
   session: {
     cookie: 'object',
     timestamp: 'epoch_millis',
-    uid: 'text', // OIDC sub claim
+    sub: 'text', // OIDC sub claim
     name: 'text',
     email: 'text',
     picture: 'url',
