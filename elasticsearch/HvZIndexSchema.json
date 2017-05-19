@@ -13,5 +13,315 @@
         }
       }
     }
+  },
+  "mappings": {
+    "user": {
+      "properties": {
+
+        "userinfo": {
+          "type": "object",
+          "properties": {
+            "sub": { "type": "text" },
+            "name": { "type": "text" },
+            "family_name": { "type": "text" },
+            "given_name": { "type": "text" },
+            "profile": { "type": "text", "analyzer": "url_email" },
+            "picture": { "type": "text", "analyzer": "url_email" },
+            "gender": { "type": "text" },
+            "locale": { "type": "text" },
+            "updated_at": { "type": "date", "format": "epoch_millis" },
+            "email": { "type": "text", "analyzer": "url_email" },
+            "email_verified": { "type": "boolean" }
+          }
+        },
+
+        "tokens": {
+          "type": "object",
+          "properties": {
+            "access_token": { "type": "keyword" },
+            "token_type": { "type": "keyword" },
+            "expires_in": { "type": "long" },
+            "refresh_token": { "type": "keyword" },
+            "id_token": { "type": "keyword" },
+            "session_state": { "type": "keyword" },
+
+            "id_claims": {
+              "type": "object",
+              "properties": {
+                "iss": { "type": "text", "analyzer": "url_email" },
+                "sub": { "type": "text" },
+                "aud": { "type": "text" },
+                "exp": { "type": "date", "format": "epoch_millis" },
+                "iat": { "type": "date", "format": "epoch_millis" }
+              }
+            },
+
+            "access_claims": {
+              "type": "object",
+              "properties": {
+                "jti": { "type": "text" },
+                "iss": { "type": "text", "analyzer": "url_email" },
+                "sub": { "type": "text" },
+                "aud": { "type": "text" },
+                "exp": { "type": "date", "format": "epoch_millis" },
+                "iat": { "type": "date", "format": "epoch_millis" },
+                "scope": { "type": "text" }
+              }
+            }
+          }
+        },
+
+        "updated": { "type": "date", "format": "epoch_millis" },
+
+        "name": { "type": "text" },
+
+        "picture": { "type": "text", "analyzer": "url_email" },
+
+        "email": { "type": "text", "analyzer": "url_email" },
+
+        "sub": { "type": "text" },
+
+        "achievements": {
+          "type": "nested",
+          "properties": {
+            "achievement": { "type": "text" },
+            "complete": { "type": "boolean" },
+
+            "objectives": {
+              "type": "nested",
+              "properties": {
+                "objective": { "type": "text" },
+                "complete": { "type": "boolean" },
+                "progress": { "type": "integer" }
+              }
+            }
+          }
+        },
+
+        "mailbox": {
+          "type": "nested",
+          "properties": {
+            "delivered": { "type": "boolean" },
+            "timestamp": { "type": "date", "format": "epoch_millis" },
+            "type": { "type": "text" },
+            "data": { "type": "object" }
+          }
+        }
+      }
+    },
+
+    "game": {
+      "properties": {
+        "name": { "type": "text" },
+
+        "description": { "type": "text" },
+
+        "background_image": { "type": "text", "analyzer": "url_email" },
+
+        "state": { "type": "text" },
+
+        "registration_date": { "type": "date", "format": "epoch_millis" },
+
+        "start_date": { "type": "date", "format": "epoch_millis" },
+
+        "end_date": { "type": "date", "format": "epoch_millis" },
+
+        "rules": { "type": "text", "analyzer": "url_email" },
+
+        "admins": {
+          "type": "nested",
+          "properties": {
+            "player": { "type": "text" },
+            "rank": { "type": "integer" }
+          }
+        }
+      }
+    },
+
+    "achievement": {
+      "properties": {
+        "name": { "type": "text" },
+
+        "picture": { "type": "text", "analyzer": "url_email" },
+
+        "description": { "type": "text" },
+
+        "objectives": {
+          "type": "nested",
+          "properties": {
+            "name": { "type": "text" },
+            "description": { "type": "text" },
+            "picture": { "type": "text", "analyzer": "url_email" },
+            "goal": { "type": "integer" }
+          }
+        }
+      }
+    },
+
+    "squad": {
+      "properties": {
+        "name": { "type": "text" },
+
+        "created": { "type": "date", "format": "epoch_millis" },
+
+        "picture": { "type": "text", "analyzer": "url_email" },
+
+        "members": {
+          "type": "nested",
+          "properties": {
+            "player": { "type": "text" },
+            "rank": { "type": "integer" }
+          }
+        },
+
+        "events": {
+          "type": "nested",
+          "properties": {
+            "type": { "type": "text" },
+            "data": { "type": "object" }
+          }
+        }
+      }
+    },
+
+    "player": {
+      "properties": {
+        "user": { "type": "text" },
+
+        "game": { "type": "text" },
+
+        "code": { "type": "text" },
+
+        "state": { "type": "text" },
+
+        "super_state": { "type": "text" },
+
+        "hall": { "type": "text" },
+
+        "picture": { "type": "text", "analyzer": "url_email" },
+
+        "display_name": { "type": "text" },
+
+        "last_words": { "type": "text" },
+
+        "events": {
+          "type": "nested",
+          "properties": {
+            "type": { "type": "text" },
+            "data": { "type": "object" }
+          }
+        },
+
+        "missions": {
+          "type": "nested",
+          "properties": {
+            "mission": { "type": "text" },
+            "complete": { "type": "boolean" },
+
+            "objectives": {
+              "type": "nested",
+              "properties": {
+                "objective": { "type": "text" },
+                "complete": { "type": "boolean" },
+                "progress": { "type": "integer" }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "mission": {
+      "properties": {
+        "name": { "type": "text" },
+
+        "game": { "type": "text" },
+
+        "picture": { "type": "text", "analyzer": "url_email" },
+
+        "icon": { "type": "text", "analyzer": "url_email" },
+
+        "description": { "type": "text" },
+
+        "visible_date": { "type": "date", "format": "epoch_millis" },
+
+        "start_date": { "type": "date", "format": "epoch_millis" },
+
+        "end_date": { "type": "date", "format": "epoch_millis" },
+
+        "pos_lat": { "type": "text" },
+
+        "pos_lng": { "type": "text" },
+
+        "visible": { "type": "text" },
+
+        "outcome": { "type": "text" },
+
+        "objectives": {
+          "type": "nested",
+          "properties": {
+            "name": { "type": "text" },
+            "description": { "type": "text" },
+            "picture": { "type": "text", "analyzer": "url_email" },
+            "visible_date": { "type": "date", "format": "epoch_millis" },
+            "start_date": { "type": "date", "format": "epoch_millis" },
+            "end_date": { "type": "date", "format": "epoch_millis" },
+            "pos_lat": { "type": "text" },
+            "pos_lng": { "type": "text" },
+            "visible": { "type": "text" },
+            "goal": { "type": "integer" }
+          }
+        }
+      }
+    },
+
+    "marker": {
+      "properties": {
+        "game": { "type": "text" },
+
+        "name": { "type": "text" },
+
+        "description": { "type": "text" },
+
+        "visible_date": { "type": "date", "format": "epoch_millis" },
+
+        "end_date": { "type": "date", "format": "epoch_millis" },
+
+        "pos_lat": { "type": "text" },
+
+        "pos_lng": { "type": "text" },
+
+        "owner": { "type": "text" },
+
+        "visible": { "type": "text" }
+      }
+    },
+
+    "tickets": {
+      "properties": {
+        "game": { "type": "text" },
+
+        "subject": { "type": "text" },
+
+        "creator": { "type": "text" },
+
+        "timestamp": { "type": "date", "format": "epoch_millis" },
+
+        "state": { "type": "text" },
+
+        "notify": { "type": "text" },
+
+        "public": { "type": "boolean" },
+
+        "messages": {
+          "type": "nested",
+          "properties": {
+            "timestamp": { "type": "date", "format": "epoch_millis" },
+            "message": { "type": "text" },
+            "owner": { "type": "text" }
+          }
+        }
+      }
+    }
   }
 }

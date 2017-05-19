@@ -59,6 +59,8 @@ Specifically the user manager should know the following about each user:
 
 Additionally, the user manager should contain the server-initiated communication logic such as notifications. In the event a user is to be sent a notification but they are offline, the server should provision a mailbox for the user for the next time they are online.
 
+The user manager should maintain a list of users who are online with active sockets in memory. Additionally all users should be subscribed to the room corresponding to their session ID.
+
 ### Ticket
 
 Responsible for maintaining a record of all official discussion related to the system. This is a single service that is shared across all games and while tickets may relate to a particular game, they are separate from the game itself -- and the players and instead are tied to the users.
@@ -126,3 +128,200 @@ Each mission must contain the following:
 Each objective serves as the template for the data stored on the player
 
 PvP missions should be executed by creating two separate missions (one for each faction)
+
+# DB Schema Design
+
+```js
+let schema = {
+  session: {
+    cookie: 'object',
+    timestamp: 'epoch_millis',
+    uid: 'text', // OIDC sub claim
+    name: 'text',
+    email: 'text',
+    picture: 'url',
+    players: 'text', // Player IDs
+    socket_id: 'text',
+  }
+
+  user: {
+    userinfo: {}, // OIDC User Info
+    tokens: {}, // Latest Login Tokens
+    updated_at: { type: 'date', format: 'epoch_millis' },
+    name: 'text',
+    picture: 'url',
+    email: 'email',
+    id: 'text', // OIDC sub claim
+    achievements: {
+      type: 'nested',
+      properties: {
+        achievement: 'text', // Achievement ID
+        complete: 'boolean',
+        game: 'text', // Game ID of game when achievement is complete
+        objectives: {
+          type: 'nested',
+          properties: {
+            objective: 'text' // Objective ID
+            complete: 'boolean',
+            progress: 'number'
+          }
+        }
+      }
+    },
+    mailbox: {
+      type: 'nested',
+      properties: {
+        delivered: 'boolean',
+        timestamp: 'epoch_millis',
+        type: 'text',
+        // Notification Data
+      }
+    }
+  },
+
+  game: {
+    name: 'text',
+    description: 'text',
+    background_image: 'url',
+    state: 'text', // New, Registration, Started, Ended
+    registration_date: 'epoch_millis',
+    start_date: 'epoch_millis',
+    end_date: 'epoch_millis',
+    rules: 'url',
+    admins: {
+      type: 'nested',
+      properties: {
+        player: 'text', // Player ID
+        rank: 'number', // Arbitrary Ranking
+      }
+    }
+  },
+
+  achievement: {
+    name: 'text',
+    picture: 'url',
+    description: 'text',
+    objectives: {
+      type: 'nested',
+      properties: {
+        name: 'text',
+        description: 'text',
+        picture: 'text',
+        goal: 'number'
+      }
+    }
+  }
+
+  squad: {
+    name: 'text',
+    created: 'epoch_millis',
+    picture: 'url',
+    members: {
+      type: 'nested',
+      properties: {
+        player: 'text', // Player ID
+        rank: 'number', // Arbitrary Ranking
+      }
+    },
+    events: {
+      type: 'nested',
+      properties: {
+        // Squad Event Log
+      }
+    }
+  },
+
+  player: {
+    user: 'text', // User ID / OIDC sub claim,
+    game: 'text', // Game ID
+    code: 'text', // Bite Code
+    state: 'text', // Human/Zombie/Inactive/NPC/Deceased
+    super_state: 'text', // OZ/Super Zombie/Commando/Etc.
+    hall: 'text', // Oppidan/Kimberly/Etc.
+    picture: 'url',
+    display_name: 'text',
+    last_words: 'text',
+    events: {
+      type: 'nested',
+      properties: {
+        // Player Event Log
+      }
+    },
+    missions: {
+      type: 'nested',
+      properties: {
+        mission: 'text', // Mission ID
+        complete: 'boolean',
+        objectives: {
+          type: 'nested',
+          properties: {
+            objective: 'text' // Objective ID
+            complete: 'boolean',
+            progress: 'number'
+          }
+        }
+      }
+    }
+  }
+
+  mission: {
+    game: 'text',
+    name: 'text',
+    picture: 'url',
+    icon: 'url',
+    description: 'text',
+    visible_date: 'epoch_millis',
+    start_date: 'epoch_millis',
+    end_date: 'epoch_millis',
+    outcome: 'text',
+    pos_lat: 'text',
+    pos_lng: 'text',
+    visible: 'text' // Array of player states to show the marker to
+    objectives: {
+      type: 'nested',
+      properties: {
+        name: 'text',
+        description: 'text',
+        picture: 'text',
+        icon: 'text',
+        visible_date: 'epoch_millis',
+        start_date: 'epoch_millis',
+        end_date: 'epoch_millis',
+        pos_lat: 'text',
+        pos_lng: 'text',
+        goal: 'number'
+      }
+    }
+  },
+
+  marker: {
+    game: 'text',
+    name: 'text',
+    description: 'text',
+    visible_date: 'epoch_millis',
+    end_date: 'epoch_millis',
+    pos_lat: 'text',
+    pos_lng: 'text',
+    owner: 'text', // Player ID
+    visible: 'text' // Array of player states to show the marker to
+  },
+
+  tickets: {
+    game: 'text',
+    subject: 'text',
+    creator: 'text', // User ID
+    timestamp: 'epoch_millis',
+    state: 'text', // Open/Claimed/Resolved/Unresolved/Help Requested
+    notify: 'text', // Array of Users to notify (incl. creator)
+    public: 'boolean', // Display to all users or keep secret.
+    messages: {
+      type: 'nested',
+      properties: {
+        timestamp: 'epoch_millis',
+        message: 'text',
+        owner: 'text' // User ID
+      }
+    }
+  }
+}
+```
