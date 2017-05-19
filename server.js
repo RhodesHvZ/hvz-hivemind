@@ -51,12 +51,12 @@ const PARAMS = { 'GET': 'query', 'POST': 'body' }
  */
 class Application {
 
-  constructor (data) {
+  constructor () {
     this.systemManager = new SystemManager(server)
   }
 
-  static setup (data) {
-    let instance = new Application(data)
+  static setup () {
+    let instance = new Application()
 
     return Promise.resolve(instance)
       .then(instance.testDbConnection)
