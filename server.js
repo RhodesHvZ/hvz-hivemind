@@ -21,6 +21,7 @@ const Config = require('./src/config')
 const Store = require('./src/db/Session')
 const SystemManager = require('./src/system')
 const DatabaseConnector = require('./src/db')
+const OIDC = require('./src/oidc')
 const HvZIndexSchema = require('./elasticsearch/HvZIndexSchema.json')
 
 /**
@@ -35,6 +36,12 @@ const server = http.Server(app)
  * @ignore
  */
 const log = require('./src/logger').bootLogger
+
+/**
+ * PARAMS
+ * @ignore
+ */
+const PARAMS = { 'GET': 'query', 'POST': 'body' }
 
 /**
  * Application
@@ -53,6 +60,7 @@ class Application {
       .then(instance.testDbConnection)
       .then(instance.dbConfig)
       .then(instance.expressConfig)
+      .then(instance.oidc)
       .then(instance.listen)
   }
 
@@ -148,6 +156,41 @@ class Application {
     // })
 
     app.use(express.static('dist'))
+
+    return instance
+  }
+
+  oidc (instance) {
+    let anvil = new OIDC()
+    app.use(anvil.init())
+
+    function loginCallbackMiddleware (req, res) {
+      let { anvil } = req
+      let params = Object.assign(req.params || {}, req[PARAMS[req.method]] || {})
+
+      if (params && params.code) {
+        return anvil.token({ code: params.code })
+          .then(tokens => {
+            req.tokens = tokens
+            return anvil.userInfo({ token: tokens.access_token })
+          })
+          .then(userinfo => {
+            req.userinfo = userinfo
+            req.session.userinfo = userinfo
+            res.redirect('/')
+          })
+      } else {
+        res.status(400).json({ error: 'invalid authorization code' })
+      }
+    }
+
+    app.get('/login', (req, res) => {
+      let { anvil } = req
+      res.redirect(anvil.authorizationUri())
+    })
+
+    app.get('/login/callback', loginCallbackMiddleware)
+    app.post('/login/callback', loginCallbackMiddleware)
 
     return instance
   }
