@@ -189,6 +189,7 @@ class Application {
             Events.USER_AUTH({ tokens: req.tokens, userinfo })
             res.redirect('/')
           })
+          .catch(error => res.status(400).json(error))
       } else {
         res.status(400).json({ error: 'invalid authorization code' })
       }
