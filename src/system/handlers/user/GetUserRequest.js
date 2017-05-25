@@ -23,19 +23,21 @@ class GetUserRequest extends BaseRequest {
     return Promise.resolve(instance)
       .then(instance.lookup)
       .then(instance.respond)
-      .catch(instance.internalServerError)
+      .catch(error => instance.internalServerError(error))
   }
 
   lookup (instance) {
-    let { request } = instance
-    instance.response = 'scumscumscum'
+    let { request, system, constructor: { log } } = instance
+    let { id } = request
+
     instance.heartbeat(25)
     instance.heartbeat(50)
     instance.heartbeat(75)
 
-    // Do something
-
-    return instance
+    return system.userManager.getUser(id)
+      .then(user => instance.response = user)
+      .then(() => instance)
+      .catch(error => Promise.reject(error))
   }
 
   respond (instance) {
