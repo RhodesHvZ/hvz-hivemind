@@ -40,6 +40,13 @@ class UserManager extends Manager {
   }
 
   /**
+   * unsafeFields
+   */
+  static get unsafeFields () {
+    return ['tokens', 'userinfo', 'mailbox', 'achievements']
+  }
+
+  /**
    * handleUserAuth
    *
    * @description

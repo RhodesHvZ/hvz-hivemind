@@ -118,6 +118,26 @@ class Manager {
   }
 
   /**
+   * unsafeFields
+   *
+   * @description
+   * Abstract method to provide a list of fields for a type that are not safe
+   * for general consumption.
+   *
+   * @throws {Error} This must be overriden in the child class
+   *
+   * @example
+   * static get unsafeFields () {
+   *   return ['sensitiveFieldName1', 'sensitiveFieldName2']
+   * }
+   *
+   * @return {Array}
+   */
+  static get unsafeFields () {
+    throw new Error('This must be overriden in child class')
+  }
+
+  /**
    * exists
    *
    * @description
@@ -246,18 +266,19 @@ class Manager {
    */
   get (...data) {
     let mergedData = Object.assign({}, ...data)
-    let { id } = mergedData
+    let { id, safe=true } = mergedData
 
     if (!id) {
       return Promise.reject('Id is required for get')
     }
 
-    let { constructor: { client, meta: { index, type } } } = this
+    let { constructor: { client, unsafeFields, meta: { index, type } } } = this
 
     return client.get({
       index,
       type,
-      id
+      id,
+      _sourceExclude: safe ? unsafeFields : []
     }).catch(error => Promise.reject(error))
   }
 
