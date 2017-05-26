@@ -39,14 +39,32 @@ class BaseRequest {
     return log
   }
 
+  authenticated (instance) {
+    let { socket: { handshake: { session: { sub } } } } = instance
+
+    if (!sub) {
+      return Promise.reject('Unauthorized')
+    }
+
+    // TODO more sophisticated authorization checking
+
+    return instance
+  }
+
   internalServerError (err) {
-    let { request, error, socket } = this
+    let { request: { type: request_type }, error, socket } = this
 
     if (err || error) {
       return socket.emit('message', { type: 'FAILURE', request_type, error: error || err || 'Internal Server Error' })
     }
 
     return this
+  }
+
+  unauthorizedError (err) {
+    let { request: { type: request_type }, error, socket } = this
+    log.warn(request, 'Unauthorized request')
+    socket.emit('message', { type: 'FAILURE', request_type, error: error || err || 'Unauthorized' })
   }
 
   invalidRequest (err) {

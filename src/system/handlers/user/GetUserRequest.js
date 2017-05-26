@@ -21,6 +21,7 @@ class GetUserRequest extends BaseRequest {
     let instance = new GetUserRequest(request, socket, system)
 
     return Promise.resolve(instance)
+      .then(instance.authenticated)
       .then(instance.lookup)
       .then(instance.respond)
       .catch(error => instance.internalServerError(error))
