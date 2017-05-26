@@ -131,7 +131,7 @@
         "admins": {
           "type": "nested",
           "properties": {
-            "player": { "type": "text" },
+            "id": { "type": "text" },
             "rank": { "type": "integer" }
           }
         }
