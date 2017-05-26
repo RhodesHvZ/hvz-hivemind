@@ -45,9 +45,10 @@ class GetUserRequest extends BaseRequest {
 
   search (instance) {
     let { request, system } = instance
+    let { userManager } = system
     let { data: { query } } = request
 
-    return system.userManager.searchUser({
+    return userManager.searchUser({
       bool: {
         should: [
           { regexp: { name: `.*${query}.*` } },
@@ -78,9 +79,10 @@ class GetUserRequest extends BaseRequest {
 
   lookup (instance) {
     let { request, system } = instance
+    let { userManager } = system
     let { data: { id } } = request
 
-    return system.userManager.getUser(id, instance.fullAuthorization())
+    return userManager.getUser(id, instance.fullAuthorization())
       .then(user => {
         instance.response = user
         instance.heartbeat(80)
