@@ -21,7 +21,10 @@ const mapping = {
   HEARTBEAT: require('./handlers/HeartbeatRequest'),
 
   // USER
-  USER_GET: require('./handlers/user/GetUserRequest')
+  USER_GET: require('./handlers/user/GetUserRequest'),
+
+  // GAME
+  GAME_NEW: require('./handlers/game/NewGameRequest'),
 }
 
 /**
