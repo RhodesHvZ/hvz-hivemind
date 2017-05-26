@@ -68,6 +68,12 @@ class Type {
       return Promise.reject('Data invalid')
     }
 
+    if (response.docs && Array.isArray(response.docs)) {
+      let { docs } = response
+      docs = docs.filter(doc => doc.found)
+      return docs.length > 0 ? docs.map(entry => this.fromResponse(manager, entry)) : []
+    }
+
     if (response.hits && Array.isArray(response.hits.hits)) {
       let { hits: { hits } } = response
       return response.hits.total > 0 ? hits.map(entry => this.fromResponse(manager, entry)) : []

@@ -272,6 +272,10 @@ class Manager {
       return Promise.reject('Id is required for get')
     }
 
+    if (Array.isArray(id)) {
+      return this.mget(mergedData).catch(error => Promise.reject(error))
+    }
+
     let { constructor: { client, unsafeFields, meta: { index, type } } } = this
 
     return client.get({
@@ -281,6 +285,25 @@ class Manager {
       _sourceExclude: safe ? [] : unsafeFields,
       _sourceInclude: include
     }).catch(error => Promise.reject(error))
+  }
+
+  mget (...data) {
+    let mergedData = Object.assign({}, ...data)
+    let { id: ids, include, safe=false } = mergedData
+
+    if (!ids) {
+      return Promise.reject('Id is required for get')
+    }
+
+    let { constructor: { client, unsafeFields, meta: { index, type } } } = this
+
+    return client.mget({
+      index,
+      type,
+      body: { ids },
+      _sourceExclude: safe ? [] : unsafeFields,
+      _sourceInclude: include
+    }).then(response => { log.info(response, 'response'); return response }).catch(error => Promise.reject(error))
   }
 
   /**
