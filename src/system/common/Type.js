@@ -68,9 +68,9 @@ class Type {
       return Promise.reject('Data invalid')
     }
 
-    if (Array.isArray(response)) {
+    if (response.hits && Array.isArray(response.hits.hits)) {
       let { hits: { hits } } = response
-      return hits.map(entry => this.fromResponse(manager, entry))
+      return response.hits.total > 0 ? hits.map(entry => this.fromResponse(manager, entry)) : []
     }
 
     let ExtendedType = this
