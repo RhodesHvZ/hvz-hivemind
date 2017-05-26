@@ -132,14 +132,38 @@ class UserManager extends Manager {
    * Get a user by the user id
    *
    * @param  {String} id
+   * @param  {Boolean} safe - include sensitive information
    * @return {User}
    */
-  getUser (id) {
-    return this.get({ id })
+  getUser (id, safe=false) {
+    return this.get({ id, safe })
       .then(response => {
         return User.fromResponse(this, response)
       })
       .catch(error => Promise.reject(error))
+  }
+
+  /**
+   * searchUser
+   *
+   * @description
+   * Search for users
+   *
+   * @param  {Object}  query
+   * @param  {Boolean} safe - include sensitive information
+   * @return {Array<User>}
+   */
+  searchUser (query, safe=false) {
+    let { log } = UserManager
+
+    return this.search({ query, safe })
+      .then(response => {
+        return User.fromResponse(this, response)
+      })
+      .catch(error => {
+        log.error(error)
+        return Promise.reject(error)
+      })
   }
 }
 
