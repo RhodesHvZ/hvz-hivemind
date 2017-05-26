@@ -184,9 +184,7 @@ class Application {
             return anvil.userInfo({ token: tokens.access_token })
           })
           .then(userinfo => {
-            let { sub, name, picture, email } = userinfo
-            Object.assign(req.session, { sub, name, picture, email })
-            Events.USER_AUTH({ tokens: req.tokens, userinfo })
+            Events.USER_AUTH({ tokens: req.tokens, userinfo, req })
             res.redirect('/')
           })
           .catch(error => res.status(400).json(error))

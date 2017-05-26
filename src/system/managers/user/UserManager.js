@@ -61,7 +61,7 @@ class UserManager extends Manager {
 
     return this.exists({ id }).then(exists => {
       if (exists) {
-        return this.updateUser(event)
+        return this.updateUserAuth(event)
       } else {
         return this.registerUser(event)
       }
@@ -101,7 +101,7 @@ class UserManager extends Manager {
   }
 
   /**
-   * updateUser
+   * updateUserAuth
    *
    * @description
    * Process user login
@@ -110,14 +110,46 @@ class UserManager extends Manager {
    *
    * @return {Promise}
    */
-  updateUser (data) {
+  updateUserAuth (data) {
     let { log } = UserManager
-    let { userinfo, tokens } = data
+    let { userinfo, tokens, req } = data
     let { sub: id } = userinfo
 
     let doc = {
       tokens,
       userinfo,
+      updated_at: moment().valueOf()
+    }
+
+    log.debug({ id }, 'Updating existing user')
+    return this.update({ id, doc }).then(() => {
+      return this.getUser(id)
+    }).then(user => {
+      let { name, email, picture } = user
+      Object.assign(req.session, { name, email, picture, sub: id })
+      req.session.save()
+      return user
+    }).catch(error => Promise.reject(error))
+  }
+
+  /**
+   * updateUser
+   *
+   * @description
+   * Update a users details
+   *
+   * @param  {String} id
+   * @param  {Object} data
+   * @return {Promise}
+   */
+  updateUser (id, data) {
+    let { log } = UserManager
+    let { name, email, picture } = data
+
+    let doc = {
+      name,
+      email,
+      picture,
       updated_at: moment().valueOf()
     }
 
