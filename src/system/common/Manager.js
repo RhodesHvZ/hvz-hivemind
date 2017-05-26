@@ -287,6 +287,15 @@ class Manager {
     }).catch(error => Promise.reject(error))
   }
 
+  /**
+   * mget
+   *
+   * @description
+   * Get multiple users by id
+   *
+   * @param  {...Object} data
+   * @return {Array<User>}
+   */
   mget (...data) {
     let mergedData = Object.assign({}, ...data)
     let { id: ids, include, safe=false } = mergedData
