@@ -266,7 +266,7 @@ class Manager {
    */
   get (...data) {
     let mergedData = Object.assign({}, ...data)
-    let { id, safe=true } = mergedData
+    let { id, include, safe=false } = mergedData
 
     if (!id) {
       return Promise.reject('Id is required for get')
@@ -278,7 +278,8 @@ class Manager {
       index,
       type,
       id,
-      _sourceExclude: safe ? unsafeFields : []
+      _sourceExclude: safe ? [] : unsafeFields,
+      _sourceInclude: include
     }).catch(error => Promise.reject(error))
   }
 
@@ -293,7 +294,7 @@ class Manager {
    */
   search (...data) {
     let mergedData = Object.assign({}, ...data)
-    let { query, safe=true } = mergedData
+    let { query, include, safe=false } = mergedData
 
     if (!query) {
       return Promise.reject('Query is required for search')
@@ -305,7 +306,8 @@ class Manager {
       index,
       type,
       body: { query },
-      _sourceExclude: safe ? unsafeFields : []
+      _sourceExclude: safe ? [] : unsafeFields,
+      _sourceInclude: include
     }).catch(error => Promise.reject(error))
   }
 
