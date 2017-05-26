@@ -43,15 +43,15 @@ class BaseRequest {
     let { request, error, socket } = this
 
     if (err || error) {
-      return socket.emit('message', { request, error: error || err || 'Internal Server Error' })
+      return socket.emit('message', { type: 'FAILURE', request_type, error: error || err || 'Internal Server Error' })
     }
 
     return this
   }
 
   invalidRequest (err) {
-    let { request, error, socket } = this
-    socket.emit('message', { request, error: error || err || 'Invalid Request' })
+    let { request: { type: request_type }, error, socket } = this
+    socket.emit('message', { type: 'FAILURE', request_type, error: error || err || 'Invalid Request' })
   }
 
   heartbeat (progress) {

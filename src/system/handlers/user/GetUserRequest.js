@@ -28,14 +28,14 @@ class GetUserRequest extends BaseRequest {
 
   lookup (instance) {
     let { request, system, constructor: { log } } = instance
-    let { id } = request
-
-    instance.heartbeat(25)
-    instance.heartbeat(50)
-    instance.heartbeat(75)
+    let { data: { id } } = request
+    instance.heartbeat(10)
 
     return system.userManager.getUser(id)
-      .then(user => instance.response = user)
+      .then(user => {
+        instance.response = user
+        instance.heartbeat(75)
+      })
       .then(() => instance)
       .catch(error => Promise.reject(error))
   }
