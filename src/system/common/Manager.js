@@ -293,18 +293,19 @@ class Manager {
    */
   search (...data) {
     let mergedData = Object.assign({}, ...data)
-    let { query } = mergedData
+    let { query, safe=true } = mergedData
 
     if (!query) {
       return Promise.reject('Query is required for search')
     }
 
-    let { constructor: { client, meta: { index, type } } } = this
+    let { constructor: { client, unsafeFields, meta: { index, type } } } = this
 
     return client.search({
       index,
       type,
-      body: { query }
+      body: { query },
+      _sourceExclude: safe ? unsafeFields : []
     }).catch(error => Promise.reject(error))
   }
 
