@@ -44,11 +44,11 @@ class NewGameRequest extends BaseRequest {
     }
 
     if (!start_date) {
-      return Promise.reject('registration_date is required to create a new game')
+      return Promise.reject('start_date is required to create a new game')
     }
 
     if (!end_date) {
-      return Promise.reject('registration_date is required to create a new game')
+      return Promise.reject('end_date is required to create a new game')
     }
 
     let game = {
