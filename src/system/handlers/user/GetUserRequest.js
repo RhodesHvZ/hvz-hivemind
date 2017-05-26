@@ -69,6 +69,10 @@ class GetUserRequest extends BaseRequest {
 
     this.heartbeat(30)
 
+    if (Array.isArray(id)) {
+      return false
+    }
+
     return id === sub
   }
 
