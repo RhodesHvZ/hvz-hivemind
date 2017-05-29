@@ -66,6 +66,7 @@ class UserManager extends Manager {
         return this.registerUser(event)
       }
     })
+    .then(() => this.sessionUserAuth(event))
     .then(() => log.debug('User auth handled'))
     .catch(error => log.error(error))
   }
@@ -122,14 +123,30 @@ class UserManager extends Manager {
     }
 
     log.debug({ id }, 'Updating existing user')
-    return this.update({ id, doc }).then(() => {
-      return this.getUser(id)
-    }).then(user => {
-      let { name, email, picture } = user
-      Object.assign(req.session, { name, email, picture, sub: id })
-      req.session.save()
-      return user
-    }).catch(error => Promise.reject(error))
+    return this.update({ id, doc })
+  }
+
+  /**
+   * sessionUserAuth
+   *
+   * @description
+   * Assign user data to session following login/registration
+   *
+   * @param  {Object} data
+   * @return {Promise}
+   */
+  sessionUserAuth (data) {
+    let { log } = UserManager
+    let { req, userinfo: { sub } } = data
+
+    log.debug({ id: sub }, 'Assigning session information')
+    return this.getUser(sub)
+      .then(user => {
+        let { name, email, picture } = user
+        Object.assign(req.session, { name, email, picture, sub })
+        req.session.save()
+        return user
+      }).catch(error => Promise.reject(error))
   }
 
   /**
