@@ -28,7 +28,13 @@ class GetUserRequest extends BaseRequest {
   }
 
   dispatch (instance) {
-    let { request: { data: { id, query } } } = instance
+    let { request: { data } } = instance
+
+    if (!data) {
+      return instance.invalidRequest('data must be present')
+    }
+
+    let { id, query } = data
 
     if (!id && !query) {
       return instance.invalidRequest('id or query must be present')
