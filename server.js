@@ -143,10 +143,11 @@ class Application {
       secret: sessionSecret,
       cookie: {
         httpOnly: true,
-        maxAge: 60 * 60 * 1000
+        maxAge: 60 * 60 * 1000,
+        secure: true
       },
       store: Store,
-      resave: true,
+      resave: false,
       saveUninitialized: true
     })
 
