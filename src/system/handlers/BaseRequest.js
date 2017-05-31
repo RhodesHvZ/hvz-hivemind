@@ -52,33 +52,41 @@ class BaseRequest {
   }
 
   internalServerError (err) {
-    let { request: { type: request_type }, error, socket } = this
+    let { request, error, socket } = this
+    let { type: request_type } = request
 
     if (err || error) {
       error = error || err || 'Internal Server Error'
-      log.error({ error }, 'Internal Server Error')
-      socket.emit('message', { type: 'FAILURE', request_type, error })
+
+      if (typeof error === 'object' && Object.keys(error).length > 0) {
+        log.error({ error }, 'Internal Server Error')
+        socket.emit('message', { type: 'FAILURE', request_type, error })
+      }
     }
 
     return this
   }
 
   forbiddenError (err) {
-    let { request: { type: request_type }, error, socket } = this
+    let { request, error, socket } = this
+    let { type: request_type } = request
     log.warn(request, 'Forbidden request')
     socket.emit('message', { type: 'FAILURE', request_type, error: error || err || 'Forbidden' })
     return Promise.reject()
   }
 
   unauthorizedError (err) {
-    let { request: { type: request_type }, error, socket } = this
+    let { request, error, socket } = this
+    let { type: request_type } = request
     log.warn(request, 'Unauthorized request')
     socket.emit('message', { type: 'FAILURE', request_type, error: error || err || 'Unauthorized' })
     return Promise.reject()
   }
 
   invalidRequest (err) {
-    let { request: { type: request_type }, error, socket } = this
+    let { request, error, socket } = this
+    let { type: request_type } = request
+    log.warn(request, 'Invalid request')
     socket.emit('message', { type: 'FAILURE', request_type, error: error || err || 'Invalid Request' })
     return Promise.reject()
   }
