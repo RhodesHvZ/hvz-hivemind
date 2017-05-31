@@ -43,7 +43,7 @@ class BaseRequest {
     let { socket: { handshake: { session: { sub } } } } = instance
 
     if (!sub) {
-      return Promise.reject('Unauthorized')
+      return instance.unauthorizedError()
     }
 
     // TODO more sophisticated authorization checking
