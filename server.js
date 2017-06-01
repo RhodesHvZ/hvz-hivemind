@@ -144,6 +144,8 @@ class Application {
       cookie: {
         httpOnly: true,
         maxAge: 60 * 60 * 1000,
+        // Note: this seems to cause a bug if set to true while in dev mode
+        // Testing to be done when production (https) is reached.
         secure: process.env.NODE_ENV === 'production'
       },
       store: Store,
