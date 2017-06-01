@@ -36,15 +36,14 @@ jspm_packages
 # Optional REPL history
 .node_repl_history
 
-# Config
-config*
-config.json
-
 # Webpack
-dist*
+*dist*
+
+\.vscode/
+
+# VIM
+*.swp
+.tern-project
 
 # VSCode ESLint plugins
 .eslintrc.json
-
-# VSCode
-.vscode*
