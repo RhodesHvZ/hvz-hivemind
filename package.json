@@ -4,9 +4,11 @@
   "description": "Hivemind is a suite of player and game management tools for the annual Rhodes University Humans vs. Zombies",
   "main": "server.js",
   "scripts": {
-    "start": "npm run webpack && node server.js",
-    "dev": "./node_modules/.bin/webpack-dev-server --watch-poll",
-    "webpack": "./node_modules/.bin/webpack",
+    "start": "npm run webpack-app && node server.js | bunyan -o short",
+    "server-dev": "./node_modules/.bin/nodemon -w ./src | bunyan -o short",
+    "app-dev": "./node_modules/.bin/webpack-dev-server --watch-poll",
+    "webpack-app": "./node_modules/.bin/webpack",
+    "webpack-dev": "./node_modules/.bin/webpack --config ./webpack.dev.config.js",
     "test": "mocha -w"
   },
   "repository": {
@@ -14,21 +16,12 @@
     "url": "git+https://github.com/RhodesHvZ/hvz-hivemind.git"
   },
   "keywords": [
-    "Humans",
-    "vs.",
     "Zombies",
     "Humans",
-    "Zombies",
     "HvZ",
-    "Humans",
-    "vs",
-    "Zombies",
     "Rhodes",
-    "Rhodes",
-    "University",
     "RU",
-    "GameSoc",
-    "Gamesoc"
+    "GameSoc"
   ],
   "author": "Greg Linklater <greg@gryphus.io>",
   "license": "MIT",
@@ -47,6 +40,7 @@
     "less": "^2.7.2",
     "less-loader": "^4.0.3",
     "node-libs-browser": "^2.0.0",
+    "nodemon": "^1.11.0",
     "react-hot-loader": "^1.3.1",
     "style-loader": "^0.16.1",
     "webpack": "^2.3.3",
@@ -56,12 +50,16 @@
     "anvil-connect-nodejs": "^0.4.3",
     "body-parser": "^1.17.1",
     "bunyan": "^1.8.9",
+    "bunyan-logstash-tcp": "^0.3.5",
     "compression": "^1.6.2",
+    "cors": "^2.8.3",
     "elasticsearch": "^12.1.3",
     "express": "^4.15.2",
-    "express-bunyan-logger": "^1.3.1",
+    "express-bunyan-logger": "^1.3.2",
     "express-elasticsearch-session": "^0.1.2",
     "express-session": "^1.15.2",
+    "express-socket.io-session": "^1.3.2",
+    "lodash": "^4.17.4",
     "material-ui": "^0.17.1",
     "material-ui-datatables": "^0.16.7",
     "moment": "^2.18.1",
@@ -72,6 +70,7 @@
     "react-router-dom": "^4.0.0",
     "react-router-redux": "^4.0.8",
     "react-tap-event-plugin": "^2.0.1",
-    "redux": "^3.6.0"
+    "redux": "^3.6.0",
+    "socketio": "^1.0.0"
   }
 }
