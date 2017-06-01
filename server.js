@@ -65,6 +65,10 @@ class Application {
       .then(instance.expressConfig)
       .then(instance.oidc)
       .then(instance.listen)
+      .catch(error => {
+        log.fatal(error, `Error starting server`)
+        process.exit(1)
+      })
   }
 
   testDbConnection (instance) {
@@ -164,6 +168,11 @@ class Application {
     //   DatabaseConnector.connect(socket.request, socket.request.res, next)
     // })
 
+    // Dev testing page
+    if (process.env.NODE_ENV !== 'production') {
+      app.use('/dev', express.static('dev-dist'))
+    }
+
     app.use(express.static('dist'))
 
     return instance
@@ -186,7 +195,7 @@ class Application {
           })
           .then(userinfo => {
             Events.USER_AUTH({ tokens: req.tokens, userinfo, req })
-            res.redirect('/')
+            res.redirect(process.env.NODE_ENV === 'production' ? '/' : '/dev')
           })
           .catch(error => res.status(400).json(error))
       } else {
@@ -218,7 +227,3 @@ class Application {
  */
 Application.setup({})
   .then(() => log.info('Server started successfully'))
-  .catch(error => {
-    log.fatal({ error }, `Error starting server`)
-    process.exit(1)
-  })

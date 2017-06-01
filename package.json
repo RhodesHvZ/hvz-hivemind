@@ -4,10 +4,11 @@
   "description": "Hivemind is a suite of player and game management tools for the annual Rhodes University Humans vs. Zombies",
   "main": "server.js",
   "scripts": {
-    "start": "npm run webpack && node server.js | bunyan -o short",
+    "start": "npm run webpack-app && node server.js | bunyan -o short",
     "server-dev": "./node_modules/.bin/nodemon -w ./src | bunyan -o short",
-    "dev": "./node_modules/.bin/webpack-dev-server --watch-poll",
-    "webpack": "./node_modules/.bin/webpack",
+    "app-dev": "./node_modules/.bin/webpack-dev-server --watch-poll",
+    "webpack-app": "./node_modules/.bin/webpack",
+    "webpack-dev": "./node_modules/.bin/webpack --config ./webpack.dev.config.js",
     "test": "mocha -w"
   },
   "repository": {
