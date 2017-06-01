@@ -144,7 +144,7 @@ class Application {
       cookie: {
         httpOnly: true,
         maxAge: 60 * 60 * 1000,
-        secure: true
+        secure: process.env.NODE_ENV === 'production'
       },
       store: Store,
       resave: false,
@@ -156,9 +156,7 @@ class Application {
 
     let { socketManager: { io } } = instance.systemManager
 
-    io.use(sharedSession(sessionMiddleware, {
-      autoSave: true
-    }))
+    io.use(sharedSession(sessionMiddleware))
 
     // io.use((socket, next) => {
     //   DatabaseConnector.connect(socket.request, socket.request.res, next)
