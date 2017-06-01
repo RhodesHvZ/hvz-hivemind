@@ -16,7 +16,12 @@ const Config = require('../config')
  */
 const elasticConfig = Config.elasticsearch
 const { host, port, index: indexName } = elasticConfig
-const store = new ESStore({ host: `http://${host}:${port}`, index: indexName, type: 'session', logLevel: process.env.NODE_ENV === 'production' ? 'info' : 'debug' })
+const store = new ESStore({
+  host: `http://${host}:${port}`,
+  index: indexName,
+  type: 'session',
+  logLevel: process.env.NODE_ENV === 'production' ? 'info' : 'debug'
+})
 
 /**
  * Export
