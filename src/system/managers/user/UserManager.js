@@ -144,8 +144,15 @@ class UserManager extends Manager {
       .then(user => {
         let { name, email, picture } = user
         Object.assign(req.session, { name, email, picture, sub })
-        req.session.save()
-        return user
+
+        return new Promise((resolve, reject) => {
+          req.session.save(error => {
+            if (error) {
+              return reject(error)
+            }
+            return resolve(user)
+          })
+        })
       }).catch(error => Promise.reject(error))
   }
 
