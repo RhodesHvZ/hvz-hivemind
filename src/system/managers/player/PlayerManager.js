@@ -9,42 +9,31 @@
  * Module Dependencies
  * @ignore
  */
-const Store = require('../../common/Store')
 const Events = require('../../events')
-const PlayerReducer = require('./PlayerReducer')
+const Manager = require('../../common/Manager')
+const Player = require('./Player')
 
 /**
  * Player Manager
  * @class
  */
-class PlayerManager extends Store {
+class PlayerManager extends Manager {
 
-  constructor (gameManager) {
-     let initialState = {}
-    super(initialState)
-    this.gameManager = gameManager
-    Events.on(Events.PLAYER_ACTIVATE, event => this.handlePlayerActivate(event))
-  }
   /**
-   * Event handlers
-   *
+   * constructor
    */
-  handlePlayerActivate (event) {
-    // Dispatch the event to trigger the reducer and update the game state
-    console.log('handlePlayerActivate')
-    this.dispatch(event)
-  }
-  /**
-   * reducers
-   */
-  static get reducer () {
-    return PlayerReducer
+  constructor (system, game) {
+    super(system)
+    this.game = game
   }
 
-  getPlayer (id) {
-    return new Player(this.state[id])
+  static get type () {
+    return Player
   }
 
+  static get unsafeFields () {
+    return []
+  }
 }
 
 /**

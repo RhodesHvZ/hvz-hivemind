@@ -11,9 +11,7 @@ const moment = require('moment')
  * @ignore
  */
 const Events = require('../../events')
-const SocketEventEnum = require('../../../../common/SocketEventEnum')
 const Manager = require('../../common/Manager')
-const UserReducer = require('./UserReducer')
 const User = require('./User')
 
 /**

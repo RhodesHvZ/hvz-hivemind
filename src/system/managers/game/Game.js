@@ -10,15 +10,18 @@
  * @ignore
  */
 const Type = require('../../common/Type')
+const PlayerManager = require('../player')
+const SquadManager = require('../squad')
+const MissionManager = require('../mission')
 
 /**
- * Player
+ * Game
  * @class
  */
-class Player extends Type {
+class Game extends Type {
 
   static get typeName () {
-    return 'player'
+    return 'game'
   }
 
 }
@@ -27,4 +30,4 @@ class Player extends Type {
  * Export
  * @ignore
  */
-module.exports = Player
+module.exports = Game

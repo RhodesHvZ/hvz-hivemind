@@ -12,13 +12,13 @@
 const Type = require('../../common/Type')
 
 /**
- * Player
+ * Mission
  * @class
  */
-class Player extends Type {
+class Mission extends Type {
 
   static get typeName () {
-    return 'player'
+    return 'mission'
   }
 
 }
@@ -27,4 +27,4 @@ class Player extends Type {
  * Export
  * @ignore
  */
-module.exports = Player
+module.exports = Mission

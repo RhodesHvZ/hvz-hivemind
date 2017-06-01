@@ -10,16 +10,30 @@
  * @ignore
  */
 const Events = require('../../events')
+const Manager = require('../../common/Manager')
+const Squad = require('./Squad')
 
 /**
  * Squad Manager
  * @class
  */
-class SquadManager {
+class SquadManager extends Manager {
 
-  constructor () {
+  /**
+   * constructor
+   */
+  constructor (system, game) {
+    super(system)
+    this.game = game
   }
 
+  static get type () {
+    return Squad
+  }
+
+  static get unsafeFields () {
+    return []
+  }
 }
 
 /**

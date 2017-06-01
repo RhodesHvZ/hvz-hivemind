@@ -33,7 +33,6 @@ class SocketManager {
     this.io = socketio(system.server)
     this.socket = this.io.sockets
     this.io.on('connect', socket => this.onServerConnection(socket))
-    this.users = {}
   }
 
   /**
@@ -47,17 +46,11 @@ class SocketManager {
   onServerConnection (socket) {
     log.trace({ id: socket.id }, `Socket connected`)
     let { handshake: { session } } = socket
-    let uid // = session.sub // TODO
 
     log.debug({ session, id: socket.id }, `Socket session`)
 
-    if (uid) {
-      this.users[uid] = socket.id
-    }
-
     socket.on('disconnect', reason => this.onSocketDisconnect(socket, reason))
     socket.on('message', data => this.onSocketMessage(socket, data))
-    socket.on('GET', data => this.onSocketMessage(socket, data)) // DEBUG
     socket.on('error', error => this.onSocketError(socket, error))
   }
 
@@ -85,7 +78,8 @@ class SocketManager {
    */
   onSocketMessage (socket, data) {
     log.debug({ id: socket.id, data }, `Socket new message`)
-    MessageDispatcher.handle(data, socket, this.system).then(() => log.trace({ id: socket.id }, 'message handling complete'))
+    MessageDispatcher.handle(data, socket, this.system)
+      .then(() => log.trace({ id: socket.id }, 'message handling complete'))
   }
 
   /**
@@ -114,23 +108,6 @@ class SocketManager {
   getSocket (id) {
     let socket = this.socket.connected[id]
     return socket ? socket : null
-  }
-
-  /**
-   * getUserSocket
-   *
-   * @description
-   * Retrieve a socket indexed by User ID
-   *
-   * @param {String} uid
-   * @return {Socket}
-   */
-  getUserSocket (uid) {
-    let id = this.users[uid]
-
-    return id
-      ? this.getSocket(id)
-      : false
   }
 }
 

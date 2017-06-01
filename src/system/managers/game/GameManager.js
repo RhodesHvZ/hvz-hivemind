@@ -9,35 +9,29 @@
  * Module Dependencies
  * @ignore
  */
-const Store = require('../../common/Store')
 const Events = require('../../events')
-const PlayerManager = require('../player')
-const SquadManager = require('../squad')
-const MissionManager = require('../mission')
-const GameReducer = require('./GameReducer')
+const Manager = require('../../common/Manager')
+const Game = require('./Game')
 
 /**
  * Game Manager
  * @class
  */
-class GameManager extends Store {
+class GameManager extends Manager {
 
   /**
    * constructor
    */
-  constructor(systemManager) {
-    super()
-    this.systemManager = systemManager
-    this.playerManager = new PlayerManager(this)
-    this.squadManager = new SquadManager(this)
-    this.missionManager = new MissionManager(this)
+  constructor(system) {
+    super(system)
   }
 
-  /**
-   * reducers
-   */
-  static get reducer () {
-    return GameReducer
+  static get type () {
+    return Game
+  }
+
+  static get unsafeFields () {
+    return []
   }
 }
 
