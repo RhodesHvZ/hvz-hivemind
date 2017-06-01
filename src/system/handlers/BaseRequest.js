@@ -58,6 +58,10 @@ class BaseRequest {
     if (err || error) {
       error = error || err || 'Internal Server Error'
 
+      if (typeof error === 'string') {
+        error = { error }
+      }
+
       if (typeof error === 'object' && Object.keys(error).length > 0) {
         log.error({ error }, 'Internal Server Error')
         socket.emit('message', { type: 'FAILURE', request_type, error })
