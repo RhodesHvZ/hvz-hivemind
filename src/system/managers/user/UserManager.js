@@ -191,9 +191,7 @@ class UserManager extends Manager {
    */
   getUser (id, safe=false) {
     return this.get({ id, safe })
-      .then(response => {
-        return User.fromResponse(this, response)
-      })
+      .then(response => User.fromResponse(this, response))
       .catch(error => Promise.reject(error))
   }
 
@@ -211,9 +209,7 @@ class UserManager extends Manager {
     let { log } = UserManager
 
     return this.search({ query, safe })
-      .then(response => {
-        return User.fromResponse(this, response)
-      })
+      .then(response => User.fromResponse(this, response))
       .catch(error => {
         log.error(error)
         return Promise.reject(error)
