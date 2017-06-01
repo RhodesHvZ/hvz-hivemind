@@ -10,17 +10,29 @@
  * @ignore
  */
 const Events = require('../../events')
+const Manager = require('../../common/Manager')
+const Achievement = require('./Achievement')
 
 /**
  * Achievement Manager
  * @class
  */
-class AchievementManager {
+class AchievementManager extends Manager {
 
-  constructor (system) {
-    this.system = system
+  /**
+   * constructor
+   */
+  constructor(system) {
+    super(system)
   }
 
+  static get type () {
+    return Achievement
+  }
+
+  static get unsafeFields () {
+    return []
+  }
 }
 
 /**
