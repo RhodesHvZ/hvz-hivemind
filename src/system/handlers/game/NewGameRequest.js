@@ -30,25 +30,31 @@ class NewGameRequest extends BaseRequest {
 
   create (instance) {
     let { log } = NewGameRequest
-    let { request, socket, system } = instance
+    let { request: { data }, socket, system } = instance
     let { gameManager } = system
-    let { data: { name, description, background_image, registration_date, start_date, end_date, rules } } = request
+    let { type: Game } = gameManager
     let { handshake: { session: { sub: id } } } = socket
 
+    if (!data) {
+      return instance.invalidRequest('data is required to create a new game')
+    }
+
+    let { name, description, background_image, registration_date, start_date, end_date, rules } = data
+
     if (!name) {
-      return Promise.reject('name is required to create a new game')
+      return instance.invalidRequest('name is required to create a new game')
     }
 
     if (!registration_date) {
-      return Promise.reject('registration_date is required to create a new game')
+      return instance.invalidRequest('registration_date is required to create a new game')
     }
 
     if (!start_date) {
-      return Promise.reject('start_date is required to create a new game')
+      return instance.invalidRequest('start_date is required to create a new game')
     }
 
     if (!end_date) {
-      return Promise.reject('end_date is required to create a new game')
+      return instance.invalidRequest('end_date is required to create a new game')
     }
 
     let game = {
@@ -60,13 +66,17 @@ class NewGameRequest extends BaseRequest {
       start_date: moment(start_date).valueOf(),
       end_date: moment(end_date).valueOf(),
       rules,
-      admins: [{ id, rank: 1000 }]
+      admins: [{ id, rank: 1 }]
     }
 
     log.debug({ game }, 'New Game')
-    instance.response = game
 
-    return instance
+    return gameManager.newGame(game)
+      .then(game => {
+        instance.response = game
+        return instance
+      })
+      .catch(error => instance.forbiddenError(error))
   }
 }
 
