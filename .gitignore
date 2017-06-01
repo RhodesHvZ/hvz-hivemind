@@ -44,3 +44,6 @@ jspm_packages
 # VIM
 *.swp
 .tern-project
+
+# VSCode ESLint plugins
+.eslintrc.json
