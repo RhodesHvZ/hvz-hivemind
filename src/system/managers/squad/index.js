@@ -4,10 +4,10 @@
  * Module Dependencies
  * @ignore
  */
-const SystemManager = require('./SystemManager')
+const SquadManager = require('./SquadManager')
 
 /**
  * Export
  * @ignore
  */
-module.exports = SystemManager
+module.exports = SquadManager

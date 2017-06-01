@@ -4,10 +4,10 @@
  * Module Dependencies
  * @ignore
  */
-const SystemManager = require('./SystemManager')
+const TicketManager = require('./TicketManager')
 
 /**
  * Export
  * @ignore
  */
-module.exports = SystemManager
+module.exports = TicketManager

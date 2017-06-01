@@ -4,10 +4,10 @@
  * Module Dependencies
  * @ignore
  */
-const SystemManager = require('./SystemManager')
+const UserManager = require('./UserManager')
 
 /**
  * Export
  * @ignore
  */
-module.exports = SystemManager
+module.exports = UserManager

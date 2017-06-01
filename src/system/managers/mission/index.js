@@ -4,10 +4,10 @@
  * Module Dependencies
  * @ignore
  */
-const SystemManager = require('./SystemManager')
+const MissionManager = require('./MissionManager')
 
 /**
  * Export
  * @ignore
  */
-module.exports = SystemManager
+module.exports = MissionManager

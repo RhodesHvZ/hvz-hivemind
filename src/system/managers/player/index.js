@@ -4,10 +4,10 @@
  * Module Dependencies
  * @ignore
  */
-const SystemManager = require('./SystemManager')
+const PlayerManager = require('./PlayerManager')
 
 /**
  * Export
  * @ignore
  */
-module.exports = SystemManager
+module.exports = PlayerManager
