@@ -28,15 +28,17 @@ class Type {
    *
    * @param  {Manager} manager
    * @param  {Object} data - Object data
-   * @param  {Object} hidden - Hidden attributes
+   * @param  {Object} [hidden] - Hidden attributes
    */
   constructor (manager, data, hidden) {
     Object.defineProperty(this, 'manager', { value: manager })
     Object.assign(this, data)
 
-    Object.keys(hidden).forEach(key => {
-      Object.defineProperty(this, key, { value: hidden[key], configurable: true })
-    })
+    if (hidden) {
+      Object.keys(hidden).forEach(key => {
+        Object.defineProperty(this, key, { value: hidden[key], configurable: true })
+      })
+    }
 
     log.debug(this, 'Type data constructor')
   }
