@@ -22,6 +22,7 @@ class UpdateGameRequest extends BaseRequest {
     let instance = new UpdateGameRequest(request, socket, system)
 
     return Promise.resolve(instance)
+      .then(instance.ensureRequestFields)
       .then(instance.authenticated)
       .then(instance.getGame)
       .then(instance.authorization)
@@ -30,19 +31,13 @@ class UpdateGameRequest extends BaseRequest {
       .catch(error => instance.internalServerError(error))
   }
 
+  static get required_fields () {
+    return ['id']
+  }
+
   getGame (instance) {
-    let { request: { data }, system } = instance
+    let { request: { data: { id } }, system } = instance
     let { gameManager } = system
-
-    if (!data) {
-      return instance.invalidRequest('data is required')
-    }
-
-    let { id } = data
-
-    if (!data) {
-      return instance.invalidRequest('id is required')
-    }
 
     return gameManager.getGame(id, true).then(game => {
       instance.game = game

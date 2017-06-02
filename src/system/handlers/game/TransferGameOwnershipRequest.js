@@ -22,6 +22,7 @@ class TransferGameOwnershipRequest extends BaseRequest {
     let instance = new TransferGameOwnershipRequest(request, socket, system)
 
     return Promise.resolve(instance)
+      .then(instance.ensureRequestFields)
       .then(instance.authenticated)
       .then(instance.getGame)
       .then(instance.authorization)
@@ -31,23 +32,13 @@ class TransferGameOwnershipRequest extends BaseRequest {
       .catch(error => instance.internalServerError(error))
   }
 
+  static get request_fields () {
+    return ['game_id', 'user_id']
+  }
+
   getGame (instance) {
-    let { request: { data }, system } = instance
+    let { request: { data: { game_id } }, system } = instance
     let { gameManager } = system
-
-    if (!data) {
-      return instance.invalidRequest('data is required')
-    }
-
-    let { game_id, user_id } = data
-
-    if (!game_id) {
-      return instance.invalidRequest('game_id is required')
-    }
-
-    if (!user_id) {
-      return instance.invalidRequest('user_id is required')
-    }
 
     return gameManager.getGame(game_id, true).then(game => {
       instance.game = game

@@ -22,10 +22,15 @@ class NewGameRequest extends BaseRequest {
     let instance = new NewGameRequest(request, socket, system)
 
     return Promise.resolve(instance)
+      .then(instance.ensureRequestFields)
       .then(instance.authenticated)
       .then(instance.create)
       .then(instance.success)
       .catch(error => instance.internalServerError(error))
+  }
+
+  static get required_fields () {
+    return ['name', 'registration_date', 'start_date', 'end_date']
   }
 
   create (instance) {
@@ -34,28 +39,7 @@ class NewGameRequest extends BaseRequest {
     let { gameManager } = system
     let { type: Game } = gameManager
     let { handshake: { session: { sub: id } } } = socket
-
-    if (!data) {
-      return instance.invalidRequest('data is required to create a new game')
-    }
-
     let { name, description, background_image, registration_date, start_date, end_date, rules } = data
-
-    if (!name) {
-      return instance.invalidRequest('name is required to create a new game')
-    }
-
-    if (!registration_date) {
-      return instance.invalidRequest('registration_date is required to create a new game')
-    }
-
-    if (!start_date) {
-      return instance.invalidRequest('start_date is required to create a new game')
-    }
-
-    if (!end_date) {
-      return instance.invalidRequest('end_date is required to create a new game')
-    }
 
     let game = {
       name,
