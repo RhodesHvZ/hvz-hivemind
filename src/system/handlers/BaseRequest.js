@@ -39,6 +39,10 @@ class BaseRequest {
     return log
   }
 
+  static get request_fields () {
+    throw new Error('Must be overriden in the child class')
+  }
+
   authenticated (instance) {
     let { socket: { handshake: { session: { sub } } } } = instance
 
@@ -47,6 +51,31 @@ class BaseRequest {
     }
 
     // TODO more sophisticated authorization checking
+
+    return instance
+  }
+
+  ensureRequestFields (instance) {
+    let { request: { data }, constructor: { request_fields } } = instance
+
+    if (!data) {
+      return instance.invalidRequest('data is required')
+    }
+
+    let error = {
+      error: 'required fields missing',
+      fields: []
+    }
+
+    request_fields.forEach(field => {
+      if (!data[field]) {
+        error.fields.push(field)
+      }
+    })
+
+    if (error.fields.length > 0) {
+      return instance.invalidRequest(error)
+    }
 
     return instance
   }
