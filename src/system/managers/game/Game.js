@@ -37,10 +37,6 @@ class Game extends Type {
   }
 
   update (data) {
-    if (!data) {
-      return Promise.reject('data is required')
-    }
-
     let { manager, id } = this
     let { description, background_image, registration_date, start_date, end_date, rules } = data
     let { log } = Game
@@ -72,6 +68,37 @@ class Game extends Type {
     return manager.update({ id, doc })
       .then(result => {
         Object.assign(this, doc)
+        log.info({ game: id }, 'Game Updated')
+        return result
+      })
+      .catch(error => Promise.reject(error))
+  }
+
+  updateAdmin (data) {
+    let { manager, id, admins } = this
+    let { user_id: uid, rank, revoke } = data
+    let { log } = Game
+
+    let adminIdx = admins.findIndex(admin => admin.id === uid)
+
+    // Revoke Admin Permission
+    if (revoke) {
+      if (adminIdx > -1) {
+        admins.splice(adminIdx, 1)
+      }
+
+    // Grant Admin Permission
+    } else {
+      if (adminIdx > -1) {
+        admins[adminIdx].rank = rank
+      } else {
+        admins.push({ id: uid, rank })
+      }
+    }
+
+    return manager.update({ id, doc: { admins } })
+      .then(result => {
+        log.info({ game: id }, 'Game Permissions Updated')
         return result
       })
       .catch(error => Promise.reject(error))
