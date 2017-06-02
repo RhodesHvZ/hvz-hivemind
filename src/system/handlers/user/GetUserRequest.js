@@ -21,20 +21,19 @@ class GetUserRequest extends BaseRequest {
     let instance = new GetUserRequest(request, socket, system)
 
     return Promise.resolve(instance)
+      .then(instance.ensureRequestFields)
       .then(instance.authenticated)
       .then(instance.dispatch)
       .then(instance.success)
       .catch(error => instance.internalServerError(error))
   }
 
+  static get required_fields () {
+    return []
+  }
+
   dispatch (instance) {
-    let { request: { data } } = instance
-
-    if (!data) {
-      return instance.invalidRequest('data must be present')
-    }
-
-    let { id, query } = data
+    let { request: { data: { id, query } } } = instance
 
     if (!id && !query) {
       return instance.invalidRequest('id or query must be present')
