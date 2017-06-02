@@ -61,7 +61,6 @@ class NewGameRequest extends BaseRequest {
       name,
       description,
       background_image,
-      state: 'new',
       registration_date: moment(registration_date).valueOf(),
       start_date: moment(start_date).valueOf(),
       end_date: moment(end_date).valueOf(),

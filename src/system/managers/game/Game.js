@@ -36,6 +36,23 @@ class Game extends Type {
     return 'game'
   }
 
+  get state () {
+    let { registration_date, start_date, end_date } = this
+    let now = moment()
+
+    if (now.isBefore(moment.utc(registration_date))) {
+      return 'new'
+    } else if (now.isBefore(moment.utc(start_date))) {
+      return 'registration'
+    } else if (now.isBefore(moment.utc(end_date))) {
+      return 'running'
+    } else if (now.isAfter(moment.utc(end_date))) {
+      return 'finished'
+    } else {
+      return 'invalid'
+    }
+  }
+
   update (data) {
     let { manager, id } = this
     let { description, background_image, registration_date, start_date, end_date, rules } = data

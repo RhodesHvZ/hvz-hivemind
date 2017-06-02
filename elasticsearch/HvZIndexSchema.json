@@ -118,8 +118,6 @@
 
         "background_image": { "type": "text", "analyzer": "url_email" },
 
-        "state": { "type": "text" },
-
         "registration_date": { "type": "date", "format": "epoch_millis" },
 
         "start_date": { "type": "date", "format": "epoch_millis" },
