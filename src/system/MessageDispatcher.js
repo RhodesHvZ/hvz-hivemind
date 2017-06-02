@@ -28,6 +28,7 @@ const mapping = {
   GAME_NEW: require('./handlers/game/NewGameRequest'),
   GAME_GET: require('./handlers/game/GetGameRequest'),
   GAME_UPDATE: require('./handlers/game/UpdateGameRequest'),
+  GAME_PERMISSION_UPDATE: require('./handlers/game/UpdateGamePermissionRequest'),
 }
 
 /**
