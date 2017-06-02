@@ -15,6 +15,7 @@ const Type = require('../../common/Type')
 const PlayerManager = require('../player')
 const SquadManager = require('../squad')
 const MissionManager = require('../mission')
+const GameAdminRankEnum = require('./GameAdminRankEnum')
 
 /**
  * Game
@@ -123,6 +124,32 @@ class Game extends Type {
     return manager.update({ id, doc: { admins } })
       .then(result => {
         log.info({ game: id, admins }, 'Game Permissions Updated')
+        return result
+      })
+      .catch(error => Promise.reject(error))
+  }
+
+  transferOwnership (data) {
+    let { manager, id, admins } = this
+    let { user_id: uid } = data
+    let { log } = Game
+
+    let adminIdx = admins.findIndex(admin => admin.id === uid)
+    let ownerIdx = admins.findIndex(admin => admin.rank === GameAdminRankEnum.OWNER)
+
+    // Create or Update Admin Record
+    if (adminIdx > -1) {
+      admins[adminIdx].rank = GameAdminRankEnum.OWNER
+    } else {
+      admins.push({ id: uid, rank: GameAdminRankEnum.OWNER })
+    }
+
+    // Owner Admin Record *WILL* Exist
+    admins[ownerIdx].rank = GameAdminRankEnum.SUPER
+
+    return manager.update({ id, doc: { admins } })
+      .then(result => {
+        log.info({ game: id, admins }, 'Game Ownership Transferred')
         return result
       })
       .catch(error => Promise.reject(error))
