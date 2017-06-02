@@ -77,9 +77,15 @@ class SocketManager {
    * @param {Object} data
    */
   onSocketMessage (socket, data) {
+    let { handshake: { session } } = socket
+
     log.debug({ id: socket.id, data }, `Socket new message`)
     MessageDispatcher.handle(data, socket, this.system)
-      .then(() => log.trace({ id: socket.id }, 'message handling complete'))
+      .then(() => {
+        session.touch()
+        session.save()
+        log.trace({ id: socket.id }, 'message handling complete')
+      })
   }
 
   /**
