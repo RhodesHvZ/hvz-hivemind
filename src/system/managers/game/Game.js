@@ -68,7 +68,7 @@ class Game extends Type {
     return manager.update({ id, doc })
       .then(result => {
         Object.assign(this, doc)
-        log.info({ game: id }, 'Game Updated')
+        log.info({ game: id, update: doc }, 'Game Updated')
         return result
       })
       .catch(error => Promise.reject(error))
@@ -81,24 +81,31 @@ class Game extends Type {
 
     let adminIdx = admins.findIndex(admin => admin.id === uid)
 
-    // Revoke Admin Permission
-    if (revoke) {
-      if (adminIdx > -1) {
-        admins.splice(adminIdx, 1)
+    // Existing Admin Record Found
+    if (adminIdx > -1) {
+
+      // Cannot Modify Owner's Rank
+      if (admins[adminIdx].rank === 1) {
+        return Promise.reject('Cannot modify game owner rank')
       }
 
-    // Grant Admin Permission
-    } else {
-      if (adminIdx > -1) {
-        admins[adminIdx].rank = rank
+      // Revoke Admin Permission
+      if (revoke) {
+        admins.splice(adminIdx, 1)
+
+      // Grant Admin Permission
       } else {
-        admins.push({ id: uid, rank })
+        admins[adminIdx].rank = rank
       }
+
+    // Create New Admin Record
+    } else if (!revoke) {
+      admins.push({ id: uid, rank })
     }
 
     return manager.update({ id, doc: { admins } })
       .then(result => {
-        log.info({ game: id }, 'Game Permissions Updated')
+        log.info({ game: id, admins }, 'Game Permissions Updated')
         return result
       })
       .catch(error => Promise.reject(error))
