@@ -88,10 +88,10 @@ class BaseRequest {
       error = error || err || 'Internal Server Error'
 
       if (error instanceof Error) {
-        error = error.message
-      }
-
-      if (typeof error === 'string' || (typeof error === 'object' && Object.keys(error).length > 0)) {
+        let { message, fileName, lineNumber, stack } = error
+        log.error({ message, fileName, lineNumber, stack }, 'Internal Server Error')
+        socket.emit('message', { type: 'FAILURE', request_type, error: message })
+      } else if (typeof error === 'string' || (typeof error === 'object' && Object.keys(error).length > 0)) {
         log.error({ error }, 'Internal Server Error')
         socket.emit('message', { type: 'FAILURE', request_type, error })
       }
