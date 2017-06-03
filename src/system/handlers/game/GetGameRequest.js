@@ -21,7 +21,6 @@ class GetGameRequest extends BaseRequest {
     let instance = new GetGameRequest(request, socket, system)
 
     return Promise.resolve(instance)
-      .then(instance.ensureRequestFields)
       .then(instance.authenticated)
       .then(instance.dispatch)
       .then(instance.success)
@@ -29,10 +28,33 @@ class GetGameRequest extends BaseRequest {
   }
 
   dispatch (instance) {
-    let { request: { data: { id } } } = instance
-
+    let { request: { data } } = instance
     instance.heartbeat(10)
-    return instance.lookup(instance)
+
+    if (!data) {
+      return instance.search(instance)
+    }
+
+    let { id } = data
+
+    if (!id) {
+      return instance.search(instance)
+    } else {
+      return instance.lookup(instance)
+    }
+  }
+
+  search (instance) {
+    let { request, system } = instance
+    let { gameManager } = system
+
+    return gameManager.searchGame({ match_all: {} })
+      .then(games => {
+        instance.response = games
+        instance.heartbeat(80)
+      })
+      .then(() => instance)
+      .catch(error => Promise.reject(error))
   }
 
   lookup (instance) {
