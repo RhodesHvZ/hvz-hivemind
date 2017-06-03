@@ -153,31 +153,6 @@ class UserManager extends Manager {
         })
       }).catch(error => Promise.reject(error))
   }
-
-  /**
-   * updateUser
-   *
-   * @description
-   * Update a users details
-   *
-   * @param  {String} id
-   * @param  {Object} data
-   * @return {Promise}
-   */
-  updateUser (id, data) {
-    let { log } = UserManager
-    let { name, email, picture } = data
-
-    let doc = {
-      name,
-      email,
-      picture,
-      updated_at: moment().valueOf()
-    }
-
-    log.debug({ id }, 'Updating existing user')
-    return this.update({ id, doc })
-  }
 }
 
 /**
