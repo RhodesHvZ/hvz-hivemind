@@ -9,14 +9,14 @@
  * Module Dependencies
  * @ignore
  */
-const BaseRequest = require('../BaseRequest')
+const GameBaseRequest = require('./GameBaseRequest')
 const GameAdminRankEnum = require('../../managers/game/GameAdminRankEnum')
 
 /**
  * UpdateGamePermissionRequest
  * @class
  */
-class UpdateGamePermissionRequest extends BaseRequest {
+class UpdateGamePermissionRequest extends GameBaseRequest {
 
   static handle (request, socket, system) {
     let instance = new UpdateGamePermissionRequest(request, socket, system)
@@ -36,37 +36,8 @@ class UpdateGamePermissionRequest extends BaseRequest {
     return ['game_id', 'user_id']
   }
 
-  getGame (instance) {
-    let { request: { data: { game_id, rank, revoke } }, system } = instance
-    let { gameManager } = system
-
-    if (!rank && !revoke) {
-      return instance.invalidRequest('either rank or revoke is required')
-    }
-
-    return gameManager.get({ id: game_id, safe: true }).then(game => {
-      instance.game = game
-      return instance
-    }).catch(error => Promise.reject(error))
-  }
-
-  authorization (instance) {
-    let { log } = UpdateGamePermissionRequest
-    let { socket, game: { admins } } = instance
-    let { handshake: { session } } = socket
-    let { sub: id } = session
-
-    let [admin] = admins.filter(admin => admin.id === id)
-
-    if (!admin || admin.rank > GameAdminRankEnum.SUPER) {
-      return instance.unauthorizedError('Insufficient privilege')
-    }
-
-    return instance
-  }
-
-  userExists (instance) {
-    return instance
+  static get authorization_level () {
+    return GameAdminRankEnum.SUPER
   }
 
   update (instance) {

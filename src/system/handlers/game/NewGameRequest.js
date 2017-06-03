@@ -10,13 +10,13 @@ const moment = require('moment')
  * Module Dependencies
  * @ignore
  */
-const BaseRequest = require('../BaseRequest')
+const GameBaseRequest = require('./GameBaseRequest')
 
 /**
  * NewGameRequest
  * @class
  */
-class NewGameRequest extends BaseRequest {
+class NewGameRequest extends GameBaseRequest {
 
   static handle (request, socket, system) {
     let instance = new NewGameRequest(request, socket, system)

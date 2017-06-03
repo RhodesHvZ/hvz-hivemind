@@ -9,13 +9,13 @@
  * Module Dependencies
  * @ignore
  */
-const BaseRequest = require('../BaseRequest')
+const GameBaseRequest = require('./GameBaseRequest')
 
 /**
  * GetGameRequest
  * @class
  */
-class GetGameRequest extends BaseRequest {
+class GetGameRequest extends GameBaseRequest {
 
   static handle (request, socket, system) {
     let instance = new GetGameRequest(request, socket, system)
@@ -34,11 +34,11 @@ class GetGameRequest extends BaseRequest {
 
   dispatch (instance) {
     let { request: { data } } = instance
-    let { id } = data
+    let { game_id } = data
 
     instance.heartbeat(10)
 
-    if (!id) {
+    if (!game_id) {
       return instance.search(instance)
     } else {
       return instance.lookup(instance)
@@ -61,9 +61,9 @@ class GetGameRequest extends BaseRequest {
   lookup (instance) {
     let { request, system } = instance
     let { gameManager } = system
-    let { data: { id } } = request
+    let { data: { game_id: id } } = request
 
-    return gameManager.get({ id, safe: true })
+    return gameManager.get({ id })
       .then(game => {
         instance.response = game
         instance.heartbeat(80)
