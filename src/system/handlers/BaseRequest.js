@@ -39,8 +39,8 @@ class BaseRequest {
     return log
   }
 
-  static get request_fields () {
-    throw new Error('request_fields must be overriden in BaseRequest child class')
+  static get meta () {
+    throw new Error('meta must be overriden in BaseRequest child class')
   }
 
   authenticated (instance) {
@@ -56,7 +56,12 @@ class BaseRequest {
   }
 
   ensureRequestFields (instance) {
-    let { request: { data }, constructor: { request_fields } } = instance
+    let { request: { data }, constructor: { meta } } = instance
+    let { request_fields } = meta
+
+    if (!request_fields) {
+      return instance.internalServerError('meta.request_fields must be provided from the child class of BaseRequest')
+    }
 
     if (!data) {
       return instance.invalidRequest('data is required')

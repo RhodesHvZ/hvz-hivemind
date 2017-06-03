@@ -17,10 +17,6 @@ const BaseRequest = require('../BaseRequest')
  */
 class GameBaseRequest extends BaseRequest {
 
-  static get authorization_level () {
-    throw new Error('authorization_level must be overriden in GameBaseRequest child class')
-  }
-
   getGame (instance) {
     let { request: { data: { game_id } }, system } = instance
     let { gameManager } = system
@@ -32,9 +28,14 @@ class GameBaseRequest extends BaseRequest {
   }
 
   authorization (instance) {
-    let { socket, game: { admins }, constructor: { authorization_level } } = instance
+    let { socket, game: { admins }, constructor: { meta } } = instance
     let { handshake: { session } } = socket
+    let { authorization_level } = meta
     let { sub: id } = session
+
+    if (!authorization_level) {
+      return instance.internalServerError('meta.authorization_level must be provided from the child class of GameBaseRequest')
+    }
 
     let [admin] = admins.filter(admin => admin.id === id)
 
