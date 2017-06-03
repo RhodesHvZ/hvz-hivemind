@@ -31,12 +31,11 @@ class UpdateGameRequest extends GameBaseRequest {
       .catch(error => instance.internalServerError(error))
   }
 
-  static get required_fields () {
-    return ['id']
-  }
-
-  static get authorization_level () {
-    return GameAdminRankEnum.SUPER
+  static get meta () {
+    return {
+      request_fields: ['id'],
+      authorization_level: GameAdminRankEnum.SUPER
+    }
   }
 
   update (instance) {

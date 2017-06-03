@@ -32,12 +32,11 @@ class TransferGameOwnershipRequest extends GameBaseRequest {
       .catch(error => instance.internalServerError(error))
   }
 
-  static get request_fields () {
-    return ['game_id', 'user_id']
-  }
-
-  static get authorization_level () {
-    return GameAdminRankEnum.OWNER
+  static get meta () {
+    return {
+      request_fields: ['game_id', 'user_id'],
+      authorization_level: GameAdminRankEnum.OWNER
+    }
   }
 
   update (instance) {

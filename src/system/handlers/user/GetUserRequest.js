@@ -28,8 +28,10 @@ class GetUserRequest extends BaseRequest {
       .catch(error => instance.internalServerError(error))
   }
 
-  static get request_fields () {
-    return []
+  static get meta () {
+    return {
+      request_fields: []
+    }
   }
 
   dispatch (instance) {

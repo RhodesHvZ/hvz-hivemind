@@ -29,8 +29,10 @@ class NewGameRequest extends GameBaseRequest {
       .catch(error => instance.internalServerError(error))
   }
 
-  static get required_fields () {
-    return ['name', 'registration_date', 'start_date', 'end_date']
+  static get meta () {
+    return {
+      required_fields: ['name', 'registration_date', 'start_date', 'end_date']
+    }
   }
 
   create (instance) {
