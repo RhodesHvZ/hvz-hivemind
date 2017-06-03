@@ -44,7 +44,7 @@ class UpdateGamePermissionRequest extends BaseRequest {
       return instance.invalidRequest('either rank or revoke is required')
     }
 
-    return gameManager.getGame(game_id, true).then(game => {
+    return gameManager.get({ id: game_id, safe: true }).then(game => {
       instance.game = game
       return instance
     }).catch(error => Promise.reject(error))

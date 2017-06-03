@@ -102,7 +102,7 @@ class Type {
    * @return {String}
    */
   static get typeName () {
-    throw new Error('This must be overriden in child class')
+    throw new Error('typeName must be overriden in Type child class')
   }
 
 }

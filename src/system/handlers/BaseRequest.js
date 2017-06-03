@@ -40,7 +40,7 @@ class BaseRequest {
   }
 
   static get request_fields () {
-    throw new Error('Must be overriden in the child class')
+    throw new Error('request_fields must be overriden in BaseRequest child class')
   }
 
   authenticated (instance) {
@@ -86,6 +86,10 @@ class BaseRequest {
 
     if (err || error) {
       error = error || err || 'Internal Server Error'
+
+      if (error instanceof Error) {
+        error = error.message
+      }
 
       if (typeof error === 'string' || (typeof error === 'object' && Object.keys(error).length > 0)) {
         log.error({ error }, 'Internal Server Error')

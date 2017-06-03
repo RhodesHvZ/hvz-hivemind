@@ -56,43 +56,6 @@ class GameManager extends Manager {
     .then(() => new Game(this, body))
     .catch(error => Promise.reject(error))
   }
-
-  /**
-   * getGame
-   *
-   * @description
-   *
-   *
-   * @param  {String}  id
-   * @param  {Boolean} safe
-   * @return {Promise<Game>}
-   */
-  getGame (id, safe=false) {
-    return this.get({ id, safe })
-      .then(response => Game.fromResponse(this, response))
-      .catch(error => Promise.reject(error))
-  }
-
-  /**
-   * searchGame
-   *
-   * @description
-   * Search for games
-   *
-   * @param  {Object}  query
-   * @param  {Boolean} safe - include sensitive information
-   * @return {Array<Game>}
-   */
-  searchGame (query, safe=false) {
-    let { log } = GameManager
-
-    return this.search({ query, safe })
-      .then(response => Game.fromResponse(this, response))
-      .catch(error => {
-        log.error(error)
-        return Promise.reject(error)
-      })
-  }
 }
 
 /**

@@ -28,7 +28,7 @@ class GetUserRequest extends BaseRequest {
       .catch(error => instance.internalServerError(error))
   }
 
-  static get required_fields () {
+  static get request_fields () {
     return []
   }
 
@@ -53,12 +53,14 @@ class GetUserRequest extends BaseRequest {
     let { userManager } = system
     let { data: { query } } = request
 
-    return userManager.searchUser({
-      bool: {
-        should: [
-          { regexp: { name: `.*${query}.*` } },
-          { regexp: { email: `.*${query}.*` } }
-        ]
+    return userManager.search({
+      query: {
+        bool: {
+          should: [
+            { regexp: { name: `.*${query}.*` } },
+            { regexp: { email: `.*${query}.*` } }
+          ]
+        }
       }
     }).then(users => {
         instance.response = users
@@ -87,7 +89,7 @@ class GetUserRequest extends BaseRequest {
     let { userManager } = system
     let { data: { id } } = request
 
-    return userManager.getUser(id, instance.fullAuthorization())
+    return userManager.getUser({ id, safe: instance.fullAuthorization() })
       .then(user => {
         instance.response = user
         instance.heartbeat(80)

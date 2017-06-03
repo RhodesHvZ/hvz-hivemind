@@ -135,13 +135,13 @@ class UserManager extends Manager {
    */
   sessionUserAuth (data) {
     let { log } = UserManager
-    let { req, userinfo: { sub } } = data
+    let { req, userinfo: { sub: id } } = data
 
-    log.debug({ id: sub }, 'Assigning session information')
-    return this.getUser(sub)
+    log.debug({ id }, 'Assigning session information')
+    return this.get({ id })
       .then(user => {
         let { name, email, picture } = user
-        Object.assign(req.session, { name, email, picture, sub })
+        Object.assign(req.session, { name, email, picture, sub: id })
 
         return new Promise((resolve, reject) => {
           req.session.save(error => {
@@ -177,43 +177,6 @@ class UserManager extends Manager {
 
     log.debug({ id }, 'Updating existing user')
     return this.update({ id, doc })
-  }
-
-  /**
-   * getUser
-   *
-   * @description
-   * Get a user by the user id
-   *
-   * @param  {String} id
-   * @param  {Boolean} safe - include sensitive information
-   * @return {User}
-   */
-  getUser (id, safe=false) {
-    return this.get({ id, safe })
-      .then(response => User.fromResponse(this, response))
-      .catch(error => Promise.reject(error))
-  }
-
-  /**
-   * searchUser
-   *
-   * @description
-   * Search for users
-   *
-   * @param  {Object}  query
-   * @param  {Boolean} safe - include sensitive information
-   * @return {Array<User>}
-   */
-  searchUser (query, safe=false) {
-    let { log } = UserManager
-
-    return this.search({ query, safe })
-      .then(response => User.fromResponse(this, response))
-      .catch(error => {
-        log.error(error)
-        return Promise.reject(error)
-      })
   }
 }
 

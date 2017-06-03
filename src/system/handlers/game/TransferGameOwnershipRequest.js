@@ -40,7 +40,7 @@ class TransferGameOwnershipRequest extends BaseRequest {
     let { request: { data: { game_id } }, system } = instance
     let { gameManager } = system
 
-    return gameManager.getGame(game_id, true).then(game => {
+    return gameManager.get({ id: game_id, safe: true }).then(game => {
       instance.game = game
       return instance
     }).catch(error => Promise.reject(error))

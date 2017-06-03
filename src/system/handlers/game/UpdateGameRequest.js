@@ -39,7 +39,7 @@ class UpdateGameRequest extends BaseRequest {
     let { request: { data: { id } }, system } = instance
     let { gameManager } = system
 
-    return gameManager.getGame(id, true).then(game => {
+    return gameManager.get({ id, safe: true }).then(game => {
       instance.game = game
       return instance
     }).catch(error => Promise.reject(error))
