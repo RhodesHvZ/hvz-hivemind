@@ -33,7 +33,7 @@ class UpdateGameRequest extends GameBaseRequest {
 
   static get meta () {
     return {
-      request_fields: ['id'],
+      request_fields: ['game_id'],
       authorization_level: GameAdminRankEnum.SUPER
     }
   }
