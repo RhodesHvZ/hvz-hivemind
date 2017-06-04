@@ -67,8 +67,8 @@ class GetUserRequest extends BaseRequest {
     }).then(users => {
         instance.response = users
         instance.heartbeat(80)
+        return instance
       })
-      .then(() => instance)
       .catch(error => Promise.reject(error))
   }
 
@@ -95,8 +95,8 @@ class GetUserRequest extends BaseRequest {
       .then(user => {
         instance.response = user
         instance.heartbeat(80)
+        return instance
       })
-      .then(() => instance)
       .catch(error => Promise.reject(error))
   }
 }

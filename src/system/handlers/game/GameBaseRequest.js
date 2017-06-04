@@ -37,7 +37,7 @@ class GameBaseRequest extends BaseRequest {
       return instance.internalServerError('meta.authorization_level must be provided from the child class of GameBaseRequest')
     }
 
-    let [admin] = admins.filter(admin => admin.id === id)
+    let admin = admins.find(admin => admin.id === id)
 
     if (!admin || admin.rank > authorization_level) {
       return instance.unauthorizedError('Insufficient privilege')
@@ -46,16 +46,20 @@ class GameBaseRequest extends BaseRequest {
     return instance
   }
 
-  userExists (instance) {
-    let { request: { data }, system: { userManager } } = instance
-    let { user_id } = data
+  getAdminRank (instance) {
+    let { socket, game: { admins } } = instance
+    let { handshake: { session } } = socket
+    let { sub: id } = session
 
-    return userManager.exists({ id: user_id }).then(result => {
-      if (!result) {
-        return instance.invalidRequest(`User id ${user_id} does not exist`)
-      }
-      return instance
-    }).catch(error => Promise.reject(error))
+    let admin = admins.find(admin => admin.id === id)
+
+    if (!admin) {
+      Object.defineProperty(instance, 'admin_rank', { value: 1000 })
+    } else {
+      Object.defineProperty(instance, 'admin_rank', { value: admin.rank })
+    }
+
+    return instance
   }
 }
 

@@ -55,8 +55,8 @@ class GetGameRequest extends GameBaseRequest {
       .then(games => {
         instance.response = games
         instance.heartbeat(80)
+        return instance
       })
-      .then(() => instance)
       .catch(error => Promise.reject(error))
   }
 
@@ -69,8 +69,8 @@ class GetGameRequest extends GameBaseRequest {
       .then(game => {
         instance.response = game
         instance.heartbeat(80)
+        return instance
       })
-      .then(() => instance)
       .catch(error => Promise.reject(error))
   }
 }

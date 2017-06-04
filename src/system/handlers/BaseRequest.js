@@ -85,6 +85,18 @@ class BaseRequest {
     return instance
   }
 
+  userExists (instance) {
+    let { request: { data }, system: { userManager } } = instance
+    let { user_id } = data
+
+    return userManager.exists({ id: user_id }).then(result => {
+      if (!result) {
+        return instance.invalidRequest(`User id ${user_id} does not exist`)
+      }
+      return instance
+    }).catch(error => Promise.reject(error))
+  }
+
   internalServerError (err) {
     let { request, error, socket } = this
     let { type: request_type } = request

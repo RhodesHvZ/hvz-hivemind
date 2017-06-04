@@ -61,7 +61,7 @@ class NewGameRequest extends GameBaseRequest {
         instance.response = game
         return instance
       })
-      .catch(error => instance.forbiddenError(error))
+      .catch(error => Promise.reject(error))
   }
 }
 

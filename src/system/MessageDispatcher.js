@@ -30,6 +30,10 @@ const mapping = {
   GAME_UPDATE: require('./handlers/game/UpdateGameRequest'),
   GAME_PERMISSION_UPDATE: require('./handlers/game/UpdateGamePermissionRequest'),
   GAME_TRANSFER_OWNERSHIP: require('./handlers/game/TransferGameOwnershipRequest'),
+
+  // PLAYER
+  PLAYER_REGISTER: require('./handlers/player/RegisterPlayerRequest'),
+  PLAYER_GET: require('./handlers/player/GetPlayerRequest'),
 }
 
 /**
