@@ -4,6 +4,7 @@
  * Dependencies
  * @ignore
  */
+const _ = require('lodash')
 
 /**
  * Module Dependencies
@@ -86,6 +87,24 @@ class Type {
     source.id = id
 
     return new ExtendedType(manager, source, { _id: id, _score, _type, _index })
+  }
+
+  /**
+   * sanitize
+   *
+   * @description
+   * Create a new instance without unsafe fields present
+   *
+   * @param  {ExtendedType} instance
+   * @return {ExtendedType}
+   */
+  static sanitize (instance) {
+    let ExtendedType = this
+    let { manager } = instance
+    let { unsafeFields } = manager
+
+    let cleaned = _.omitBy(instance, key => unsafeFields.indexOf(key) > -1)
+    return new ExtendedType(manager, cleaned)
   }
 
   /**
