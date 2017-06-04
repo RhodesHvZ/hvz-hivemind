@@ -27,12 +27,17 @@ const SUSPEND = 'SUSPEND'
 const ACTIVE = 'Active'
 const INACTIVE = 'Inactive'
 const SUSPENDED = 'Suspended'
+const player_states = {
+  ACTIVE,
+  INACTIVE,
+  SUSPENDED,
+}
 
 /**
  * Game Event Constants
  */
 const TAG = 'TAG'
-const KILL = 'KILL',
+const KILL = 'KILL'
 const REVIVE = 'REVIVE'
 const SUPERSTATE = 'SUPERSTATE'
 const REMOVE_SUPERSTATE = 'REMOVE_SUPERSTATE'
@@ -42,6 +47,10 @@ const REMOVE_SUPERSTATE = 'REMOVE_SUPERSTATE'
  */
 const HUMAN = 'Human'
 const ZOMBIE = 'Zombie'
+const game_states = {
+  HUMAN,
+  ZOMBIE,
+}
 
 /**
  * Player
@@ -54,18 +63,19 @@ class Player extends Type {
   }
 
   static get player_states () {
-    return {
-      ACTIVE,
-      INACTIVE,
-      SUSPENDED
-    }
+    return player_states
   }
 
   static get game_states () {
-    return {
-      HUMAN,
-      ZOMBIE
-    }
+    return game_states
+  }
+
+  get player_states () {
+    return player_states
+  }
+
+  get game_states () {
+    return game_states
   }
 
   get socket () {
@@ -82,7 +92,7 @@ class Player extends Type {
         return ACTIVE
       } else if (type === DEACTIVATE) {
         return INACTIVE
-      } else if (type === SUSPEND && moment().isAfter(moment.utc(data.until))) {
+      } else if (type === SUSPEND && moment().isBefore(moment.utc(data.until))) {
         return SUSPENDED
       }
 
@@ -183,7 +193,7 @@ class Player extends Type {
 
     return this.pushPlayerEvent({
       type: SUSPEND,
-      data: { admin, timestamp, until, reason }
+      data: _.omitBy({ admin, timestamp, until, reason }, value => value === undefined)
     })
   }
 
@@ -196,7 +206,7 @@ class Player extends Type {
 
     return this.pushGameEvent({
       type: KILL,
-      data: { admin, timestamp, reason }
+      data: _.omitBy({ admin, timestamp, reason }, value => value === undefined)
     })
   }
 
@@ -209,7 +219,7 @@ class Player extends Type {
 
     return this.pushGameEvent({
       type: REVIVE,
-      data: { admin, timestamp, reason }
+      data: _.omitBy({ admin, timestamp, reason }, value => value === undefined)
     })
   }
 
@@ -253,6 +263,7 @@ class Player extends Type {
   update (data) {
     let { display_name, last_words, picture } = data
     let { manager, id } = this
+    let { log } = Player
     let doc = _.omitBy({
       display_name,
       last_words,

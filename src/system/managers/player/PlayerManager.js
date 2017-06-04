@@ -35,18 +35,26 @@ class PlayerManager extends Manager {
     return ['code', 'last_words', 'game_events', 'missions']
   }
 
-  userUnique (id) {
-    let { game } = this
+  getByUser (user) {
+    let { game: { id: game } } = this
 
     return this.search({
       query: {
-        match: { user: id }
-      }
+        bool: {
+          filter: [
+            { match: { user } },
+            { term: { game } }
+          ]
+        }
+      },
+      safe: true
     })
-    .then(players => {
-      return players.length === 0
-    })
-    .catch(error => Promise.reject(error))
+  }
+
+  userUnique (user) {
+    return this.getByUser(user)
+      .then(players => players.length === 0)
+      .catch(error => Promise.reject(error))
   }
 
   generateCode () {
