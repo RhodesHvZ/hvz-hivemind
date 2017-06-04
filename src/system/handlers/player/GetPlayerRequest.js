@@ -127,9 +127,15 @@ class GetPlayerRequest extends PlayerBaseRequest {
 
     return playerManager.get({ id, safe })
       .then(player => {
-        instance.response = player
         if (!instance.fullAuthorization(player)) {
           instance.response = playerManager.type.sanitize(player)
+        } else {
+          player.states = {
+            player: player.player_state,
+            game: player.game_state,
+            super: player.super_state
+          }
+          instance.response = player
         }
 
         instance.heartbeat(80)
