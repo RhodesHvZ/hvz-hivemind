@@ -66,13 +66,27 @@ class GetPlayerRequest extends PlayerBaseRequest {
     }
 
     let queries = [
-      { regexp: { state: `.*${query}.*` } },
+      {
+        nested: {
+          path: 'player_events',
+          query: {
+            match: { 'player_events.type': query }
+          }
+        }
+      },
       { regexp: { hall: `.*${query}.*` } },
       { regexp: { display_name: `.*${query}.*` } }
     ]
 
     if (safe) {
-      queries.push({ regexp: { super_state: `.*${query}.*` } })
+      queries.push({
+        nested: {
+          path: 'game_events',
+          query: {
+            regexp: { 'game_events.data.super_state': `.*${query}.*` }
+          }
+        }
+      })
     }
 
     return playerManager.search({

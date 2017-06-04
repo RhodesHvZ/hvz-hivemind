@@ -190,10 +190,6 @@
 
         "code": { "type": "text" },
 
-        "state": { "type": "text" },
-
-        "super_state": { "type": "text" },
-
         "hall": { "type": "text" },
 
         "picture": { "type": "text", "analyzer": "url_email" },
@@ -202,7 +198,15 @@
 
         "last_words": { "type": "text" },
 
-        "events": {
+        "player_events": {
+          "type": "nested",
+          "properties": {
+            "type": { "type": "text" },
+            "data": { "type": "object" }
+          }
+        },
+
+        "game_events": {
           "type": "nested",
           "properties": {
             "type": { "type": "text" },

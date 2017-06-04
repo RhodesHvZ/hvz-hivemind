@@ -32,7 +32,7 @@ class PlayerManager extends Manager {
   }
 
   static get unsafeFields () {
-    return ['code', 'super_state', 'last_words', 'events', 'missions']
+    return ['code', 'last_words', 'game_events', 'missions']
   }
 
   userUnique (id) {

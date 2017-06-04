@@ -61,13 +61,12 @@ class RegisterPlayerRequest extends PlayerBaseRequest {
       user: user_id,
       game: game_id,
       code: playerManager.generateCode(),
-      state: 'inactive',
-      super_state: [],
       hall,
       picture: picture || user_picture,
       display_name: display_name || user_name,
       last_words: last_words || '',
-      events: [],
+      player_events: [{ type: 'REGISTER', data: { timestamp: moment().valueOf() } }],
+      game_events: [],
       missions: []
     }
 
