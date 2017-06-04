@@ -183,8 +183,7 @@ class Manager {
       return client.index({
         index,
         type,
-        body,
-        opType: 'create'
+        body
       }).catch(error => Promise.reject(error))
 
     } else {
@@ -192,8 +191,7 @@ class Manager {
         index,
         type,
         id,
-        body,
-        opType: 'create'
+        body
       }).catch(error => Promise.reject(error))
     }
   }
