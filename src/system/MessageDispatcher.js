@@ -34,6 +34,13 @@ const mapping = {
   // PLAYER
   PLAYER_REGISTER: require('./handlers/player/RegisterPlayerRequest'),
   PLAYER_GET: require('./handlers/player/GetPlayerRequest'),
+  PLAYER_ACTIVATE: require('./handlers/player/PlayerActivateRequest'),
+  PLAYER_DEACTIVATE: require('./handlers/player/PlayerDeactivateRequest'),
+  PLAYER_SUSPEND: require('./handlers/player/PlayerSuspendRequest'),
+  PLAYER_KILL: require('./handlers/player/PlayerKillRequest'),
+  PLAYER_REVIVE: require('./handlers/player/PlayerReviveRequest'),
+  PLAYER_SUPERSTATE: require('./handlers/player/PlayerSuperStateRequest'),
+  PLAYER_UPDATE: require('./handlers/player/PlayerUpdateRequest'),
 }
 
 /**
