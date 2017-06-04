@@ -32,7 +32,25 @@ class PlayerManager extends Manager {
   }
 
   static get unsafeFields () {
-    return []
+    return ['code', 'super_state', 'last_words', 'events', 'missions']
+  }
+
+  userUnique (id) {
+    let { game } = this
+
+    return this.search({
+      query: {
+        match: { user: id }
+      }
+    })
+    .then(players => {
+      return players.length === 0
+    })
+    .catch(error => Promise.reject(error))
+  }
+
+  generateCode () {
+    return 'r4nd0m b1t3 c0d3'
   }
 }
 
