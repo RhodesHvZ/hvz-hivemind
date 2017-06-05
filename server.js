@@ -66,7 +66,7 @@ class Application {
       .then(instance.oidc)
       .then(instance.listen)
       .catch(error => {
-        log.fatal(error, `Error starting server`)
+        log.fatal(typeof error === 'string' ? error : { message: error.message }, `Error starting server`)
         process.exit(1)
       })
   }
@@ -94,6 +94,7 @@ class Application {
         if (!exists) {
           return client.indices.create({ index: indexName, body: HvZIndexSchema })
             .then(response => log.debug({ response }, 'HvZ Index Created'))
+            .catch(error => Promise.reject(error))
         } else {
           log.info('HvZ ElasticSearch Index Found')
         }
