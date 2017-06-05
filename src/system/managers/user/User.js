@@ -73,6 +73,11 @@ class User extends Type {
     }))
   }
 
+  privateMessage (data) {
+    let { mailManager } = this
+    return mailManager.privateMessage(data)
+  }
+
 }
 
 /**

@@ -78,10 +78,6 @@ class Player extends Type {
     return game_states
   }
 
-  get socket () {
-    // TODO
-  }
-
   get player_state () {
     let { player_events } = this
 
@@ -138,6 +134,21 @@ class Player extends Type {
 
       return state
     }, [])
+  }
+
+  getUser () {
+    if (this._user) {
+      return Promise.resolve(this._user)
+    }
+
+    let { manager: { system: { userManager } }, user_id } = this
+
+    return userManger.get({ id: user_id })
+      .then(user => {
+        Object.defineProperty(this, '_user', { value: user })
+        return user
+      })
+      .catch(error => Promise.reject(error))
   }
 
   pushGameEvent (event) {
@@ -258,6 +269,12 @@ class Player extends Type {
     let { manager, id, code } = this
 
     return manager.update({ id, doc: { code } })
+  }
+
+  privateMessage(data) {
+    return this.getUser()
+      .then(user => user.privateMessage(data))
+      .catch(error => Promise.reject(error))
   }
 
   update (data) {
