@@ -26,7 +26,7 @@ class PlayerBaseRequest extends GameBaseRequest {
     }).catch(error => Promise.reject(error))
   }
 
-  getPlayerByUser(instance) {
+  getPlayerByUser (instance) {
     let { socket, game: { playerManager, id: game_id } } = instance
     let { handshake: { session: { sub: user_id } } } = socket
 
@@ -37,6 +37,22 @@ class PlayerBaseRequest extends GameBaseRequest {
           return instance
         } else {
           return instance.invalidRequest(`User ${user_id} doesn't have a player for game ${game_id}`)
+        }
+      })
+      .catch(error => Promise.reject(error))
+  }
+
+  getPlayerByCode (instance) {
+    let { request, game: { playerManager, id: game_id } } = instance
+    let { data: { code } } = request
+
+    return playerManager.getByCode(code)
+      .then(players => {
+        if (players.length === 1) {
+          instance.victim = players[0]
+          return instance
+        } else {
+          return instance.invalidRequest(`Player not found for game ${game_id}`)
         }
       })
       .catch(error => Promise.reject(error))
