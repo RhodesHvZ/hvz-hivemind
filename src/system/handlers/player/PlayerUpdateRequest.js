@@ -40,11 +40,9 @@ class PlayerUpdateRequest extends PlayerBaseRequest {
 
   update (instance) {
     let { request: { data }, player } = instance
-    let { log } = PlayerUpdateRequest
 
     return player.update(data)
       .then(() => {
-        log.info({ id: player.id }, 'Player updated')
         instance.response = player
         return instance
       })

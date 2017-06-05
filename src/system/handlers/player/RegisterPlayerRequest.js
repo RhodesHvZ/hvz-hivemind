@@ -58,8 +58,8 @@ class RegisterPlayerRequest extends PlayerBaseRequest {
     let { game_id, hall, picture, display_name, last_words } = data
 
     let body = {
-      user: user_id,
-      game: game_id,
+      user_id: user_id,
+      game_id: game_id,
       code: playerManager.generateCode(),
       hall,
       picture: picture || user_picture,

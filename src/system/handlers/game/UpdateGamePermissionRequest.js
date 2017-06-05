@@ -40,7 +40,6 @@ class UpdateGamePermissionRequest extends GameBaseRequest {
   }
 
   update (instance) {
-    let { log } = UpdateGamePermissionRequest
     let { request: { data }, game } = instance
 
     return game.updateAdmin(data).then(() => {

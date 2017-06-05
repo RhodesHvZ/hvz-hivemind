@@ -273,7 +273,7 @@ class Player extends Type {
     return manager.update({ id, doc })
       .then(result => {
         Object.assign(this, doc)
-        log.info({ game: id, update: doc }, 'Player Updated')
+        log.info({ player: id, update: doc }, 'Player Updated')
         return result
       })
       .catch(error => Promise.reject(error))

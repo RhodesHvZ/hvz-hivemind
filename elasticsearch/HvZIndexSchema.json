@@ -71,7 +71,7 @@
           }
         },
 
-        "updated": { "type": "date", "format": "epoch_millis" },
+        "updated_at": { "type": "date", "format": "epoch_millis" },
 
         "name": { "type": "text" },
 
@@ -79,7 +79,9 @@
 
         "email": { "type": "text", "analyzer": "url_email" },
 
-        "sub": { "type": "text" },
+        "id": { "type": "text" },
+
+        "sysadmin": { "type": "boolean" },
 
         "achievements": {
           "type": "nested",
@@ -96,17 +98,21 @@
               }
             }
           }
-        },
-
-        "mailbox": {
-          "type": "nested",
-          "properties": {
-            "delivered": { "type": "boolean" },
-            "timestamp": { "type": "date", "format": "epoch_millis" },
-            "type": { "type": "text" },
-            "data": { "type": "object" }
-          }
         }
+      }
+    },
+
+    "mail": {
+      "properties": {
+        "user_id": { "type": "text" },
+
+        "delivered": { "type": "boolean" },
+
+        "timestamp": { "type": "date", "format": "epoch_millis" },
+
+        "type": { "type": "text" },
+
+        "data": { "type": "object" }
       }
     },
 
@@ -129,54 +135,8 @@
         "admins": {
           "type": "nested",
           "properties": {
-            "id": { "type": "text" },
+            "user_id": { "type": "text" },
             "rank": { "type": "integer" }
-          }
-        }
-      }
-    },
-
-    "achievement": {
-      "properties": {
-        "name": { "type": "text" },
-
-        "picture": { "type": "text", "analyzer": "url_email" },
-
-        "description": { "type": "text" },
-
-        "objectives": {
-          "type": "nested",
-          "properties": {
-            "name": { "type": "text" },
-            "description": { "type": "text" },
-            "picture": { "type": "text", "analyzer": "url_email" },
-            "goal": { "type": "integer" }
-          }
-        }
-      }
-    },
-
-    "squad": {
-      "properties": {
-        "name": { "type": "text" },
-
-        "created": { "type": "date", "format": "epoch_millis" },
-
-        "picture": { "type": "text", "analyzer": "url_email" },
-
-        "members": {
-          "type": "nested",
-          "properties": {
-            "player": { "type": "text" },
-            "rank": { "type": "integer" }
-          }
-        },
-
-        "events": {
-          "type": "nested",
-          "properties": {
-            "type": { "type": "text" },
-            "data": { "type": "object" }
           }
         }
       }
@@ -184,9 +144,9 @@
 
     "player": {
       "properties": {
-        "user": { "type": "text" },
+        "user_id": { "type": "text" },
 
-        "game": { "type": "text" },
+        "game_id": { "type": "text" },
 
         "code": { "type": "text" },
 
@@ -228,6 +188,41 @@
                 "progress": { "type": "integer" }
               }
             }
+          }
+        }
+      }
+    },
+
+    "squad": {
+      "properties": {
+        "name": { "type": "text" },
+
+        "created": { "type": "date", "format": "epoch_millis" },
+
+        "picture": { "type": "text", "analyzer": "url_email" },
+
+        "members": {
+          "type": "nested",
+          "properties": {
+            "player_id": { "type": "text" },
+            "rank": { "type": "integer" },
+            "title": { "type": "text" }
+          }
+        },
+
+        "squad_events": {
+          "type": "nested",
+          "properties": {
+            "type": { "type": "text" },
+            "data": { "type": "object" }
+          }
+        },
+
+        "game_events": {
+          "type": "nested",
+          "properties": {
+            "type": { "type": "text" },
+            "data": { "type": "object" }
           }
         }
       }
@@ -276,7 +271,9 @@
 
     "marker": {
       "properties": {
-        "game": { "type": "text" },
+        "game_id": { "type": "text" },
+
+        "owner_id": { "type": "text" },
 
         "name": { "type": "text" },
 
@@ -288,34 +285,52 @@
 
         "pos": { "type": "geo_point" },
 
-        "owner": { "type": "text" },
-
         "visible": { "type": "text" }
+      }
+    },
+
+    "achievement": {
+      "properties": {
+        "name": { "type": "text" },
+
+        "picture": { "type": "text", "analyzer": "url_email" },
+
+        "description": { "type": "text" },
+
+        "objectives": {
+          "type": "nested",
+          "properties": {
+            "name": { "type": "text" },
+            "description": { "type": "text" },
+            "picture": { "type": "text", "analyzer": "url_email" },
+            "goal": { "type": "integer" }
+          }
+        }
       }
     },
 
     "tickets": {
       "properties": {
-        "game": { "type": "text" },
+        "game_id": { "type": "text" },
+
+        "user_id": { "type": "text" },
 
         "subject": { "type": "text" },
 
-        "creator": { "type": "text" },
-
-        "timestamp": { "type": "date", "format": "epoch_millis" },
+        "participants": { "type": "text" },
 
         "state": { "type": "text" },
 
-        "notify": { "type": "text" },
-
         "public": { "type": "boolean" },
+
+        "timestamp": { "type": "date", "format": "epoch_millis" },
 
         "messages": {
           "type": "nested",
           "properties": {
             "timestamp": { "type": "date", "format": "epoch_millis" },
             "message": { "type": "text" },
-            "owner": { "type": "text" }
+            "user_id": { "type": "text" }
           }
         }
       }

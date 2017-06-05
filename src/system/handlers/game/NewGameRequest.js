@@ -40,7 +40,7 @@ class NewGameRequest extends GameBaseRequest {
     let { request: { data }, socket, system } = instance
     let { gameManager } = system
     let { type: Game } = gameManager
-    let { handshake: { session: { sub: id } } } = socket
+    let { handshake: { session: { sub: user_id } } } = socket
     let { name, description, background_image, registration_date, start_date, end_date, rules } = data
 
     let game = {
@@ -51,7 +51,7 @@ class NewGameRequest extends GameBaseRequest {
       start_date: moment(start_date).valueOf(),
       end_date: moment(end_date).valueOf(),
       rules,
-      admins: [{ id, rank: 1 }]
+      admins: [{ user_id, rank: 1 }]
     }
 
     log.debug({ game }, 'New Game')

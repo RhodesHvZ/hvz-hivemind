@@ -42,15 +42,13 @@ class Game extends Type {
     let now = moment()
 
     if (now.isBefore(moment.utc(registration_date))) {
-      return 'new'
+      return 'New'
     } else if (now.isBefore(moment.utc(start_date))) {
-      return 'registration'
+      return 'Registration'
     } else if (now.isBefore(moment.utc(end_date))) {
-      return 'running'
+      return 'Running'
     } else if (now.isAfter(moment.utc(end_date))) {
-      return 'finished'
-    } else {
-      return 'invalid'
+      return 'Finished'
     }
   }
 
@@ -97,7 +95,7 @@ class Game extends Type {
     let { user_id: uid, rank, revoke } = data
     let { log } = Game
 
-    let adminIdx = admins.findIndex(admin => admin.id === uid)
+    let adminIdx = admins.findIndex(admin => admin.user_id === uid)
 
     // Existing Admin Record Found
     if (adminIdx > -1) {
@@ -118,7 +116,7 @@ class Game extends Type {
 
     // Create New Admin Record
     } else if (!revoke) {
-      admins.push({ id: uid, rank })
+      admins.push({ user_id: uid, rank })
     }
 
     return manager.update({ id, doc: { admins } })
@@ -134,14 +132,14 @@ class Game extends Type {
     let { user_id: uid } = data
     let { log } = Game
 
-    let adminIdx = admins.findIndex(admin => admin.id === uid)
+    let adminIdx = admins.findIndex(admin => admin.user_id === uid)
     let ownerIdx = admins.findIndex(admin => admin.rank === GameAdminRankEnum.OWNER)
 
     // Create or Update Admin Record
     if (adminIdx > -1) {
       admins[adminIdx].rank = GameAdminRankEnum.OWNER
     } else {
-      admins.push({ id: uid, rank: GameAdminRankEnum.OWNER })
+      admins.push({ user_id: uid, rank: GameAdminRankEnum.OWNER })
     }
 
     // Owner Admin Record *WILL* Exist

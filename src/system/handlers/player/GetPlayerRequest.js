@@ -94,7 +94,7 @@ class GetPlayerRequest extends PlayerBaseRequest {
         bool: {
           minimum_should_match: 1,
           must: {
-            match: { game: game_id }
+            match: { game_id }
           },
           should: queries
         }
@@ -113,7 +113,7 @@ class GetPlayerRequest extends PlayerBaseRequest {
     let desired_rank = GameAdminRankEnum.SUPER
 
     if (player) {
-      return admin_rank <= desired_rank || player.user === id
+      return admin_rank <= desired_rank || player.user_id === id
     }
 
     return admin_rank <= desired_rank
