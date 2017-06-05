@@ -332,7 +332,7 @@ class Manager {
    */
   search (...data) {
     let mergedData = Object.assign({}, ...data)
-    let { query, include, safe=false } = mergedData
+    let { query, include, sort, safe=false, size, from } = mergedData
 
     if (!query) {
       return Promise.reject('Query is required for search')
@@ -343,9 +343,11 @@ class Manager {
     return client.search({
       index,
       type,
-      body: { query },
+      body: { query, sort },
       _sourceExclude: safe ? [] : unsafeFields,
-      _sourceInclude: include
+      _sourceInclude: include,
+      size,
+      from
     }).then(response => Type.fromResponse(this, response))
     .catch(error => {
       log.error(error, 'search failed')
