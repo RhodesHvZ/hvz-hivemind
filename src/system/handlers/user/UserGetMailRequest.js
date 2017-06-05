@@ -34,7 +34,7 @@ class UserGetMailRequest extends BaseRequest {
 
     let page
     if (data) {
-      let { data: { page: p } } = request
+      let { page: p } = data
       page = p ? p : 0
     }
 
