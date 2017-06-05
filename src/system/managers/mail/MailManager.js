@@ -95,7 +95,7 @@ class MailManager extends Manager {
       query: {
         bool: {
           must: [
-            { match: { user_id } }
+            { match: { user_id } },
             { match: { delivered: false } }
           ]
         }
@@ -103,7 +103,7 @@ class MailManager extends Manager {
       sort: [
         { timestamp: { order: 'desc' } },
         '_score'
-      ]
+      ],
       from: page * MAX_MAIL,
       size: MAX_MAIL,
       safe: true
