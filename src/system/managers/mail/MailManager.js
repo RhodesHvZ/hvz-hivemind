@@ -49,6 +49,26 @@ class MailManager extends Manager {
     return []
   }
 
+  mail (body) {
+    let { user: { id: user_id }, socket } = this
+    let mail_body = { timestamp: moment(), type: 'MAIL', data: body }
+
+    if (socket) {
+      socket.emit('message', mail_body)
+      body.delivered = true
+    } else {
+      body.delivered = false
+    }
+
+    return this.store({ body })
+      .then(response => {
+        let { _id: id } = response
+        body.id = id
+        return new Mail(this, body)
+      })
+      .catch(error => Promise.reject(error))
+  }
+
   privateMessage (data) {
     let { message, sender: sender_id } = data
     let { user: { id: user_id, socket } } = this
@@ -59,28 +79,35 @@ class MailManager extends Manager {
 
     let body = {
       user_id,
-      delivered: false,
-      timestamp: moment().valueOf(),
+      timestamp: moment(),
       type: PRIVATE_MESSAGE,
       data: { message, sender_id }
     }
 
-    if (socket) {
-      socket.emit('message', {
-        timestamp: moment(),
-        type: 'MAIL',
-        data: body
-      })
-      body.delivered = true
-    }
+    return this.mail(body)
+  }
 
-    return this.store({ body })
-      .then(response => {
-        let { _id: id } = response
-        body.id = id
-        return new Mail(this, body)
-      })
-      .catch(error => Promise.reject(error))
+  getUnread (data) {
+    let { user: { id: user_id } } = this
+    let { page=0 } = data
+
+    return this.search({
+      query: {
+        bool: {
+          must: [
+            { match: { user_id } }
+            { match: { delivered: false } }
+          ]
+        }
+      },
+      sort: [
+        { timestamp: { order: 'desc' } },
+        '_score'
+      ]
+      from: page * MAX_MAIL,
+      size: MAX_MAIL,
+      safe: true
+    })
   }
 
   getMessages (data) {
