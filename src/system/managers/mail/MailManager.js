@@ -23,6 +23,11 @@ const mail_types = {
 }
 
 /**
+ * Query Constants
+ */
+const MAX_MAIL = 10
+
+/**
  * Mail Manager
  * @class
  */
@@ -76,6 +81,25 @@ class MailManager extends Manager {
         return new Mail(this, body)
       })
       .catch(error => Promise.reject(error))
+  }
+
+  getMessages (data) {
+    let { user: { id: user_id } } = this
+    let { page=0 } = data
+
+    return this.search({
+      query: {
+        match: { user_id }
+      },
+      sort: [
+        { delivered: { order: 'asc' } },
+        { timestamp: { order: 'desc' } },
+        '_score'
+      ],
+      from: page * MAX_MAIL,
+      size: MAX_MAIL,
+      safe: true
+    })
   }
 }
 
