@@ -15,6 +15,7 @@ const Type = require('../../common/Type')
 const PlayerManager = require('../player')
 const SquadManager = require('../squad')
 const MissionManager = require('../mission')
+const MarkerManager = require('../marker')
 const GameAdminRankEnum = require('./GameAdminRankEnum')
 
 /**
@@ -31,6 +32,7 @@ class Game extends Type {
     Object.defineProperty(this, 'playerManager', { value: new PlayerManager(manager.system, this) })
     Object.defineProperty(this, 'squadManager', { value: new SquadManager(manager.system, this) })
     Object.defineProperty(this, 'missionManager', { value: new MissionManager(manager.system, this) })
+    Object.defineProperty(this, 'markerManager', { value: new MarkerManager(manager.system, this) })
   }
 
   static get typeName () {
