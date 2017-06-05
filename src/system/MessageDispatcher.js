@@ -40,7 +40,7 @@ const mapping = {
   PLAYER_KILL: require('./handlers/player/PlayerKillRequest'),
   PLAYER_REVIVE: require('./handlers/player/PlayerReviveRequest'),
   PLAYER_SUPERSTATE: require('./handlers/player/PlayerSuperStateRequest'),
-  PLAYER_UPDATE: require('./handlers/player/PlayerUpdateRequest'),
+  PLAYER_UPDATE: require('./handlers/player/UpdatePlayerRequest'),
 }
 
 /**
