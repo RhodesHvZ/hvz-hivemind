@@ -178,22 +178,15 @@ class Manager {
     }
 
     let { constructor: { client, meta: { index, type } } } = this
+    let index_data = { index, type, body }
 
-    if (!id) {
-      return client.index({
-        index,
-        type,
-        body
-      }).catch(error => Promise.reject(error))
-
-    } else {
-      return client.index({
-        index,
-        type,
-        id,
-        body
-      }).catch(error => Promise.reject(error))
+    if (id) {
+      index_data.id = id
     }
+
+    return client.index(index_data)
+      .then(response => Object.assign({}, body, { id: response.id }))
+      .catch(error => Promise.reject(error))
   }
 
   /**
