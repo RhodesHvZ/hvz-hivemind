@@ -23,19 +23,10 @@ class UpdateUserRequest extends BaseRequest {
 
     return Promise.resolve(instance)
       .then(instance.authenticated)
-      .then(instance.getUser)
+      .then(instance.getSelf)
       .then(instance.update)
       .then(instance.success)
       .catch(error => instance.internalServerError(error))
-  }
-
-  getUser (instance) {
-    let { socket: { handshake: { session: { sub: id } } }, system: { userManager } } = instance
-
-    return userManager.get({ id }).then(user => {
-      instance.user = user
-      return instance
-    }).catch(error => Promise.reject(error))
   }
 
   update (instance) {

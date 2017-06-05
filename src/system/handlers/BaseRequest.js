@@ -107,6 +107,15 @@ class BaseRequest {
     }).catch(error => Promise.reject(error))
   }
 
+  getSelf (instance) {
+    let { socket: { handshake: { session: { sub: id } } }, system: { userManager } } = instance
+
+    return userManager.get({ id }).then(user => {
+      instance.user = user
+      return instance
+    }).catch(error => Promise.reject(error))
+  }
+
   internalServerError (err) {
     let { request, error, socket } = this
     let { type: request_type } = request
