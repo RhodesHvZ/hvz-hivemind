@@ -23,6 +23,7 @@ const mapping = {
   // USER
   USER_GET: require('./handlers/user/GetUserRequest'),
   USER_UPDATE: require('./handlers/user/UpdateUserRequest'),
+  USER_MESSAGE: require('./handlers/user/UserMessageRequest'),
 
   // GAME
   GAME_NEW: require('./handlers/game/NewGameRequest'),

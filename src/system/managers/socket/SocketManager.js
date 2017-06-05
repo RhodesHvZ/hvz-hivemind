@@ -114,14 +114,15 @@ class SocketManager {
    * getSocket
    *
    * @description
-   * Retrieve a socket indexed by Socket ID
+   * Retrieve a socket indexed by Socket or User ID
    *
    * @param {String} id
    * @return {Socket}
    */
   getSocket (id) {
-    let socket = this.socket.connected[id]
-    return socket ? socket : null
+    let sid = this.registry.getSocketId(id) || id
+    let socket = this.socket.connected[sid]
+    return socket ? socket : undefined
   }
 }
 

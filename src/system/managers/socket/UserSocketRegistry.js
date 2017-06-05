@@ -61,7 +61,10 @@ class UserSocketRegistry {
    */
   getSocketId (user_id) {
     let item = this.registry.find(item => item.user_id === user_id)
-    return item.socket_id
+    if (item) {
+      return item.socket_id
+    }
+    return undefined
   }
 
 }

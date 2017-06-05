@@ -32,7 +32,8 @@ class User extends Type {
   }
 
   get socket () {
-    // TODO
+    let { manager: { system: { socketManager } }, id } = this
+    return socketManager.getSocket(id)
   }
 
   update (data) {
