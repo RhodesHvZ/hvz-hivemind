@@ -97,6 +97,16 @@ class BaseRequest {
     }).catch(error => Promise.reject(error))
   }
 
+  getUser (instance) {
+    let { request: { data }, system: { userManager } } = instance
+    let { user_id } = data
+
+    return userManager.get({ id: user_id, safe: true }).then(user => {
+      instance.user = user
+      return instance
+    }).catch(error => Promise.reject(error))
+  }
+
   internalServerError (err) {
     let { request, error, socket } = this
     let { type: request_type } = request
