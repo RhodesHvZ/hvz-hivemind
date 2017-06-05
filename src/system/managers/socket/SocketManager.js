@@ -11,6 +11,7 @@ const socketio = require('socket.io')
  * @ignore
  */
 const MessageDispatcher = require('../../MessageDispatcher')
+const UserSocketRegistry = require('./UserSocketRegistry')
 const Logger = require('../../../logger')
 
 /**
@@ -33,6 +34,8 @@ class SocketManager {
     this.io = socketio(system.server)
     this.socket = this.io.sockets
     this.io.on('connect', socket => this.onServerConnection(socket))
+
+    Object.defineProperty(this, 'registry', { value: new UserSocketRegistry(), enumerable: true })
   }
 
   /**
@@ -44,10 +47,13 @@ class SocketManager {
    * @param {Socket} socket
    */
   onServerConnection (socket) {
-    log.trace({ id: socket.id }, `Socket connected`)
-    let { handshake: { session } } = socket
+    let { id } = socket
+    let { handshake: { session: { sub } } } = socket
 
-    log.debug({ session, id: socket.id }, `Socket session`)
+    if (sub) {
+      this.registry.register(sub, id)
+    }
+    log.debug({ user: sub, socket: id, registry: this.registry.registry }, `Socket session`)
 
     socket.on('disconnect', reason => this.onSocketDisconnect(socket, reason))
     socket.on('message', data => this.onSocketMessage(socket, data))
@@ -63,7 +69,9 @@ class SocketManager {
    * @param {Socket} socket
    */
   onSocketDisconnect (socket, reason) {
-    log.warn({ id: socket.id, reason }, `Socket disconnect`)
+    let { id } = socket
+    this.registry.deregister(id)
+    log.warn({ id: socket.id, reason, registry: this.registry.registry }, `Socket disconnect`)
   }
 
 
