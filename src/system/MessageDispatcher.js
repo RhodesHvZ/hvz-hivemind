@@ -43,6 +43,7 @@ const mapping = {
   PLAYER_REVIVE: require('./handlers/player/PlayerReviveRequest'),
   PLAYER_SUPERSTATE: require('./handlers/player/PlayerSuperStateRequest'),
   PLAYER_UPDATE: require('./handlers/player/PlayerUpdateRequest'),
+  PLAYER_TAG: require('./handlers/player/PlayerTagRequest'),
 }
 
 /**
