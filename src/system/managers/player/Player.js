@@ -37,6 +37,7 @@ const player_states = {
  * Game Event Constants
  */
 const TAG = 'TAG'
+const TAGGED = 'TAGGED'
 const KILL = 'KILL'
 const REVIVE = 'REVIVE'
 const SUPERSTATE = 'SUPERSTATE'
@@ -102,7 +103,7 @@ class Player extends Type {
     return game_events.reduce((state, event) => {
       let { type, data } = event
 
-      if (type === TAG && state === HUMAN) {
+      if (type === TAGGED && state === HUMAN) {
         return ZOMBIE
       } else if (type === KILL) {
         return ZOMBIE
@@ -143,7 +144,7 @@ class Player extends Type {
 
     let { manager: { system: { userManager } }, user_id } = this
 
-    return userManger.get({ id: user_id })
+    return userManager.get({ id: user_id })
       .then(user => {
         Object.defineProperty(this, '_user', { value: user })
         return user
@@ -235,7 +236,38 @@ class Player extends Type {
   }
 
   tag (data) {
-    // TODO
+    let { victim, lat, lon, note } = data
+    let timestamp = moment().valueOf()
+
+    let tag_body = {
+      timestamp,
+      type: 'TAG',
+      data: {
+        victim: victim.id,
+        position: { lat, lon },
+        note
+      }
+    }
+
+    let tagged_body = {
+      timestamp,
+      type: 'TAGGED',
+      data: {
+        killer: this.id,
+        position: { lat, lon },
+        note
+      }
+    }
+
+    return this.pushGameEvent(tag_body)
+      .then(() => victim.pushGameEvent(tagged_body))
+      .then(() => victim.getUser())
+      .then(user => {
+        let { mailManager } = user
+        return mailManager.mail(tagged_body)
+      })
+      .then(() => tag_body)
+      .catch(error => Promise.reject(error))
   }
 
   addSuperState (data) {
