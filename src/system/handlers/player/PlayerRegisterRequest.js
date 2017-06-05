@@ -60,7 +60,7 @@ class RegisterPlayerRequest extends PlayerBaseRequest {
     let body = {
       user_id: user_id,
       game_id: game_id,
-      code: playerManager.generateCode(),
+      code: ,
       hall,
       picture: picture || user_picture,
       display_name: display_name || user_name,
@@ -72,7 +72,23 @@ class RegisterPlayerRequest extends PlayerBaseRequest {
 
     log.debug({ player: body }, 'New Player')
 
-    return playerManager.store({ body })
+    let ensureCodeUnique = (code) => {
+      return playerManager.codeUnique(body.code)
+        .then(unique => {
+          if (!unique) {
+            return ensureCodeUnique(playerManager.generateCode())
+          } else {
+            return code
+          }
+        })
+        .catch(error => Promise.reject(error))
+    }
+
+    return ensureCodeUnique(playerManager.generateCode())
+      .then(code => {
+        body.code = code
+        return playerManager.store({ body })
+      })
       .then(player => {
         instance.response = player
         return instance
