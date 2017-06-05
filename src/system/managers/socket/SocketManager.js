@@ -10,8 +10,8 @@ const socketio = require('socket.io')
  * Module Dependencies
  * @ignore
  */
-const MessageDispatcher = require('./MessageDispatcher')
-const Logger = require('../logger')
+const MessageDispatcher = require('../../MessageDispatcher')
+const Logger = require('../../../logger')
 
 /**
  * Logger
