@@ -11,6 +11,7 @@ const _ = require('lodash')
  * @ignore
  */
 const Type = require('../../common/Type')
+const MailManager = require('../mail')
 
 /**
  * User
@@ -18,8 +19,20 @@ const Type = require('../../common/Type')
  */
 class User extends Type {
 
+  /**
+   * constructor
+   */
+  constructor (manager, data, hidden) {
+    super(manager, data, hidden)
+    Object.defineProperty(this, 'mailManager', { value: new MailManager(manager.system, this) })
+  }
+
   static get typeName () {
     return 'user'
+  }
+
+  get socket () {
+    // TODO
   }
 
   update (data) {
@@ -43,14 +56,14 @@ class User extends Type {
   }
 
   updateSession (session) {
-    let { name, email, picture, id } = this
+    let { name, email, picture, id, sysadmin } = this
     let { sub: suid } = session
 
     if (id !== suid) {
       return Promise.reject('User session mismatch')
     }
 
-    Object.assign(session, { name, email, picture })
+    Object.assign(session, { name, email, picture, sysadmin })
     return new Promise((resolve, reject) => session.save(error => {
       if (error) {
         return reject(error)
