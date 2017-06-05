@@ -57,6 +57,23 @@ class PlayerManager extends Manager {
       .catch(error => Promise.reject(error))
   }
 
+  getByCode (code) {
+    let { game: { id: game_id } } = this
+
+    return this.search({
+      query: {
+        match: { code: code.toUpperCase() }
+      },
+      safe: true
+    })
+  }
+
+  codeUnique (code) {
+    return this.getByCode(code)
+      .then(players => players.length === 0)
+      .catch(error => Promise.reject(error))
+  }
+
   generateCode () {
     return 'r4nd0m b1t3 c0d3'
   }
