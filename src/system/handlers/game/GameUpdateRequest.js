@@ -13,20 +13,19 @@ const GameBaseRequest = require('./GameBaseRequest')
 const GameAdminRankEnum = require('../../managers/game/GameAdminRankEnum')
 
 /**
- * TransferGameOwnershipRequest
+ * GameUpdateRequest
  * @class
  */
-class TransferGameOwnershipRequest extends GameBaseRequest {
+class GameUpdateRequest extends GameBaseRequest {
 
   static handle (request, socket, system) {
-    let instance = new TransferGameOwnershipRequest(request, socket, system)
+    let instance = new GameUpdateRequest(request, socket, system)
 
     return Promise.resolve(instance)
       .then(instance.ensureRequestFields)
       .then(instance.authenticated)
       .then(instance.getGame)
       .then(instance.authorization)
-      .then(instance.userExists)
       .then(instance.update)
       .then(instance.success)
       .catch(error => instance.internalServerError(error))
@@ -34,21 +33,16 @@ class TransferGameOwnershipRequest extends GameBaseRequest {
 
   static get meta () {
     return {
-      request_fields: ['game_id', 'user_id'],
-      authorization_level: GameAdminRankEnum.OWNER
+      request_fields: ['game_id'],
+      authorization_level: GameAdminRankEnum.SUPER
     }
   }
 
   update (instance) {
-    let { request: { data }, socket, game } = instance
-    let { user_id } = data
-    let { handshake: { session: { sub: id } } } = socket
+    let { log } = GameUpdateRequest
+    let { request: { data }, game } = instance
 
-    if (user_id === id) {
-      return instance.invalidRequest('Cannot transfer ownership to yourself')
-    }
-
-    return game.transferOwnership(data).then(() => {
+    return game.update(data).then(() => {
       instance.response = game
       return instance
     }).catch(error => Promise.reject(error))
@@ -59,4 +53,4 @@ class TransferGameOwnershipRequest extends GameBaseRequest {
  * Export
  * @ignore
  */
-module.exports = TransferGameOwnershipRequest
+module.exports = GameUpdateRequest

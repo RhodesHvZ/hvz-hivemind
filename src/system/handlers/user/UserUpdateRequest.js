@@ -13,13 +13,13 @@ const moment = require('moment')
 const BaseRequest = require('../BaseRequest')
 
 /**
- * UpdateUserRequest
+ * UserUpdateRequest
  * @class
  */
-class UpdateUserRequest extends BaseRequest {
+class UserUpdateRequest extends BaseRequest {
 
   static handle (request, socket, system) {
-    let instance = new UpdateUserRequest(request, socket, system)
+    let instance = new UserUpdateRequest(request, socket, system)
 
     return Promise.resolve(instance)
       .then(instance.authenticated)
@@ -49,4 +49,4 @@ class UpdateUserRequest extends BaseRequest {
  * Export
  * @ignore
  */
-module.exports = UpdateUserRequest
+module.exports = UserUpdateRequest

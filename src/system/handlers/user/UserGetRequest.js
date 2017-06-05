@@ -12,13 +12,13 @@
 const BaseRequest = require('../BaseRequest')
 
 /**
- * GetUserRequest
+ * UserGetRequest
  * @class
  */
-class GetUserRequest extends BaseRequest {
+class UserGetRequest extends BaseRequest {
 
   static handle (request, socket, system) {
-    let instance = new GetUserRequest(request, socket, system)
+    let instance = new UserGetRequest(request, socket, system)
 
     return Promise.resolve(instance)
       .then(instance.ensureRequestFields)
@@ -105,4 +105,4 @@ class GetUserRequest extends BaseRequest {
  * Export
  * @ignore
  */
-module.exports = GetUserRequest
+module.exports = UserGetRequest

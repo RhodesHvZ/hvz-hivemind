@@ -13,19 +13,20 @@ const GameBaseRequest = require('./GameBaseRequest')
 const GameAdminRankEnum = require('../../managers/game/GameAdminRankEnum')
 
 /**
- * UpdateGameRequest
+ * GameUpdatePermissionRequest
  * @class
  */
-class UpdateGameRequest extends GameBaseRequest {
+class GameUpdatePermissionRequest extends GameBaseRequest {
 
   static handle (request, socket, system) {
-    let instance = new UpdateGameRequest(request, socket, system)
+    let instance = new GameUpdatePermissionRequest(request, socket, system)
 
     return Promise.resolve(instance)
       .then(instance.ensureRequestFields)
       .then(instance.authenticated)
       .then(instance.getGame)
       .then(instance.authorization)
+      .then(instance.userExists)
       .then(instance.update)
       .then(instance.success)
       .catch(error => instance.internalServerError(error))
@@ -33,16 +34,15 @@ class UpdateGameRequest extends GameBaseRequest {
 
   static get meta () {
     return {
-      request_fields: ['game_id'],
+      request_fields: ['game_id', 'user_id'],
       authorization_level: GameAdminRankEnum.SUPER
     }
   }
 
   update (instance) {
-    let { log } = UpdateGameRequest
     let { request: { data }, game } = instance
 
-    return game.update(data).then(() => {
+    return game.updateAdmin(data).then(() => {
       instance.response = game
       return instance
     }).catch(error => Promise.reject(error))
@@ -53,4 +53,4 @@ class UpdateGameRequest extends GameBaseRequest {
  * Export
  * @ignore
  */
-module.exports = UpdateGameRequest
+module.exports = GameUpdatePermissionRequest

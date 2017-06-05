@@ -12,13 +12,13 @@
 const GameBaseRequest = require('./GameBaseRequest')
 
 /**
- * GetGameRequest
+ * GameGetRequest
  * @class
  */
-class GetGameRequest extends GameBaseRequest {
+class GameGetRequest extends GameBaseRequest {
 
   static handle (request, socket, system) {
-    let instance = new GetGameRequest(request, socket, system)
+    let instance = new GameGetRequest(request, socket, system)
 
     return Promise.resolve(instance)
       .then(instance.ensureRequestFields)
@@ -79,4 +79,4 @@ class GetGameRequest extends GameBaseRequest {
  * Export
  * @ignore
  */
-module.exports = GetGameRequest
+module.exports = GameGetRequest

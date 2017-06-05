@@ -13,13 +13,13 @@ const PlayerBaseRequest = require('./PlayerBaseRequest')
 const GameAdminRankEnum = require('../../managers/game/GameAdminRankEnum')
 
 /**
- * GetPlayerRequest
+ * PlayerGetRequest
  * @class
  */
-class GetPlayerRequest extends PlayerBaseRequest {
+class PlayerGetRequest extends PlayerBaseRequest {
 
   static handle (request, socket, system) {
-    let instance = new GetPlayerRequest(request, socket, system)
+    let instance = new PlayerGetRequest(request, socket, system)
 
     return Promise.resolve(instance)
       .then(instance.ensureRequestFields)
@@ -122,7 +122,7 @@ class GetPlayerRequest extends PlayerBaseRequest {
   lookup (instance) {
     let { request, system, game: { playerManager } } = instance
     let { data: { player_id: id } } = request
-    let { log } = GetPlayerRequest
+    let { log } = PlayerGetRequest
     let safe = !Array.isArray(id)
 
     return playerManager.get({ id, safe })
@@ -149,4 +149,4 @@ class GetPlayerRequest extends PlayerBaseRequest {
  * Export
  * @ignore
  */
-module.exports = GetPlayerRequest
+module.exports = PlayerGetRequest

@@ -13,13 +13,13 @@ const moment = require('moment')
 const GameBaseRequest = require('./GameBaseRequest')
 
 /**
- * NewGameRequest
+ * GameCreateRequest
  * @class
  */
-class NewGameRequest extends GameBaseRequest {
+class GameCreateRequest extends GameBaseRequest {
 
   static handle (request, socket, system) {
-    let instance = new NewGameRequest(request, socket, system)
+    let instance = new GameCreateRequest(request, socket, system)
 
     return Promise.resolve(instance)
       .then(instance.ensureRequestFields)
@@ -36,7 +36,7 @@ class NewGameRequest extends GameBaseRequest {
   }
 
   create (instance) {
-    let { log } = NewGameRequest
+    let { log } = GameCreateRequest
     let { request: { data }, socket, system } = instance
     let { gameManager } = system
     let { type: Game } = gameManager
@@ -69,4 +69,4 @@ class NewGameRequest extends GameBaseRequest {
  * Export
  * @ignore
  */
-module.exports = NewGameRequest
+module.exports = GameCreateRequest
