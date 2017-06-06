@@ -177,6 +177,19 @@ class Game extends Type {
       .catch(error => Promise.reject(error))
   }
 
+  getGameAdmins () {
+    let { manager: { system: { userManager } }, admins } = this
+    let id = admins.map(admin => admin.id)
+
+    return userManager.get({ id, safe: true })
+  }
+
+  mailGameAdmins (body) {
+    return this.getGameAdmins()
+      .then(admins => Promise.all(admins.map(admin => admin.mail(body))))
+      .catch(error => Promise.reject(error))
+  }
+
 }
 
 /**
