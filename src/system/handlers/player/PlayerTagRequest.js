@@ -41,9 +41,18 @@ class PlayerTagRequest extends PlayerBaseRequest {
 
   tag (instance) {
     let { request: { data: { lat, lon } }, player, victim } = instance
+    let game_states = player.game_states
 
     if (player.id === victim.id) {
       return instance.invalidRequest('You cannot tag yourself')
+    }
+
+    if (player.game_state !== game_states.ZOMBIE) {
+      return instance.invalidRequest('Only zombies can tag others')
+    }
+
+    if (victim.game_state !== game_state.HUMAN) {
+      return instance.invalidRequest('Zombies don\'t taste as good as humans do...')
     }
 
     return player.tag({ victim, lat, lon })
