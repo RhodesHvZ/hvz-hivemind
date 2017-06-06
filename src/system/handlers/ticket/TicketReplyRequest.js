@@ -24,6 +24,7 @@ class TicketReplyRequest extends TicketBaseRequest {
     return Promise.resolve(instance)
       .then(instance.ensureRequestFields)
       .then(instance.authenticated)
+      .then(instance.getTicket)
       .then(instance.reply)
       .then(instance.success)
       .catch(error => instance.internalServerError(error))
@@ -36,7 +37,17 @@ class TicketReplyRequest extends TicketBaseRequest {
   }
 
   reply (instance) {
-    return instance
+    let { request: { data }, socket, ticket } = instance
+    let { handshake: { session: { sub: user_id } } } = socket
+    let { message } = data
+
+    return ticket.reply({ user_id, message })
+      .then(() => {
+        instance.heartbeat(80)
+        instance.response = ticket
+        return instance
+      })
+      .catch(error => Promise.reject(error))
   }
 }
 
