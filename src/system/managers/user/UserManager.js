@@ -155,6 +155,38 @@ class UserManager extends Manager {
         })
       }).catch(error => Promise.reject(error))
   }
+
+  /**
+   * getSysAdmins
+   *
+   * @description
+   * Get user records for system admininstrators
+   *
+   * @return {Promise<Array<User>>}
+   */
+  getSysAdmins () {
+    return this.search({
+      query: {
+        term: { sysadmin: true }
+      },
+      safe: false
+    })
+  }
+
+  /**
+   * mailSysAdmins
+   *
+   * @description
+   * Send or queue push notifications to sysadmins
+   *
+   * @param  {Object} body - Mail body
+   * @return {Promise<Array<Mail>>}
+   */
+  mailSysAdmins (body) {
+    return this.getSysAdmins()
+      .then(admins => Promise.all(admins.map(admin => admin.mail(body))))
+      .catch(error => Promise.reject(error))
+  }
 }
 
 /**
