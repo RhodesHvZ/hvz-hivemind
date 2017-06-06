@@ -39,7 +39,12 @@ class TicketReplyRequest extends TicketBaseRequest {
   reply (instance) {
     let { request: { data }, socket, ticket } = instance
     let { handshake: { session: { sub: user_id } } } = socket
+    let { state } = ticket
     let { message } = data
+
+    if (state === 'Closed') {
+      return instance.invalidRequest('Ticket is closed. No further replies are possible.')
+    }
 
     return ticket.reply({ user_id, message })
       .then(() => {
