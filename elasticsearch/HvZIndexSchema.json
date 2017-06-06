@@ -79,7 +79,7 @@
 
         "email": { "type": "text", "analyzer": "url_email" },
 
-        "id": { "type": "text" },
+        "id": { "type": "keyword" },
 
         "sysadmin": { "type": "boolean" },
 
@@ -104,7 +104,7 @@
 
     "mail": {
       "properties": {
-        "user_id": { "type": "text" },
+        "user_id": { "type": "keyword" },
 
         "delivered": { "type": "boolean" },
 
@@ -135,7 +135,7 @@
         "admins": {
           "type": "nested",
           "properties": {
-            "user_id": { "type": "text" },
+            "user_id": { "type": "keyword" },
             "rank": { "type": "integer" }
           }
         }
@@ -144,11 +144,11 @@
 
     "player": {
       "properties": {
-        "user_id": { "type": "text" },
+        "user_id": { "type": "keyword" },
 
-        "game_id": { "type": "text" },
+        "game_id": { "type": "keyword" },
 
-        "code": { "type": "text" },
+        "code": { "type": "keyword" },
 
         "hall": { "type": "text" },
 
@@ -204,7 +204,7 @@
         "members": {
           "type": "nested",
           "properties": {
-            "player_id": { "type": "text" },
+            "player_id": { "type": "keyword" },
             "rank": { "type": "integer" },
             "title": { "type": "text" }
           }
@@ -271,9 +271,9 @@
 
     "marker": {
       "properties": {
-        "game_id": { "type": "text" },
+        "game_id": { "type": "keyword" },
 
-        "owner_id": { "type": "text" },
+        "owner_id": { "type": "keyword" },
 
         "name": { "type": "text" },
 
@@ -311,9 +311,9 @@
 
     "tickets": {
       "properties": {
-        "game_id": { "type": "text" },
+        "game_id": { "type": "keyword" },
 
-        "user_id": { "type": "text" },
+        "user_id": { "type": "keyword" },
 
         "subject": { "type": "text" },
 
@@ -330,7 +330,7 @@
           "properties": {
             "timestamp": { "type": "date", "format": "epoch_millis" },
             "message": { "type": "text" },
-            "user_id": { "type": "text" }
+            "user_id": { "type": "keyword" }
           }
         }
       }
