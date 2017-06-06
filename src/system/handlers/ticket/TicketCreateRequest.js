@@ -24,6 +24,7 @@ class TicketCreateRequest extends TicketBaseRequest {
     return Promise.resolve(instance)
       .then(instance.ensureRequestFields)
       .then(instance.authenticated)
+      .then(instance.getGame)
       .then(instance.create)
       .then(instance.success)
       .catch(error => instance.internalServerError(error))
@@ -33,6 +34,20 @@ class TicketCreateRequest extends TicketBaseRequest {
     return {
       request_fields: ['subject', 'message']
     }
+  }
+
+  getGame (instance) {
+    let { request: { data: { game_id } }, system } = instance
+    let { gameManager } = system
+
+    if (game_id) {
+      return gameManager.get({ id: game_id, safe: true }).then(game => {
+        instance.game = game
+        return instance
+      }).catch(error => Promise.reject(error))
+    }
+
+    return instance
   }
 
   create (instance) {
@@ -60,12 +75,17 @@ class TicketCreateRequest extends TicketBaseRequest {
         let mail_body = {
           user_id,
           timestamp,
-          type: 'NEW_TICKET',
-          data: { ticket_id: ticket.id, subject }
+          type: 'TICKET',
+          data: { ticket_id: ticket.id, game_id, subject, message }
         }
 
         instance.response = ticket
-        return userManager.mailSysAdmins(mail_body)
+        return game_id
+          ? Promise.all([
+            userManager.mailSysAdmins(mail_body),
+            instance.game.mailGameAdmins(mail_body)
+          ])
+          : userManager.mailSysAdmins(mail_body)
       })
       .then(() => instance)
       .catch(error => Promise.reject(error))
