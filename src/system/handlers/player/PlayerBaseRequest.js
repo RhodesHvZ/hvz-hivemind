@@ -12,6 +12,13 @@
 const GameBaseRequest = require('../game/GameBaseRequest')
 
 /**
+ * Check player active
+ */
+const isActive = player => {
+  return player.player_state === player.player_states.ACTIVE
+}
+
+/**
  * PlayerBaseRequest
  * @class
  */
@@ -56,6 +63,28 @@ class PlayerBaseRequest extends GameBaseRequest {
         }
       })
       .catch(error => Promise.reject(error))
+  }
+
+  playerActive (instance) {
+    let { player } = instance
+
+    if (!isActive(player)) {
+      return instance.forbiddenRequest('Player is inactive')
+    }
+
+    return instance
+  }
+
+  victimActive (instance) {
+    let { victim, game: { id: game_id } } = instance
+
+    if (!isActive(victim)) {
+      // For security reasons this response is the same as "player not found"
+      // to obscure that the user was found but is not active.
+      return instance.invalidRequest(`Player not found for game ${game_id}`)
+    }
+
+    return instance
   }
 
 }
