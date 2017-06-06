@@ -12,6 +12,7 @@ const moment = require('moment')
  */
 const PlayerBaseRequest = require('./PlayerBaseRequest')
 const WordList = require('../../common/WordList')
+const Game = require('../../managers/game/Game')
 
 /**
  * RegisterPlayerRequest
@@ -26,6 +27,7 @@ class RegisterPlayerRequest extends PlayerBaseRequest {
       .then(instance.ensureRequestFields)
       .then(instance.authenticated)
       .then(instance.getGame)
+      .then(instance.validateGameState)
       .then(instance.uniqueUser)
       .then(instance.create)
       .then(instance.success)
@@ -34,7 +36,8 @@ class RegisterPlayerRequest extends PlayerBaseRequest {
 
   static get meta () {
     return {
-      request_fields: ['game_id', 'hall']
+      request_fields: ['game_id', 'hall'],
+      game_state: Game.states.REGISTRATION
     }
   }
 

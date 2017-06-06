@@ -61,6 +61,21 @@ class GameBaseRequest extends BaseRequest {
 
     return instance
   }
+
+  validateGameState (instance) {
+    let { game, constructor: { meta } } = instance
+    let { game_state } = meta
+
+    if (!game_state) {
+      return instance.internalServerError('meta.game_state must be provided from the child class of GameBaseRequest')
+    }
+
+    if (game.state !== game_state) {
+      return instance.invalidRequest('Game ${game.id} is in the wrong state')
+    }
+
+    return instance
+  }
 }
 
 /**

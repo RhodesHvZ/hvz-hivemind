@@ -12,6 +12,7 @@ const moment = require('moment')
  */
 const PlayerBaseRequest = require('./PlayerBaseRequest')
 const GameAdminRankEnum = require('../../managers/game/GameAdminRankEnum')
+const Game = require('../../managers/game/Game')
 
 /**
  * PlayerTagRequest
@@ -26,6 +27,7 @@ class PlayerTagRequest extends PlayerBaseRequest {
       .then(instance.ensureRequestFields)
       .then(instance.authenticated)
       .then(instance.getGame)
+      .then(instance.validateGameState)
       .then(instance.getPlayerByUser)
       .then(instance.playerActive)
       .then(instance.getPlayerByCode)
@@ -37,7 +39,8 @@ class PlayerTagRequest extends PlayerBaseRequest {
 
   static get meta () {
     return {
-      request_fields: ['game_id', 'code', 'lat', 'lon']
+      request_fields: ['game_id', 'code', 'lat', 'lon'],
+      game_state: Game.states.RUNNING
     }
   }
 

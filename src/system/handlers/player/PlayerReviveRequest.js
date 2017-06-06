@@ -12,6 +12,7 @@ const moment = require('moment')
  */
 const PlayerBaseRequest = require('./PlayerBaseRequest')
 const GameAdminRankEnum = require('../../managers/game/GameAdminRankEnum')
+const Game = require('../../managers/game/Game')
 
 /**
  * PlayerReviveRequest
@@ -26,6 +27,7 @@ class PlayerReviveRequest extends PlayerBaseRequest {
       .then(instance.ensureRequestFields)
       .then(instance.authenticated)
       .then(instance.getGame)
+      .then(instance.validateGameState)
       .then(instance.authorization)
       .then(instance.getPlayer)
       .then(instance.revive)
@@ -36,7 +38,8 @@ class PlayerReviveRequest extends PlayerBaseRequest {
   static get meta () {
     return {
       request_fields: ['game_id', 'player_id'],
-      authorization_level: GameAdminRankEnum.SUPER
+      authorization_level: GameAdminRankEnum.SUPER,
+      game_state: Game.states.RUNNING
     }
   }
 
