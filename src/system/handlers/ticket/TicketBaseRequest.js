@@ -16,6 +16,16 @@ const BaseRequest = require('../BaseRequest')
  * @class
  */
 class TicketBaseRequest extends BaseRequest {
+
+  getTicket (instance) {
+    let { request: { data: { ticket_id } }, system } = instance
+    let { ticketManager } = system
+
+    return ticketManager.get({ id: ticket_id, safe: true }).then(ticket => {
+      instance.ticket = ticket
+      return instance
+    }).catch(error => Promise.reject(error))
+  }
 }
 
 /**
