@@ -12,6 +12,7 @@ const moment = require('moment')
  * @ignore
  */
 const Type = require('../../common/Type')
+const WordList = require('../../common/WordList')
 
 /**
  * Player Event Constants
@@ -297,10 +298,26 @@ class Player extends Type {
   }
 
   refreshBiteCode () {
-    this.code = this.manager.generateCode()
-    let { manager, id, code } = this
+    let { manager: playerManager, id } = this
 
-    return manager.update({ id, doc: { code } })
+    let ensureCodeUnique = (code) => {
+      return playerManager.codeUnique(body.code)
+        .then(unique => {
+          if (!unique) {
+            return ensureCodeUnique(WordList.generateBiteCode())
+          } else {
+            return code
+          }
+        })
+        .catch(error => Promise.reject(error))
+    }
+
+    return ensureCodeUnique(WordList.generateBiteCode())
+      .then(code => {
+        this.code = code
+        return playerManager.update({ id, doc: { code } })
+      })
+      .catch(error => Promise.reject(error))
   }
 
   privateMessage(data) {

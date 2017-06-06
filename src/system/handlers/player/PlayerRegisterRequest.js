@@ -11,6 +11,7 @@ const moment = require('moment')
  * @ignore
  */
 const PlayerBaseRequest = require('./PlayerBaseRequest')
+const WordList = require('../../common/WordList')
 
 /**
  * RegisterPlayerRequest
@@ -60,7 +61,6 @@ class RegisterPlayerRequest extends PlayerBaseRequest {
     let body = {
       user_id: user_id,
       game_id: game_id,
-      code: ,
       hall,
       picture: picture || user_picture,
       display_name: display_name || user_name,
@@ -73,10 +73,10 @@ class RegisterPlayerRequest extends PlayerBaseRequest {
     log.debug({ player: body }, 'New Player')
 
     let ensureCodeUnique = (code) => {
-      return playerManager.codeUnique(body.code)
+      return playerManager.codeUnique(code)
         .then(unique => {
           if (!unique) {
-            return ensureCodeUnique(playerManager.generateCode())
+            return ensureCodeUnique(WordList.generateBiteCode())
           } else {
             return code
           }
@@ -84,7 +84,7 @@ class RegisterPlayerRequest extends PlayerBaseRequest {
         .catch(error => Promise.reject(error))
     }
 
-    return ensureCodeUnique(playerManager.generateCode())
+    return ensureCodeUnique(WordList.generateBiteCode())
       .then(code => {
         body.code = code
         return playerManager.store({ body })

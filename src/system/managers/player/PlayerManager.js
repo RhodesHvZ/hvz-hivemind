@@ -62,7 +62,7 @@ class PlayerManager extends Manager {
 
     return this.search({
       query: {
-        match: { code: code.toUpperCase() }
+        term: { code: code.toUpperCase() }
       },
       safe: true
     })
@@ -72,10 +72,6 @@ class PlayerManager extends Manager {
     return this.getByCode(code)
       .then(players => players.length === 0)
       .catch(error => Promise.reject(error))
-  }
-
-  generateCode () {
-    return 'r4nd0m b1t3 c0d3'
   }
 }
 
