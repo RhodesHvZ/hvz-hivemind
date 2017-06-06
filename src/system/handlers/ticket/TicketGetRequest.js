@@ -35,12 +35,15 @@ class TicketGetRequest extends TicketBaseRequest {
   }
 
   dispatch (instance) {
-    let { request: { data } } = instance
-    let { ticket_id } = data
+    let { request: { data: { ticket_id, query } } } = instance
+
+    if (!ticket_id && !query) {
+      return instance.invalidRequest('ticket_id or query must be present')
+    }
 
     instance.heartbeat(10)
 
-    if (!ticket_id) {
+    if (query) {
       return instance.search(instance)
     } else {
       return instance.lookup(instance)
@@ -48,11 +51,48 @@ class TicketGetRequest extends TicketBaseRequest {
   }
 
   search (instance) {
-    return instance
+    let { request, system } = instance
+    let { ticketManager } = system
+    let { data: { query } } = request
+
+    return ticketManager.search({
+      query: {
+        bool: {
+          should: [
+            { match: { subject: query } },
+            { match: { state: query } },
+            { term: { game_id: query } },
+            {
+              nested: {
+                path: 'messages',
+                query: {
+                  match: { 'messages.message': query }
+                }
+              }
+            }
+          ]
+        }
+      }
+    }).then(tickets => {
+        instance.response = tickets
+        instance.heartbeat(80)
+        return instance
+      })
+      .catch(error => Promise.reject(error))
   }
 
   lookup (instance) {
-    return instance
+    let { request, system } = instance
+    let { ticketManager } = system
+    let { data: { ticket_id: id } } = request
+
+    return ticketManager.get({ id, safe: true })
+      .then(ticket => {
+        instance.response = ticket
+        instance.heartbeat(80)
+        return instance
+      })
+      .catch(error => Promise.reject(error))
   }
 }
 
