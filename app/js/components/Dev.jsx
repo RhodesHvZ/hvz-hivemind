@@ -5,7 +5,7 @@
  * @ignore
  */
 import React from 'react'
-import SocketManager from '../socket'
+import SocketManager from '../SocketManager'
 
 /**
  * Styles
