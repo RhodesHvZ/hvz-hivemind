@@ -25,6 +25,12 @@ class SocketManager {
     socket.on('connect', () => this.onConnect())
     socket.on('disconnect', () => this.onDisconnect())
     socket.on('error', error => this.onError(error))
+
+    // DEBUG
+    store.subscribe(() => {
+      let state = store.getState()
+      console.log('STATE', state)
+    })
   }
 
   get socket () {
@@ -32,18 +38,19 @@ class SocketManager {
   }
 
   dispatch (data) {
-    let { type, request_type } = data
+    let { type, request_type, timestamp, data: response_data } = data
 
-    let redux_type = request_type
+    let redux_type = request_type && type !== request_type
       ? `${type}_${request_type}`
       : type
 
     console.log(type, data)
-    store.dispatch({ type: redux_type, data })
+    store.dispatch({ type: redux_type, data: response_data, timestamp, socket_data: true })
   }
 
   onConnect () {
     console.log('connected')
+    this.send({ type: 'SESSION' })
   }
 
   onDisconnect () {
