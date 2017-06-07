@@ -14,6 +14,7 @@ import { List, ListItem } from 'material-ui/List'
 
 import store from './store'
 import router from './router.jsx'
+import SocketManager from './SocketManager'
 import TopNavBar from './components/TopNavBar.jsx'
 
 /**
