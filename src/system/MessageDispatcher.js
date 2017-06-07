@@ -19,6 +19,7 @@ const HeartbeatRequest = require('./handlers/HeartbeatRequest')
 const mapping = {
   // DEBUG / SYSTEM HEALTH
   HEARTBEAT: require('./handlers/HeartbeatRequest'),
+  SESSION: require('./handlers/SessionRequest'),
 
   // USER
   USER_GET: require('./handlers/user/UserGetRequest'),
