@@ -91,7 +91,7 @@ class UserGetRequest extends BaseRequest {
     let { userManager } = system
     let { data: { id } } = request
 
-    return userManager.getUser({ id, safe: instance.fullAuthorization() })
+    return userManager.get({ id, safe: instance.fullAuthorization() })
       .then(user => {
         instance.response = user
         instance.heartbeat(80)
