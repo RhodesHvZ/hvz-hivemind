@@ -10,21 +10,28 @@
  * @ignore
  */
 const Events = require('../../events')
+const Manager = require('../../common/Manager')
+const Ticket = require('./Ticket')
 
 /**
  * Ticket Manager
  * @class
  */
-class TicketManager {
+class TicketManager extends Manager {
 
-  constructor (system) {
-    this.system = system
-    Events.on('TICKET_CREATE', event => this.handleTicketCreate(event))
+  /**
+   * constructor
+   */
+  constructor(system) {
+    super(system)
   }
 
-  handleTicketCreate(event) {
-    let { socketManager } = this.system
-    socketManager.getSocket(event.socket.id).emit('SYSTEM', 'Ticket created successfully')
+  static get type () {
+    return Ticket
+  }
+
+  static get unsafeFields () {
+    return []
   }
 }
 

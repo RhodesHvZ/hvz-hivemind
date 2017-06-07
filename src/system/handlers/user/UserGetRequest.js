@@ -12,29 +12,30 @@
 const BaseRequest = require('../BaseRequest')
 
 /**
- * GetUserRequest
+ * UserGetRequest
  * @class
  */
-class GetUserRequest extends BaseRequest {
+class UserGetRequest extends BaseRequest {
 
   static handle (request, socket, system) {
-    let instance = new GetUserRequest(request, socket, system)
+    let instance = new UserGetRequest(request, socket, system)
 
     return Promise.resolve(instance)
+      .then(instance.ensureRequestFields)
       .then(instance.authenticated)
       .then(instance.dispatch)
       .then(instance.success)
       .catch(error => instance.internalServerError(error))
   }
 
-  dispatch (instance) {
-    let { request: { data } } = instance
-
-    if (!data) {
-      return instance.invalidRequest('data must be present')
+  static get meta () {
+    return {
+      request_fields: []
     }
+  }
 
-    let { id, query } = data
+  dispatch (instance) {
+    let { request: { data: { id, query } } } = instance
 
     if (!id && !query) {
       return instance.invalidRequest('id or query must be present')
@@ -54,18 +55,20 @@ class GetUserRequest extends BaseRequest {
     let { userManager } = system
     let { data: { query } } = request
 
-    return userManager.searchUser({
-      bool: {
-        should: [
-          { regexp: { name: `.*${query}.*` } },
-          { regexp: { email: `.*${query}.*` } }
-        ]
+    return userManager.search({
+      query: {
+        bool: {
+          should: [
+            { regexp: { name: `.*${query}.*` } },
+            { regexp: { email: `.*${query}.*` } }
+          ]
+        }
       }
     }).then(users => {
         instance.response = users
         instance.heartbeat(80)
+        return instance
       })
-      .then(() => instance)
       .catch(error => Promise.reject(error))
   }
 
@@ -88,12 +91,12 @@ class GetUserRequest extends BaseRequest {
     let { userManager } = system
     let { data: { id } } = request
 
-    return userManager.getUser(id, instance.fullAuthorization())
+    return userManager.getUser({ id, safe: instance.fullAuthorization() })
       .then(user => {
         instance.response = user
         instance.heartbeat(80)
+        return instance
       })
-      .then(() => instance)
       .catch(error => Promise.reject(error))
   }
 }
@@ -102,4 +105,4 @@ class GetUserRequest extends BaseRequest {
  * Export
  * @ignore
  */
-module.exports = GetUserRequest
+module.exports = UserGetRequest

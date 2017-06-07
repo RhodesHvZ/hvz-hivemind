@@ -4,6 +4,7 @@
  * Dependencies
  * @ignore
  */
+const _ = require('lodash')
 
 /**
  * Module Dependencies
@@ -28,15 +29,17 @@ class Type {
    *
    * @param  {Manager} manager
    * @param  {Object} data - Object data
-   * @param  {Object} hidden - Hidden attributes
+   * @param  {Object} [hidden] - Hidden attributes
    */
   constructor (manager, data, hidden) {
     Object.defineProperty(this, 'manager', { value: manager })
     Object.assign(this, data)
 
-    Object.keys(hidden).forEach(key => {
-      Object.defineProperty(this, key, { value: hidden[key], configurable: true })
-    })
+    if (hidden) {
+      Object.keys(hidden).forEach(key => {
+        Object.defineProperty(this, key, { value: hidden[key], configurable: true })
+      })
+    }
 
     log.debug(this, 'Type data constructor')
   }
@@ -87,6 +90,24 @@ class Type {
   }
 
   /**
+   * sanitize
+   *
+   * @description
+   * Create a new instance without unsafe fields present
+   *
+   * @param  {ExtendedType} instance
+   * @return {ExtendedType}
+   */
+  static sanitize (instance) {
+    let ExtendedType = this
+    let { manager } = instance
+    let { unsafeFields } = manager
+
+    let cleaned = _.omitBy(instance, key => unsafeFields.indexOf(key) > -1)
+    return new ExtendedType(manager, cleaned)
+  }
+
+  /**
    * typeName
    *
    * @description
@@ -100,7 +121,7 @@ class Type {
    * @return {String}
    */
   static get typeName () {
-    throw new Error('This must be overriden in child class')
+    throw new Error('typeName must be overriden in Type child class')
   }
 
 }

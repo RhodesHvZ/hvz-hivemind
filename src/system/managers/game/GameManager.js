@@ -31,7 +31,30 @@ class GameManager extends Manager {
   }
 
   static get unsafeFields () {
-    return []
+    return ['admins']
+  }
+
+  /**
+   * newGame
+   *
+   * @description
+   *
+   *
+   * @param  {Object} body
+   * @return {Promise<Game>}
+   */
+  newGame (body) {
+    let { name: id } = body
+    let { log } = GameManager
+
+    return this.exists({ id }).then(exists => {
+      if (exists) {
+        return Promise.reject(`Game ${id} already exists`)
+      }
+    })
+    .then(() => this.store({ id, body }))
+    .then(() => new Game(this, body))
+    .catch(error => Promise.reject(error))
   }
 }
 

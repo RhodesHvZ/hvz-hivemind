@@ -11,23 +11,24 @@
  */
 const Events = require('../../events')
 const Manager = require('../../common/Manager')
-const Achievement = require('./Achievement')
+const Marker = require('./Marker')
 
 /**
- * Achievement Manager
+ * Marker Manager
  * @class
  */
-class AchievementManager extends Manager {
+class MarkerManager extends Manager {
 
   /**
    * constructor
    */
-  constructor(system) {
+  constructor (system, game) {
     super(system)
+    this.game = game
   }
 
   static get type () {
-    return Achievement
+    return Marker
   }
 
   static get unsafeFields () {
@@ -39,4 +40,4 @@ class AchievementManager extends Manager {
  * Export
  * @ignore
  */
-module.exports = AchievementManager
+module.exports = MarkerManager

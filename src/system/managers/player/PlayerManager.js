@@ -32,7 +32,46 @@ class PlayerManager extends Manager {
   }
 
   static get unsafeFields () {
-    return []
+    return ['code', 'last_words', 'game_events', 'missions']
+  }
+
+  getByUser (user_id) {
+    let { game: { id: game_id } } = this
+
+    return this.search({
+      query: {
+        bool: {
+          filter: [
+            { match: { user_id } },
+            { term: { game_id } }
+          ]
+        }
+      },
+      safe: true
+    })
+  }
+
+  userUnique (user_id) {
+    return this.getByUser(user_id)
+      .then(players => players.length === 0)
+      .catch(error => Promise.reject(error))
+  }
+
+  getByCode (code) {
+    let { game: { id: game_id } } = this
+
+    return this.search({
+      query: {
+        term: { code: code.toUpperCase() }
+      },
+      safe: true
+    })
+  }
+
+  codeUnique (code) {
+    return this.getByCode(code)
+      .then(players => players.length === 0)
+      .catch(error => Promise.reject(error))
   }
 }
 

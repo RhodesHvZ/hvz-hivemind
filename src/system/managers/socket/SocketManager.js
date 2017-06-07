@@ -10,8 +10,9 @@ const socketio = require('socket.io')
  * Module Dependencies
  * @ignore
  */
-const MessageDispatcher = require('./MessageDispatcher')
-const Logger = require('../logger')
+const MessageDispatcher = require('../../MessageDispatcher')
+const UserSocketRegistry = require('./UserSocketRegistry')
+const Logger = require('../../../logger')
 
 /**
  * Logger
@@ -33,6 +34,8 @@ class SocketManager {
     this.io = socketio(system.server)
     this.socket = this.io.sockets
     this.io.on('connect', socket => this.onServerConnection(socket))
+
+    Object.defineProperty(this, 'registry', { value: new UserSocketRegistry(), enumerable: true })
   }
 
   /**
@@ -44,10 +47,13 @@ class SocketManager {
    * @param {Socket} socket
    */
   onServerConnection (socket) {
-    log.trace({ id: socket.id }, `Socket connected`)
-    let { handshake: { session } } = socket
+    let { id } = socket
+    let { handshake: { session: { sub } } } = socket
 
-    log.debug({ session, id: socket.id }, `Socket session`)
+    if (sub) {
+      this.registry.register(sub, id)
+    }
+    log.debug({ user: sub, socket: id, registry: this.registry.registry }, `Socket session`)
 
     socket.on('disconnect', reason => this.onSocketDisconnect(socket, reason))
     socket.on('message', data => this.onSocketMessage(socket, data))
@@ -63,7 +69,9 @@ class SocketManager {
    * @param {Socket} socket
    */
   onSocketDisconnect (socket, reason) {
-    log.warn({ id: socket.id, reason }, `Socket disconnect`)
+    let { id } = socket
+    this.registry.deregister(id)
+    log.warn({ id: socket.id, reason, registry: this.registry.registry }, `Socket disconnect`)
   }
 
 
@@ -77,9 +85,15 @@ class SocketManager {
    * @param {Object} data
    */
   onSocketMessage (socket, data) {
+    let { handshake: { session } } = socket
+
     log.debug({ id: socket.id, data }, `Socket new message`)
     MessageDispatcher.handle(data, socket, this.system)
-      .then(() => log.trace({ id: socket.id }, 'message handling complete'))
+      .then(() => {
+        session.touch()
+        session.save()
+        log.trace({ id: socket.id }, 'message handling complete')
+      })
   }
 
   /**
@@ -100,14 +114,15 @@ class SocketManager {
    * getSocket
    *
    * @description
-   * Retrieve a socket indexed by Socket ID
+   * Retrieve a socket indexed by Socket or User ID
    *
    * @param {String} id
    * @return {Socket}
    */
   getSocket (id) {
-    let socket = this.socket.connected[id]
-    return socket ? socket : null
+    let sid = this.registry.getSocketId(id) || id
+    let socket = this.socket.connected[sid]
+    return socket ? socket : undefined
   }
 }
 

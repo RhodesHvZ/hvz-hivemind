@@ -22,7 +22,7 @@ class HeartbeatRequest extends BaseRequest {
 
     return Promise.resolve(instance)
       .then(instance.respond)
-      .catch(instance.internalServerError)
+      .catch(error => instance.internalServerError(error))
   }
 
   respond (instance) {

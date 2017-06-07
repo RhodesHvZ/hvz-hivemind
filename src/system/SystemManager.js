@@ -9,7 +9,7 @@
  * Module Dependencies
  * @ignore
  */
-const SocketManager = require('./SocketManager')
+const SocketManager = require('./managers/socket')
 const GameManager = require('./managers/game')
 const UserManager = require('./managers/user')
 const TicketManager = require('./managers/ticket')
