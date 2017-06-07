@@ -7,7 +7,7 @@ import reducers from './reducers'
 const store = createStore(
   combineReducers(reducers),
   {
-    sidebarOpen: { 
+    sidebarOpen: {
       status:  true
      },
     userPopdownData:  {
