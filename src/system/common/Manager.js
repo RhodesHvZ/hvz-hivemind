@@ -185,7 +185,7 @@ class Manager {
     }
 
     return client.index(index_data)
-      .then(response => Object.assign({}, body, { id: response.id }))
+      .then(response => Object.assign({}, body, { id: response._id }))
       .catch(error => Promise.reject(error))
   }
 

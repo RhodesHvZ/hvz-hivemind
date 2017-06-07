@@ -19,6 +19,20 @@ const MarkerManager = require('../marker')
 const GameAdminRankEnum = require('./GameAdminRankEnum')
 
 /**
+ * Game State Constants
+ */
+const NEW = 'New'
+const REGISTRATION = 'Registration'
+const RUNNING = 'Running'
+const FINISHED = 'Finished'
+const states = {
+  NEW,
+  REGISTRATION,
+  RUNNING,
+  FINISHED
+}
+
+/**
  * Game
  * @class
  */
@@ -37,6 +51,14 @@ class Game extends Type {
 
   static get typeName () {
     return 'game'
+  }
+
+  static get states () {
+    return states
+  }
+
+  get states () {
+    return states
   }
 
   get state () {
@@ -152,6 +174,19 @@ class Game extends Type {
         log.info({ game: id, admins }, 'Game Ownership Transferred')
         return result
       })
+      .catch(error => Promise.reject(error))
+  }
+
+  getGameAdmins () {
+    let { manager: { system: { userManager } }, admins } = this
+    let id = admins.map(admin => admin.id)
+
+    return userManager.get({ id, safe: true })
+  }
+
+  mailGameAdmins (body) {
+    return this.getGameAdmins()
+      .then(admins => Promise.all(admins.map(admin => admin.mail(body))))
       .catch(error => Promise.reject(error))
   }
 

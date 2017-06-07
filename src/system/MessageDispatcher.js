@@ -19,6 +19,7 @@ const HeartbeatRequest = require('./handlers/HeartbeatRequest')
 const mapping = {
   // DEBUG / SYSTEM HEALTH
   HEARTBEAT: require('./handlers/HeartbeatRequest'),
+  SESSION: require('./handlers/SessionRequest'),
 
   // USER
   USER_GET: require('./handlers/user/UserGetRequest'),
@@ -44,6 +45,11 @@ const mapping = {
   PLAYER_SUPERSTATE: require('./handlers/player/PlayerSuperStateRequest'),
   PLAYER_UPDATE: require('./handlers/player/PlayerUpdateRequest'),
   PLAYER_TAG: require('./handlers/player/PlayerTagRequest'),
+
+  // TICKET
+  TICKET_NEW: require('./handlers/ticket/TicketCreateRequest'),
+  TICKET_GET: require('./handlers/ticket/TicketGetRequest'),
+  TICKET_REPLY: require('./handlers/ticket/TicketReplyRequest'),
 }
 
 /**

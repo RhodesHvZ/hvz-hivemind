@@ -309,7 +309,7 @@
       }
     },
 
-    "tickets": {
+    "ticket": {
       "properties": {
         "game_id": { "type": "keyword" },
 
@@ -320,8 +320,6 @@
         "participants": { "type": "text" },
 
         "state": { "type": "text" },
-
-        "public": { "type": "boolean" },
 
         "timestamp": { "type": "date", "format": "epoch_millis" },
 

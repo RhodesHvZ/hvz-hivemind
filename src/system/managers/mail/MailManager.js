@@ -50,7 +50,7 @@ class MailManager extends Manager {
   }
 
   mail (body) {
-    let { user: { id: user_id }, socket } = this
+    let { user: { id: user_id, socket } } = this
     let mail_body = { timestamp: moment(), type: 'MAIL', data: body }
 
     if (socket) {
@@ -79,7 +79,7 @@ class MailManager extends Manager {
 
     let body = {
       user_id,
-      timestamp: moment(),
+      timestamp: moment().valueOf(),
       type: PRIVATE_MESSAGE,
       data: { message, sender_id }
     }

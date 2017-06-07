@@ -31,7 +31,7 @@ class GameCreateRequest extends GameBaseRequest {
 
   static get meta () {
     return {
-      required_fields: ['name', 'registration_date', 'start_date', 'end_date']
+      request_fields: ['name', 'registration_date', 'start_date', 'end_date']
     }
   }
 
