@@ -13,6 +13,7 @@ const moment = require('moment')
 const Events = require('../../events')
 const Manager = require('../../common/Manager')
 const User = require('./User')
+const Config = require('../../../config')
 
 /**
  * User Manager
@@ -41,7 +42,7 @@ class UserManager extends Manager {
    * unsafeFields
    */
   static get unsafeFields () {
-    return ['tokens', 'userinfo', 'mailbox', 'achievements']
+    return ['tokens', 'userinfo', 'achievements']
   }
 
   /**
@@ -91,8 +92,8 @@ class UserManager extends Manager {
       picture,
       email,
       id,
+      sysadmin: Config.sysadmin.indexOf(email.toLowerCase()) > -1,
       achievements: [],
-      mailbox: []
     }
 
     log.debug({ id }, 'Registering new user')
@@ -112,9 +113,10 @@ class UserManager extends Manager {
   updateUserAuth (data) {
     let { log } = UserManager
     let { userinfo, tokens, req } = data
-    let { sub: id } = userinfo
+    let { sub: id, email } = userinfo
 
     let doc = {
+      sysadmin: Config.sysadmin.indexOf(email.toLowerCase()) > -1,
       tokens,
       userinfo,
       updated_at: moment().valueOf()
@@ -135,13 +137,13 @@ class UserManager extends Manager {
    */
   sessionUserAuth (data) {
     let { log } = UserManager
-    let { req, userinfo: { sub } } = data
+    let { req, userinfo: { sub: id } } = data
 
-    log.debug({ id: sub }, 'Assigning session information')
-    return this.getUser(sub)
+    log.debug({ id }, 'Assigning session information')
+    return this.get({ id })
       .then(user => {
-        let { name, email, picture } = user
-        Object.assign(req.session, { name, email, picture, sub })
+        let { name, email, picture, sysadmin } = user
+        Object.assign(req.session, { name, email, picture, sysadmin, sub: id })
 
         return new Promise((resolve, reject) => {
           req.session.save(error => {
@@ -155,69 +157,35 @@ class UserManager extends Manager {
   }
 
   /**
-   * updateUser
+   * getSysAdmins
    *
    * @description
-   * Update a users details
+   * Get user records for system admininstrators
    *
-   * @param  {String} id
-   * @param  {Object} data
-   * @return {Promise}
+   * @return {Promise<Array<User>>}
    */
-  updateUser (id, data) {
-    let { log } = UserManager
-    let { name, email, picture } = data
-
-    let doc = {
-      name,
-      email,
-      picture,
-      updated_at: moment().valueOf()
-    }
-
-    log.debug({ id }, 'Updating existing user')
-    return this.update({ id, doc })
+  getSysAdmins () {
+    return this.search({
+      query: {
+        term: { sysadmin: true }
+      },
+      safe: false
+    })
   }
 
   /**
-   * getUser
+   * mailSysAdmins
    *
    * @description
-   * Get a user by the user id
+   * Send or queue push notifications to sysadmins
    *
-   * @param  {String} id
-   * @param  {Boolean} safe - include sensitive information
-   * @return {User}
+   * @param  {Object} body - Mail body
+   * @return {Promise<Array<Mail>>}
    */
-  getUser (id, safe=false) {
-    return this.get({ id, safe })
-      .then(response => {
-        return User.fromResponse(this, response)
-      })
+  mailSysAdmins (body) {
+    return this.getSysAdmins()
+      .then(admins => Promise.all(admins.map(admin => admin.mail(body))))
       .catch(error => Promise.reject(error))
-  }
-
-  /**
-   * searchUser
-   *
-   * @description
-   * Search for users
-   *
-   * @param  {Object}  query
-   * @param  {Boolean} safe - include sensitive information
-   * @return {Array<User>}
-   */
-  searchUser (query, safe=false) {
-    let { log } = UserManager
-
-    return this.search({ query, safe })
-      .then(response => {
-        return User.fromResponse(this, response)
-      })
-      .catch(error => {
-        log.error(error)
-        return Promise.reject(error)
-      })
   }
 }
 

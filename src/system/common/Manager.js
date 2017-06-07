@@ -114,7 +114,7 @@ class Manager {
    * }
    */
   static get type () {
-    throw new Error('This must be overriden in child class')
+    throw new Error('type must be overriden in Manager child class')
   }
 
   /**
@@ -134,7 +134,7 @@ class Manager {
    * @return {Array}
    */
   static get unsafeFields () {
-    throw new Error('This must be overriden in child class')
+    throw new Error('unsafeFields must be overriden in Manager child class')
   }
 
   /**
@@ -178,24 +178,15 @@ class Manager {
     }
 
     let { constructor: { client, meta: { index, type } } } = this
+    let index_data = { index, type, body }
 
-    if (!id) {
-      return client.index({
-        index,
-        type,
-        body,
-        opType: 'create'
-      }).catch(error => Promise.reject(error))
-
-    } else {
-      return client.index({
-        index,
-        type,
-        id,
-        body,
-        opType: 'create'
-      }).catch(error => Promise.reject(error))
+    if (id) {
+      index_data.id = id
     }
+
+    return client.index(index_data)
+      .then(response => Object.assign({}, body, { id: response._id }))
+      .catch(error => Promise.reject(error))
   }
 
   /**
@@ -276,7 +267,7 @@ class Manager {
       return this.mget(mergedData).catch(error => Promise.reject(error))
     }
 
-    let { constructor: { client, unsafeFields, meta: { index, type } } } = this
+    let { constructor: { client, unsafeFields, type: Type, meta: { index, type } } } = this
 
     return client.get({
       index,
@@ -284,7 +275,11 @@ class Manager {
       id,
       _sourceExclude: safe ? [] : unsafeFields,
       _sourceInclude: include
-    }).catch(error => Promise.reject(error))
+    }).then(response => Type.fromResponse(this, response))
+    .catch(error => {
+      log.error(error, 'get failed')
+      Promise.reject(error)
+    })
   }
 
   /**
@@ -304,7 +299,7 @@ class Manager {
       return Promise.reject('Id is required for get')
     }
 
-    let { constructor: { client, unsafeFields, meta: { index, type } } } = this
+    let { constructor: { client, unsafeFields, type: Type, meta: { index, type } } } = this
 
     return client.mget({
       index,
@@ -312,7 +307,11 @@ class Manager {
       body: { ids },
       _sourceExclude: safe ? [] : unsafeFields,
       _sourceInclude: include
-    }).then(response => { log.info(response, 'response'); return response }).catch(error => Promise.reject(error))
+    }).then(response => Type.fromResponse(this, response))
+    .catch(error => {
+      log.error(error, 'mget failed')
+      Promise.reject(error)
+    })
   }
 
   /**
@@ -326,21 +325,27 @@ class Manager {
    */
   search (...data) {
     let mergedData = Object.assign({}, ...data)
-    let { query, include, safe=false } = mergedData
+    let { query, include, sort, safe=false, size, from } = mergedData
 
     if (!query) {
       return Promise.reject('Query is required for search')
     }
 
-    let { constructor: { client, unsafeFields, meta: { index, type } } } = this
+    let { constructor: { client, unsafeFields, type: Type, meta: { index, type } } } = this
 
     return client.search({
       index,
       type,
-      body: { query },
+      body: { query, sort },
       _sourceExclude: safe ? [] : unsafeFields,
-      _sourceInclude: include
-    }).catch(error => Promise.reject(error))
+      _sourceInclude: include,
+      size,
+      from
+    }).then(response => Type.fromResponse(this, response))
+    .catch(error => {
+      log.error(error, 'search failed')
+      Promise.reject(error)
+    })
   }
 
 }

@@ -39,6 +39,10 @@ class BaseRequest {
     return log
   }
 
+  static get meta () {
+    throw new Error('meta must be overriden in BaseRequest child class')
+  }
+
   authenticated (instance) {
     let { socket: { handshake: { session: { sub } } } } = instance
 
@@ -51,6 +55,67 @@ class BaseRequest {
     return instance
   }
 
+  ensureRequestFields (instance) {
+    let { request: { data }, constructor: { meta } } = instance
+    let { request_fields } = meta
+
+    if (!request_fields) {
+      return instance.internalServerError('meta.request_fields must be provided from the child class of BaseRequest')
+    }
+
+    if (!data) {
+      return instance.invalidRequest('data is required')
+    }
+
+    let error = {
+      error: 'required fields missing',
+      fields: []
+    }
+
+    request_fields.forEach(field => {
+      if (!data[field]) {
+        error.fields.push(field)
+      }
+    })
+
+    if (error.fields.length > 0) {
+      return instance.invalidRequest(error)
+    }
+
+    return instance
+  }
+
+  userExists (instance) {
+    let { request: { data }, system: { userManager } } = instance
+    let { user_id } = data
+
+    return userManager.exists({ id: user_id }).then(result => {
+      if (!result) {
+        return instance.invalidRequest(`User id ${user_id} does not exist`)
+      }
+      return instance
+    }).catch(error => Promise.reject(error))
+  }
+
+  getUser (instance) {
+    let { request: { data }, system: { userManager } } = instance
+    let { user_id } = data
+
+    return userManager.get({ id: user_id, safe: true }).then(user => {
+      instance.user = user
+      return instance
+    }).catch(error => Promise.reject(error))
+  }
+
+  getSelf (instance) {
+    let { socket: { handshake: { session: { sub: id } } }, system: { userManager } } = instance
+
+    return userManager.get({ id }).then(user => {
+      instance.user = user
+      return instance
+    }).catch(error => Promise.reject(error))
+  }
+
   internalServerError (err) {
     let { request, error, socket } = this
     let { type: request_type } = request
@@ -58,7 +123,11 @@ class BaseRequest {
     if (err || error) {
       error = error || err || 'Internal Server Error'
 
-      if (typeof error === 'object' && Object.keys(error).length > 0) {
+      if (error instanceof Error) {
+        let { message, fileName, lineNumber, stack } = error
+        log.error({ message, fileName, lineNumber, stack }, 'Internal Server Error')
+        socket.emit('message', { type: 'FAILURE', request_type, error: message })
+      } else if (typeof error === 'string' || (typeof error === 'object' && Object.keys(error).length > 0)) {
         log.error({ error }, 'Internal Server Error')
         socket.emit('message', { type: 'FAILURE', request_type, error })
       }
