@@ -12,6 +12,7 @@ import Game from './components/game/Game.jsx'
 import ProfileRoot from './components/profile/ProfileRoot.jsx'
 import Rules from './components/Rules.jsx'
 import Ticket from './components/Ticket.jsx'
+import Dev from './components/Dev.jsx'
 
 const history = createBrowserHistory()
 
@@ -45,6 +46,7 @@ export default (
         <Route path="/admincontact" component={() => <h1>Admin contact</h1>} />
         <Route path="/profile" component={ProfileRoot} />
         <Route path="/ticket" component={Ticket} />
+        <Route path="/dev" component={Dev} />
       </Switch>
     </div>
   </Router>

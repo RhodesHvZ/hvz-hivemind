@@ -61,7 +61,7 @@ const mapDispatchToProps = (dispatch) => {
 /**
  * UserToolbar
  * @class
- * 
+ *
  * @description
  * A Toolbar component at the top of the web app to handle any user interactions:
  * Session managament, user preferences
@@ -79,6 +79,7 @@ class TopNavBar extends React.Component {
           <FlatButton label="Game" onTouchTap={() => window.location.hash = '/'} />
           <FlatButton label="Rules" onTouchTap={() => window.location.hash = 'rules'} />
           <FlatButton label="Admin Details" onTouchTap={() => window.location.hash = 'admincontact'} />
+          <FlatButton label="Dev" onTouchTap={() => window.location.hash = 'dev'} />
           <ToolbarGroup style={endToolbarItemStyle}>
             <FlatButton label="User" onTouchTap={(event) => this.props.openPopdown(event)} />
           </ToolbarGroup>
