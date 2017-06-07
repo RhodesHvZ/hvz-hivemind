@@ -79,7 +79,7 @@ class MailManager extends Manager {
 
     let body = {
       user_id,
-      timestamp: moment(),
+      timestamp: moment().valueOf(),
       type: PRIVATE_MESSAGE,
       data: { message, sender_id }
     }
