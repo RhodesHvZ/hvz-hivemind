@@ -6,9 +6,7 @@
   "scripts": {
     "start": "npm run webpack-app && node server.js | bunyan -o short",
     "server-dev": "./node_modules/.bin/nodemon -w ./src | bunyan -o short",
-    "app-dev": "./node_modules/.bin/webpack-dev-server --watch-poll",
     "webpack-app": "./node_modules/.bin/webpack -p",
-    "webpack-dev": "./node_modules/.bin/webpack --config ./webpack.dev.config.js",
     "test": "mocha -w"
   },
   "repository": {
@@ -44,6 +42,7 @@
     "react-hot-loader": "^1.3.1",
     "style-loader": "^0.16.1",
     "webpack": "^2.3.3",
+    "webpack-dev-middleware": "^1.10.2",
     "webpack-dev-server": "^2.4.2"
   },
   "dependencies": {

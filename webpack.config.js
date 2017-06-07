@@ -69,6 +69,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './index.ejs',
     }),
+    new webpack.HotModuleReplacementPlugin(),
     new webpack.IgnorePlugin(/^(fs|ipc)$/)
   ]
 }

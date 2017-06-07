@@ -4,6 +4,8 @@
  * Dependencies
  * @ignore
  */
+const cwd = process.cwd()
+const path = require('path')
 const express = require('express')
 const http = require('http')
 const session = require('express-session')
@@ -11,6 +13,8 @@ const sharedSession = require('express-socket.io-session')
 const compression = require('compression')
 const bodyParser = require('body-parser')
 const cors = require('cors')
+const webpackDevMiddleware = require('webpack-dev-middleware')
+const webpack = require('webpack')
 
 /**
  * Module Dependencies
@@ -169,7 +173,17 @@ class Application {
     //   DatabaseConnector.connect(socket.request, socket.request.res, next)
     // })
 
-    app.use(express.static('dist'))
+    if (process.env.NODE_ENV === 'production') {
+      app.use(express.static('dist'))
+    } else {
+      app.use(webpackDevMiddleware(webpack(require('./webpack.config')), {
+        publicPath: '/',
+        contentBase: path.join(cwd, 'app'),
+        compress: true,
+        hot: true,
+        watchContentBase: true
+      }))
+    }
 
     return instance
   }
