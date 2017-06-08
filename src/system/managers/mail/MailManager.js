@@ -51,7 +51,7 @@ class MailManager extends Manager {
 
   mail (body) {
     let { user: { id: user_id, socket } } = this
-    let mail_body = { timestamp: moment(), type: 'MAIL', data: body }
+    let mail_body = { timestamp: moment().valueOf(), type: 'MAIL', data: body }
 
     if (socket) {
       socket.emit('message', mail_body)
