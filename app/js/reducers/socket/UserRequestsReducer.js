@@ -11,17 +11,21 @@
  */
 class UserRequestsReducer {
 
+  static get typeNames () {
+    return [
+      'SUCCESS_USER_GET',
+      'SUCCESS_USER_UPDATE'
+    ]
+  }
+
   static reduce (state = {}, action = {}) {
     let { data, type } = action
 
-    switch (type) {
-      case 'SUCCESS_USER_GET':
-        return this.updateUser(state, data)
-      case 'SUCCESS_USER_UPDATE':
-        return this.updateUser(state, data)
-      default:
-        return state
+    if (this.typeNames.includes(type)) {
+      return this.userUpdate(state, data)
     }
+
+    return state
   }
 
   static updateUser (state, data) {
