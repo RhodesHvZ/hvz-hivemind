@@ -89,11 +89,7 @@ class SocketManager {
 
     log.debug({ id: socket.id, data }, `Socket new message`)
     MessageDispatcher.handle(data, socket, this.system)
-      .then(() => {
-        session.touch()
-        session.save()
-        log.trace({ id: socket.id }, 'message handling complete')
-      })
+      .then(() => log.trace({ id: socket.id }, 'message handling complete'))
   }
 
   /**
