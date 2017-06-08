@@ -45,7 +45,13 @@ class SocketManager {
       : type
 
     console.log(type, data)
-    store.dispatch({ type: redux_type, data: response_data, timestamp, socket_data: true })
+    store.dispatch({
+      type: redux_type,
+      data: response_data,
+      request_type,
+      timestamp,
+      socket_data: true
+    })
   }
 
   onConnect () {
