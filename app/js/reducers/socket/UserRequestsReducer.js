@@ -22,7 +22,7 @@ class UserRequestsReducer {
     let { data, type } = action
 
     if (this.typeNames.includes(type)) {
-      return this.userUpdate(state, data)
+      return this.updateUser(state, data)
     }
 
     return state
