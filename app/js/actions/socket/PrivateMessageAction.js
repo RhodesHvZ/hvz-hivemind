@@ -15,7 +15,7 @@ export default function PrivateMessageAction (user_id, message) {
   }
 
   if (!message) {
-    throw new Error(`Missing required argument 'user_id'`)
+    throw new Error(`Missing required argument 'message'`)
   }
 
   SocketManager.send({
