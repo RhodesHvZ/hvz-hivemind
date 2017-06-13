@@ -112,11 +112,32 @@ class MailManager extends Manager {
 
   getMessages (data) {
     let { user: { id: user_id } } = this
-    let { page=0 } = data
+    let { page = 0 } = data
 
     return this.search({
       query: {
         match: { user_id }
+      },
+      sort: [
+        { delivered: { order: 'asc' } },
+        { timestamp: { order: 'desc' } },
+        '_score'
+      ],
+      from: page * MAX_MAIL,
+      size: MAX_MAIL,
+      safe: true
+    })
+  }
+
+  getSentMessages (data) {
+    let { user: { id: user_id } } = this
+    let { page = 0 } = data
+
+    return this.search({
+      query: {
+        match: {
+          match: { 'data.sender_id': user_id }
+        }
       },
       sort: [
         { delivered: { order: 'asc' } },
