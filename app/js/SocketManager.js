@@ -56,7 +56,7 @@ class SocketManager {
   }
 
   onConnect () {
-    console.log('connected', actions)
+    console.log('connected')
     actions.GetSessionAction()
   }
 
