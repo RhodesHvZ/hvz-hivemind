@@ -62,7 +62,7 @@ class MailManager extends Manager {
 
     return this.store({ body })
       .then(response => {
-        let { _id: id } = response
+        let { id } = response
         body.id = id
         return new Mail(this, body)
       })
@@ -135,9 +135,7 @@ class MailManager extends Manager {
 
     return this.search({
       query: {
-        match: {
-          match: { 'data.sender_id': user_id }
-        }
+        match: { 'data.sender_id': user_id }
       },
       sort: [
         { delivered: { order: 'asc' } },
