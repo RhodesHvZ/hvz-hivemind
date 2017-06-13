@@ -7,6 +7,7 @@
 import React from 'react'
 import io from 'socket.io-client'
 
+import * as actions from './actions'
 import store from './store'
 
 /**
@@ -55,8 +56,8 @@ class SocketManager {
   }
 
   onConnect () {
-    console.log('connected')
-    this.send({ type: 'SESSION' })
+    console.log('connected', actions)
+    actions.GetSessionAction()
   }
 
   onDisconnect () {
