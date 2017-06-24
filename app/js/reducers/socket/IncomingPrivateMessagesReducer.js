@@ -40,6 +40,10 @@ class IncomingPrivateMessagesReducer {
 
   static updateInbox (state, data) {
     let newMessages = data.filter(item => {
+      if (item.type !== 'PRIVATE_MESSAGE') {
+        return false
+      }
+
       let { id: message_id, user_id } = item
       return state[user_id] ? state[user_id].findIndex(message => message.message_id === message_id) === -1 : true
 
