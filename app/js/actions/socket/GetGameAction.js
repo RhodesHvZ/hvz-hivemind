@@ -19,7 +19,7 @@ export default function GetGameAction (game_id) {
   SocketManager.send({
     type: 'GAME_GET',
     data: {
-      id: game_id
+      game_id
     }
   })
 }
