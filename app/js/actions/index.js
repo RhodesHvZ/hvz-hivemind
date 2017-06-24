@@ -39,6 +39,12 @@ import AddPlayerSuperstateAction from './socket/player/AddPlayerSuperstateAction
 import RemovePlayerSuperstateAction from './socket/player/RemovePlayerSuperstateAction'
 import TagPlayerAction from './socket/player/TagPlayerAction'
 
+// TICKET
+import GetTicketAction from './socket/ticket/GetTicketAction'
+import SearchTicketAction from './socket/ticket/SearchTicketAction'
+import NewTicketAction from './socket/ticket/NewTicketAction'
+import ReplyTicketAction from './socket/ticket/ReplyTicketAction'
+
 /**
  * Export
  * @ignore
@@ -78,4 +84,10 @@ export {
   AddPlayerSuperstateAction,
   RemovePlayerSuperstateAction,
   TagPlayerAction,
+
+  // TICKET
+  GetTicketAction,
+  SearchTicketAction,
+  NewTicketAction,
+  ReplyTicketAction,
 }
