@@ -4,16 +4,15 @@
  * Dependencies
  * @ignore
  */
-import SocketManager from '../../SocketManager'
+import SocketManager from '../../../SocketManager'
 
 /**
- * KillPlayerAction
+ * GetPlayerAction
  *
  * @param {String} game_id
  * @param {String} player_id
- * @param {String} [reason]
  */
-export default function KillPlayerAction (game_id, player_id, reason) {
+export default function GetPlayerAction (game_id, player_id) {
   if (!game_id) {
     throw new Error(`Missing required argument 'game_id'`)
   }
@@ -23,11 +22,10 @@ export default function KillPlayerAction (game_id, player_id, reason) {
   }
 
   SocketManager.send({
-    type: 'PLAYER_KILL',
+    type: 'PLAYER_GET',
     data: {
       game_id,
       player_id,
-      reason
     }
   })
 }

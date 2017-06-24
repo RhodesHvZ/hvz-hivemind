@@ -4,17 +4,15 @@
  * Dependencies
  * @ignore
  */
-import SocketManager from '../../SocketManager'
+import SocketManager from '../../../SocketManager'
 
 /**
- * SuspendPlayerAction
+ * ActivatePlayerAction
  *
  * @param {String} game_id
  * @param {String} player_id
- * @param {String} until
- * @param {String} [reason]
  */
-export default function SuspendPlayerAction (game_id, player_id, until, reason) {
+export default function ActivatePlayerAction (game_id, player_id) {
   if (!game_id) {
     throw new Error(`Missing required argument 'game_id'`)
   }
@@ -23,17 +21,11 @@ export default function SuspendPlayerAction (game_id, player_id, until, reason) 
     throw new Error(`Missing required argument 'player_id'`)
   }
 
-  if (!until) {
-    throw new Error(`Missing required argument 'until'`)
-  }
-
   SocketManager.send({
-    type: 'PLAYER_SUSPEND',
+    type: 'PLAYER_ACTIVATE',
     data: {
       game_id,
       player_id,
-      until,
-      reason
     }
   })
 }

@@ -4,7 +4,7 @@
  * Dependencies
  * @ignore
  */
-import SocketManager from '../../SocketManager'
+import SocketManager from '../../../SocketManager'
 
 /**
  * RemovePlayerSuperstateAction
