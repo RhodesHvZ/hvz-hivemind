@@ -15,6 +15,7 @@ import HeartbeatRequestReducer from './socket/HeartbeatRequestReducer'
 import SessionRequestReducer from './socket/SessionRequestReducer'
 import UserRequestsReducer from './socket/UserRequestsReducer'
 import GameRequestsReducer from './socket/GameRequestsReducer'
+import PlayerRequestsReducer from './socket/PlayerRequestsReducer'
 import IncomingPrivateMessagesReducer from './socket/IncomingPrivateMessagesReducer'
 import OutgoingPrivateMessagesReducer from './socket/OutgoingPrivateMessagesReducer'
 
@@ -32,8 +33,11 @@ export default {
   inbox: (state, action) => IncomingPrivateMessagesReducer.reduce(state, action),
   sent: (state, action) => OutgoingPrivateMessagesReducer.reduce(state, action),
 
-  // Game
+  // GAME
   games: (state, action) => GameRequestsReducer.reduce(state, action),
+
+  // PLAYER
+  players: (state, action) => PlayerRequestsReducer.reduce(state, action),
 
   // UI
   sidebarOpen: ToggleSidebarReducer,
