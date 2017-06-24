@@ -157,7 +157,10 @@ class Manager {
     let { constructor: { client, meta: { index, type } } } = this
 
     return client.exists({ index, type, id })
-      .catch(error => Promise.reject(error))
+      .catch(error => {
+        log.error(error, 'exists failed')
+        return Promise.reject(error)
+      })
   }
 
   /**
@@ -186,7 +189,10 @@ class Manager {
 
     return client.index(index_data)
       .then(response => Object.assign({}, body, { id: response._id }))
-      .catch(error => Promise.reject(error))
+      .catch(error => {
+        log.error(error, 'store failed')
+        return Promise.reject(error)
+      })
   }
 
   /**
@@ -217,7 +223,10 @@ class Manager {
       type,
       id,
       body: { doc }
-    }).catch(error => Promise.reject(error))
+    }).catch(error => {
+        log.error(error, 'update failed')
+        return Promise.reject(error)
+      })
   }
 
   /**
@@ -243,7 +252,10 @@ class Manager {
       index,
       type,
       id
-    }).catch(error => Promise.reject(error))
+    }).catch(error => {
+        log.error(error, 'delete failed')
+        return Promise.reject(error)
+      })
   }
 
   /**
@@ -278,7 +290,7 @@ class Manager {
     }).then(response => Type.fromResponse(this, response))
     .catch(error => {
       log.error(error, 'get failed')
-      Promise.reject(error)
+      return Promise.reject(error)
     })
   }
 
@@ -310,7 +322,7 @@ class Manager {
     }).then(response => Type.fromResponse(this, response))
     .catch(error => {
       log.error(error, 'mget failed')
-      Promise.reject(error)
+      return Promise.reject(error)
     })
   }
 
@@ -344,7 +356,7 @@ class Manager {
     }).then(response => Type.fromResponse(this, response))
     .catch(error => {
       log.error(error, 'search failed')
-      Promise.reject(error)
+      return Promise.reject(error)
     })
   }
 
