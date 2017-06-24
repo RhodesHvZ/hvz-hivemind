@@ -73,10 +73,15 @@ class TicketCreateRequest extends TicketBaseRequest {
     return ticketManager.store({ body })
       .then(ticket => {
         let mail_body = {
-          user_id,
           timestamp,
-          type: 'TICKET',
-          data: { ticket_id: ticket.id, game_id, subject, message }
+          type: 'TICKET_NEW',
+          data: {
+            ticket_id: ticket.id,
+            game_id,
+            user_id,
+            subject,
+            message
+          }
         }
 
         instance.response = ticket

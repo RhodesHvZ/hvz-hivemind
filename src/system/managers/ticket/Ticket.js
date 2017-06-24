@@ -25,7 +25,6 @@ class Ticket extends Type {
   update (data) {
     let { manager, messages, participants, id } = this
     let { message, new_participants, state } = data
-    console.log('new_participants', new_participants)
 
     if (message) {
       messages.push(message)
@@ -55,9 +54,12 @@ class Ticket extends Type {
 
     let message_body = {
       timestamp,
-      user_id,
-      message,
-      state
+      type: 'TICKET_REPLY',
+      data: {
+        user_id,
+        message,
+        state
+      }
     }
 
     return this.update({ message: message_body, new_participants: [user_id], state })
