@@ -14,6 +14,7 @@ import ToggleUserPopdownReducer from './ToggleUserPopdownReducer'
 import HeartbeatRequestReducer from './socket/HeartbeatRequestReducer'
 import SessionRequestReducer from './socket/SessionRequestReducer'
 import UserRequestsReducer from './socket/UserRequestsReducer'
+import GameRequestsReducer from './socket/GameRequestsReducer'
 import IncomingPrivateMessagesReducer from './socket/IncomingPrivateMessagesReducer'
 import OutgoingPrivateMessagesReducer from './socket/OutgoingPrivateMessagesReducer'
 
@@ -30,6 +31,9 @@ export default {
   users: (state, action) => UserRequestsReducer.reduce(state, action),
   inbox: (state, action) => IncomingPrivateMessagesReducer.reduce(state, action),
   sent: (state, action) => OutgoingPrivateMessagesReducer.reduce(state, action),
+
+  // Game
+  games: (state, action) => GameRequestsReducer.reduce(state, action),
 
   // UI
   sidebarOpen: ToggleSidebarReducer,
