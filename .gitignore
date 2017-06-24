@@ -47,3 +47,4 @@ jspm_packages
 
 # VSCode ESLint plugins
 .eslintrc.json
+.eslintrc

@@ -267,7 +267,7 @@ class Player extends Type {
         let { mailManager } = user
         return mailManager.mail(tagged_body)
       })
-      .then(() => tag_body)
+      .then(() => this)
       .catch(error => Promise.reject(error))
   }
 

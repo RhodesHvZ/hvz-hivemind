@@ -45,7 +45,7 @@ class PlayerTagRequest extends PlayerBaseRequest {
   }
 
   tag (instance) {
-    let { request: { data: { lat, lon } }, player, victim } = instance
+    let { request: { data: { lat, lon, note } }, player, victim } = instance
     let game_states = player.game_states
 
     if (player.id === victim.id) {
@@ -60,7 +60,7 @@ class PlayerTagRequest extends PlayerBaseRequest {
       return instance.invalidRequest('Zombies don\'t taste as good as humans do...')
     }
 
-    return player.tag({ victim, lat, lon })
+    return player.tag({ victim, lat, lon, note })
       .then(response => {
         instance.response = response
         return instance

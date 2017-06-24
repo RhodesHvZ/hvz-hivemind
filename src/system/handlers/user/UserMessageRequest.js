@@ -13,13 +13,13 @@ const moment = require('moment')
 const BaseRequest = require('../BaseRequest')
 
 /**
- * UpdateUserRequest
+ * UserMessageRequest
  * @class
  */
-class UpdateUserRequest extends BaseRequest {
+class UserMessageRequest extends BaseRequest {
 
   static handle (request, socket, system) {
-    let instance = new UpdateUserRequest(request, socket, system)
+    let instance = new UserMessageRequest(request, socket, system)
 
     return Promise.resolve(instance)
       .then(instance.ensureRequestFields)
@@ -46,9 +46,9 @@ class UpdateUserRequest extends BaseRequest {
 
     return mailManager.privateMessage({ message, sender: sub })
       .then(mail => {
-        let { id: message_id } = mail
+        let { id: message_id, timestamp, delivered } = mail
         instance.heartbeat(80)
-        instance.response = { message_id, success: true, message }
+        instance.response = { message_id, message, user_id: user.id, timestamp, delivered }
         return instance
       })
       .catch(error => Promise.reject(error))
@@ -59,4 +59,4 @@ class UpdateUserRequest extends BaseRequest {
  * Export
  * @ignore
  */
-module.exports = UpdateUserRequest
+module.exports = UserMessageRequest

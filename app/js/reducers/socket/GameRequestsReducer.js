@@ -6,15 +6,18 @@
  */
 
 /**
- * UserRequestsReducer
+ * GameRequestsReducer
  * @class
  */
-class UserRequestsReducer {
+class GameRequestsReducer {
 
   static get typeNames () {
     return [
-      'SUCCESS_USER_GET',
-      'SUCCESS_USER_UPDATE'
+      'SUCCESS_GAME_GET',
+      'SUCCESS_GAME_NEW',
+      'SUCCESS_GAME_UPDATE',
+      'SUCCESS_GAME_PERMISSION_UPDATE',
+      'SUCCESS_GAME_TRANSFER_OWNERSHIP',
     ]
   }
 
@@ -22,17 +25,17 @@ class UserRequestsReducer {
     let { data, type } = action
 
     if (this.typeNames.includes(type)) {
-      return this.updateUsers(state, data)
+      return this.updateGames(state, data)
     }
 
     return state
   }
 
-  static updateUsers (state, data) {
+  static updateGames (state, data) {
     if (Array.isArray(data) && data.length > 0) {
-      let updated = data.reduce((acc, user) => {
-        let { id } = user
-        acc[id] = Object.assign(this.updateUser(state[id], user))
+      let updated = data.reduce((acc, game) => {
+        let { id } = game
+        acc[id] = Object.assign(this.updateGame(state[id], game))
         return acc
       }, {})
 
@@ -40,13 +43,13 @@ class UserRequestsReducer {
 
     } else if (typeof data === 'object') {
       let { id } = data
-      return Object.assign({}, state, { [id]: this.updateUser(state[id], data) })
+      return Object.assign({}, state, { [id]: this.updateGame(state[id], data) })
     }
 
     return state
   }
 
-  static updateUser (existing, data) {
+  static updateGame (existing, data) {
     if (data) {
       return existing ? Object.assign({}, existing, data) : data
     }
@@ -59,4 +62,4 @@ class UserRequestsReducer {
  * Export
  * @ignore
  */
-export default UserRequestsReducer
+export default GameRequestsReducer

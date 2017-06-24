@@ -177,7 +177,7 @@ class BaseRequest {
     log.debug({ response }, `Request end: success`)
 
     socket.emit('message', {
-      timestamp: moment(),
+      timestamp: moment().valueOf(),
       progress: 100,
       type: 'SUCCESS',
       request_type,

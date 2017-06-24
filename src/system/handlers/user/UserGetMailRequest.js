@@ -32,21 +32,25 @@ class UserGetMailRequest extends BaseRequest {
   getMessages (instance) {
     let { request: { data }, user: { mailManager } } = instance
 
-    let page
+    let page, sent
     if (data) {
-      let { page: p } = data
+      let { page: p, sent: s } = data
       page = p ? p : 0
+      sent = !!s
     }
 
     instance.heartbeat(10)
 
-    return mailManager.getMessages({ page })
-      .then(mail => {
-        instance.heartbeat(80)
-        instance.response = mail
-        return instance
-      })
-      .catch(error => Promise.reject(error))
+    return (sent
+      ? mailManager.getSentMessages({ page })
+      : mailManager.getMessages({ page }))
+        .then(mail => {
+          console.log('mail', mail)
+          instance.heartbeat(80)
+          instance.response = mail
+          return instance
+        })
+        .catch(error => Promise.reject(error))
   }
 }
 

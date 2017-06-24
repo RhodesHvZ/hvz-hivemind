@@ -179,7 +179,7 @@ class Game extends Type {
 
   getGameAdmins () {
     let { manager: { system: { userManager } }, admins } = this
-    let id = admins.map(admin => admin.id)
+    let id = admins.map(admin => admin.user_id)
 
     return userManager.get({ id, safe: true })
   }

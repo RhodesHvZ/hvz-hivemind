@@ -21,26 +21,18 @@ class GameGetRequest extends GameBaseRequest {
     let instance = new GameGetRequest(request, socket, system)
 
     return Promise.resolve(instance)
-      .then(instance.ensureRequestFields)
       .then(instance.authenticated)
       .then(instance.dispatch)
       .then(instance.success)
       .catch(error => instance.internalServerError(error))
   }
 
-  static get meta () {
-    return {
-      request_fields: []
-    }
-  }
-
   dispatch (instance) {
     let { request: { data } } = instance
-    let { game_id } = data
 
     instance.heartbeat(10)
 
-    if (!game_id) {
+    if (!data || !data.game_id) {
       return instance.search(instance)
     } else {
       return instance.lookup(instance)
