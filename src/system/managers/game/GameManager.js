@@ -31,7 +31,7 @@ class GameManager extends Manager {
   }
 
   static get unsafeFields () {
-    return ['admins']
+    return []
   }
 
   /**
@@ -53,7 +53,10 @@ class GameManager extends Manager {
       }
     })
     .then(() => this.store({ id, body }))
-    .then(() => new Game(this, body))
+    .then(() => {
+      body.id = id
+      return new Game(this, body)
+    })
     .catch(error => Promise.reject(error))
   }
 }
