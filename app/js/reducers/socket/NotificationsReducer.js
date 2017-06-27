@@ -7,8 +7,26 @@
 import _ from 'lodash'
 
 /**
+ * Notifications
+ * @ignore
+ */
+import PrivateMessageNotification from './notifications/PrivateMessageNotification'
+import NewTicketNotification from './notifications/NewTicketNotification'
+import ReplyTicketNotification from './notifications/ReplyTicketNotification'
+
+/**
+ * NotificationBuilders
+ * @ignore
+ */
+const builders = {
+  PRIVATE_MESSAGE: PrivateMessageNotification,
+  TICKET_NEW: NewTicketNotification,
+  TICKER_REPLY: ReplyTicketNotification,
+}
+
+/**
  * NotificationsReducer
- * @class
+ * @ignore
  */
 class NotificationsReducer {
 
@@ -30,7 +48,7 @@ class NotificationsReducer {
 
     if (notifications.length > 0) {
       let new_state = state.slice()
-      notifications.forEach(notification => this.sortedPush(new_state, value))
+      notifications.forEach(notification => this.sortedPush(new_state, notification))
       return new_state
     }
 
@@ -40,20 +58,20 @@ class NotificationsReducer {
   static uniqueNotification (state, data) {
     let notification = this.buildNotification(data)
 
-    return _.findIndex(state, item => _.isEqual(item, notification)) === -1
+    return state.findIndex(item => _.isEqual(item, notification)) === -1
       ? notification
       : undefined
   }
 
   static buildNotification (data) {
     let { type } = data
+    let builder = builders[type]
 
-    return {
-      title,
-      icon,
-      text,
-      action
+    if (builder) {
+      return builder(data)
     }
+
+    throw new Error(`Notification type ${type} is not implemented yet`)
   }
 
   static sortedPush (array, value) {

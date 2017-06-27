@@ -19,7 +19,7 @@ import PlayerRequestsReducer from './socket/PlayerRequestsReducer'
 import TicketRequestsReducer from './socket/TicketRequestsReducer'
 import IncomingPrivateMessagesReducer from './socket/IncomingPrivateMessagesReducer'
 import OutgoingPrivateMessagesReducer from './socket/OutgoingPrivateMessagesReducer'
-import NotificationsReducer from './notifications'
+import NotificationsReducer from './socket/NotificationsReducer'
 
 /**
  * Export
