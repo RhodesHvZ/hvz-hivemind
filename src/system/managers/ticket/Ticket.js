@@ -55,6 +55,7 @@ class Ticket extends Type {
     let message_body = {
       timestamp,
       type: 'TICKET_REPLY',
+      user_id,
       data: {
         user_id,
         message,

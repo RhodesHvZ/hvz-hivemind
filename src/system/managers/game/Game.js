@@ -186,7 +186,10 @@ class Game extends Type {
 
   mailGameAdmins (body) {
     return this.getGameAdmins()
-      .then(admins => Promise.all(admins.map(admin => admin.mail(body))))
+      .then(admins => Promise.all(admins.map(admin => {
+        let admin_body = Object.assign({}, body, { user_id: admin.id })
+        return admin.mail(admin_body)
+      })))
       .catch(error => Promise.reject(error))
   }
 
