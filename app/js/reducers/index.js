@@ -19,6 +19,7 @@ import PlayerRequestsReducer from './socket/PlayerRequestsReducer'
 import TicketRequestsReducer from './socket/TicketRequestsReducer'
 import IncomingPrivateMessagesReducer from './socket/IncomingPrivateMessagesReducer'
 import OutgoingPrivateMessagesReducer from './socket/OutgoingPrivateMessagesReducer'
+import NotificationsReducer from './notifications'
 
 /**
  * Export
@@ -35,6 +36,7 @@ export default {
   // MAIL
   inbox: (state, action) => IncomingPrivateMessagesReducer.reduce(state, action),
   sent: (state, action) => OutgoingPrivateMessagesReducer.reduce(state, action),
+  notifications: (state, action) => NotificationsReducer.reduce(state, action),
 
   // GAME
   games: (state, action) => GameRequestsReducer.reduce(state, action),
