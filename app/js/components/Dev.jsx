@@ -5,7 +5,9 @@
  * @ignore
  */
 import React from 'react'
+import { connect } from 'react-redux'
 import SocketManager from '../SocketManager'
+import Notification from './Notification.jsx'
 
 /**
  * Styles
@@ -48,6 +50,17 @@ const style = {
 }
 
 /**
+ * mapStateToProps
+ */
+const mapStateToProps = (state, ownProps) => {
+  let { notifications } = state
+
+  return {
+    notifications
+  }
+}
+
+/**
  * Dev
  * @class
  */
@@ -84,6 +97,7 @@ class Dev extends React.Component {
             <p><a href="/login">Login.</a> Put complete stringified JSON event data in this text box.</p>
             <textarea onKeyPress={event => this.sendTrigger(event)} style={textareaStyle} rows="30" id="request"></textarea>
             <button style={buttonStyle} onClick={this.fireEvent}>Fire the event!!</button>
+            {this.props.notifications.map((notification, idx) => <Notification key={idx} builder={notification} />)}
           </div>
         </div>
       </div>
@@ -95,4 +109,4 @@ class Dev extends React.Component {
  * Export
  * @ignore
  */
-export default Dev
+export default connect(mapStateToProps)(Dev)
