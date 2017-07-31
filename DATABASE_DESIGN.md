@@ -37,3 +37,27 @@ Using CouchDB/PouchDB. Synchronizing an embedded instance with a remote instance
 * Starve
 * Reward
 * Join Squad
+
+## UML
+
+All diagrams generated using [this](https://yuml.me/diagram/scruffy/class/draw) tool.
+
+### AbstractAction
+
+Definition:
+
+```
+[AbstractAction|id:uuid;type:string;timestamp:long{bg:violet}]
+```
+
+Use in other diagrams:
+
+```
+[AbstractAction{bg:violet}]
+```
+
+### RegisterAction
+
+```
+
+```
